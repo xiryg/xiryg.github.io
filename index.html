@@ -17,13 +17,13 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"xiryg.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"xiryg.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
+<meta property="og:title" content="Xiryg&#39;s Blog.">
 <meta property="og:url" content="http://xiryg.github.io/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:site_name" content="Xiryg&#39;s Blog.">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="Xiryg.">
 <meta name="twitter:card" content="summary">
@@ -41,7 +41,7 @@
   };
 </script>
 
-  <title>Hexo</title>
+  <title>Xiryg's Blog.</title>
   
 
 
@@ -92,9 +92,10 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Hexo</h1>
+      <h1 class="site-title">Xiryg's Blog.</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
+      <p class="site-subtitle" itemprop="description">Enjoy the experience</p>
   </div>
 
   <div class="site-nav-right">
@@ -159,6 +160,183 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN,en,default">
+    <link itemprop="mainEntityOfPage" href="http://xiryg.github.io/2023/08/04/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E2%80%94%E2%80%94%E7%BC%BA%E5%A4%B1%E5%80%BC%E5%A4%84%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xiryg1.png">
+      <meta itemprop="name" content="Xiryg.">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiryg's Blog.">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/08/04/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E2%80%94%E2%80%94%E7%BC%BA%E5%A4%B1%E5%80%BC%E5%A4%84%E7%90%86/" class="post-title-link" itemprop="url">数据分析——缺失值处理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-08-04 00:23:54 / 修改时间：00:25:31" itemprop="dateCreated datePublished" datetime="2023-08-04T00:23:54+08:00">2023-08-04</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/08/04/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E2%80%94%E2%80%94%E7%BC%BA%E5%A4%B1%E5%80%BC%E5%A4%84%E7%90%86/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/08/04/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E2%80%94%E2%80%94%E7%BC%BA%E5%A4%B1%E5%80%BC%E5%A4%84%E7%90%86/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="缺失值的处理"><a href="#缺失值的处理" class="headerlink" title="缺失值的处理"></a>缺失值的处理</h3><p>数据缺失。这也是大部分数据分析工作所会遇到的之一。而正确处理缺失值，也是我们在数据分析中数据预处理环节的关键的一环。下面我将讲讲在我学习Pandas的时候，对缺失值处理的一些总结</p>
+<p>表现形式是 : <strong>NaN  NAN  nan</strong>  都是缺失值</p>
+<h3 id="处理丢失数据"><a href="#处理丢失数据" class="headerlink" title="处理丢失数据"></a>处理丢失数据</h3><ul>
+<li>怎么去创建缺失值:(缺失值是怎么来的 )<ul>
+<li>None</li>
+<li>np.nan</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># NaN值的表现   None np.nan </span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(data=np.random.randint(<span class="number">0</span>,<span class="number">100</span>,size=(<span class="number">7</span>,<span class="number">5</span>)), index =[i <span class="keyword">for</span> i <span class="keyword">in</span>  <span class="string">&#x27;pythonl&#x27;</span>])</span><br><span class="line">df.iloc[<span class="number">2</span>,<span class="number">3</span>] = <span class="literal">None</span></span><br><span class="line">df.iloc[<span class="number">4</span>,<span class="number">2</span>] = np.nan</span><br><span class="line">df.iloc[<span class="number">1</span>,<span class="number">4</span>] = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># nan值是否可以运算 ?</span></span><br><span class="line">np.nan + <span class="number">1</span>   <span class="comment"># 可以进行运算</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="pandas处理缺失值操作"><a href="#pandas处理缺失值操作" class="headerlink" title="pandas处理缺失值操作"></a>pandas处理缺失值操作</h3><ul>
+<li>方式1：查看空值<ul>
+<li>isnull，any</li>
+<li>notnull，all</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 检测整张表中的缺失值的数据  </span></span><br><span class="line">df.isnull()  <span class="comment"># 返回Dataframe的形式 TRUE是缺失和False 是不缺失,series也有这个方法 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#r如果哪些行中有空值</span></span><br><span class="line">df.isnull().<span class="built_in">any</span>(axis=<span class="number">1</span>)   <span class="comment"># 此时注意和drop的区别 # 不写默认是列</span></span><br><span class="line"><span class="comment">#r如果哪些列中有空值</span></span><br><span class="line">df.isnull().<span class="built_in">any</span>(axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df.notnull()  <span class="comment">#  True 是不缺失 ,False 是缺失 </span></span><br><span class="line"><span class="comment">#r如果哪些行中有空值</span></span><br><span class="line">df.notnull().<span class="built_in">all</span>(axis=<span class="number">1</span>)</span><br><span class="line"><span class="comment">#r如果哪些列中有空值</span></span><br><span class="line">df.notnull().<span class="built_in">all</span>(axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 布尔值作为索引 的时候  只能是代表的是行  所以说 axis= 1 此时会把所有的非缺失值取出  </span></span><br><span class="line">df[df.notnull().<span class="built_in">all</span>(axis=<span class="number">1</span>)]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除为NaN 值的数据</span></span><br><span class="line"><span class="comment">#获取对应的空的Dataframe数据</span></span><br><span class="line">df[df.isnull().<span class="built_in">any</span>(axis = <span class="number">1</span>)]</span><br><span class="line"><span class="comment"># 取出索引</span></span><br><span class="line">df[df.isnull().<span class="built_in">any</span>(axis = <span class="number">1</span>)].index</span><br><span class="line"><span class="comment"># 根据drop函数进行删除</span></span><br><span class="line">df.drop(labels=indexs,axis=<span class="number">0</span>)  <span class="comment">#  此时在drop中  axis = 0  为行数据</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>方式2：</p>
+<ul>
+<li>dropna：可以直接将缺失的行或者列进行删除</li>
+</ul>
+<h3 id="删除缺失值"><a href="#删除缺失值" class="headerlink" title="删除缺失值"></a>删除缺失值</h3><h4 id="dropna"><a href="#dropna" class="headerlink" title="dropna()"></a>dropna()</h4><p>函数作用：删除含有空值的行或列</p>
+<h5 id="axis"><a href="#axis" class="headerlink" title="axis"></a>axis</h5><p>:维度，axis&#x3D;0表示index行,axis&#x3D;1表示columns列，默认为0</p>
+<h5 id="how"><a href="#how" class="headerlink" title="how:"></a>how:</h5><p>“all”表示这一行或列中的元素全部缺失（为nan）才删除这一行或列，”any”表示这一行或列中只要有元素缺失，就删除这一行或列</p>
+<h5 id="thresh"><a href="#thresh" class="headerlink" title="thresh"></a>thresh</h5><p>保留至少3个非nan值的行或者列 注意是保留 </p>
+<h5 id="inplace"><a href="#inplace" class="headerlink" title="inplace"></a>inplace</h5><p>刷选过缺失值得新数据是存为副本还是直接在原数据上进行修改。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">df = pd.DataFrame([[np.nan, <span class="number">2</span>, np.nan, <span class="number">0</span>],</span><br><span class="line">                  [<span class="number">3</span>, <span class="number">4</span>, <span class="string">&quot;&quot;</span>, <span class="number">1</span>],</span><br><span class="line">                 [np.nan, np.nan, np.nan, <span class="number">5</span>],</span><br><span class="line">                [np.nan, <span class="number">3</span>, <span class="string">&quot;&quot;</span>, <span class="number">4</span>]],</span><br><span class="line">                 columns=<span class="built_in">list</span>(<span class="string">&#x27;ABCD&#x27;</span>))</span><br><span class="line"></span><br><span class="line">df.dropna(how=<span class="string">&#x27;any&#x27;</span>,axis=<span class="number">1</span>)  <span class="comment"># 带有nan的列就删除 默认是 any </span></span><br><span class="line">df.dropna(axis=<span class="number">1</span>) <span class="comment"># 表示删除了带nan的列 </span></span><br><span class="line">df.dropna()   <span class="comment">#  默认是 axis= 0 是行 </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df = pd.DataFrame([[np.nan, <span class="number">2</span>, np.nan, <span class="number">0</span>],</span><br><span class="line">                  [<span class="number">3</span>, <span class="number">4</span>, <span class="string">&quot;&quot;</span>, <span class="number">1</span>],</span><br><span class="line">                 [np.nan, np.nan, np.nan, <span class="literal">None</span>],</span><br><span class="line">                [np.nan, <span class="number">3</span>, <span class="string">&quot;&quot;</span>, <span class="number">4</span>]],</span><br><span class="line">                 columns=<span class="built_in">list</span>(<span class="string">&#x27;ABCD&#x27;</span>))</span><br><span class="line"></span><br><span class="line">df.dropna(how=<span class="string">&#x27;all&#x27;</span>,axis=<span class="number">0</span>)  <span class="comment"># how= &#x27;all&#x27; 的时候 是列或者行全为空的时候才删除</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df = pd.DataFrame([[np.nan, <span class="number">2</span>, np.nan, <span class="number">0</span>],</span><br><span class="line">                  [<span class="number">3</span>, <span class="number">4</span>, np.nan, <span class="number">1</span>],</span><br><span class="line">                 [np.nan, np.nan, np.nan, <span class="number">5</span>],</span><br><span class="line">                [np.nan, <span class="number">3</span>, np.nan, <span class="number">4</span>]],</span><br><span class="line">                 columns=<span class="built_in">list</span>(<span class="string">&#x27;ABCD&#x27;</span>))</span><br><span class="line">df  </span><br><span class="line">	A	B	C	D</span><br><span class="line"><span class="number">0</span>	NaN	<span class="number">2.0</span>	NaN	<span class="number">0</span></span><br><span class="line"><span class="number">1</span>	<span class="number">3.0</span>	<span class="number">4.0</span>	NaN	<span class="number">1</span></span><br><span class="line"><span class="number">2</span>	NaN	NaN	NaN	<span class="number">5</span></span><br><span class="line"><span class="number">3</span>	NaN	<span class="number">3.0</span>	NaN	<span class="number">4</span></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;df.dropna(thresh=<span class="number">3</span>)  <span class="comment"># 这参数用得很少  保留至少3个非nan值的行或者列 注意是保留 </span></span><br><span class="line"></span><br><span class="line">	A	B	C	D</span><br><span class="line"><span class="number">1</span>	<span class="number">3.0</span>	<span class="number">4.0</span>	NaN	<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="填充缺失值"><a href="#填充缺失值" class="headerlink" title="填充缺失值"></a>填充缺失值</h3><h4 id="fillna"><a href="#fillna" class="headerlink" title="fillna()"></a>fillna()</h4><p>参数: </p>
+<h5 id="value"><a href="#value" class="headerlink" title="value"></a>value</h5><p>需要用什么值去填充缺失值</p>
+<p><strong>axis参数</strong></p>
+<p>一般和method参数连用  axis&#x3D; 1 代表是行 axis&#x3D; 0 代表的是 列 </p>
+<h5 id="inplace-1"><a href="#inplace-1" class="headerlink" title="inplace"></a>inplace</h5><p>参数的取值：True、False</p>
+<p>True：直接修改原对象</p>
+<p>False：原对象不变（缺省默认）</p>
+<h5 id="method"><a href="#method" class="headerlink" title="method"></a>method</h5><p><strong>注意这个参数不能与value同时出现</strong></p>
+<p>method参数的取值 ： {‘pad’, ‘ffill’,‘backfill’, ‘bfill’, None}</p>
+<p>pad&#x2F;ffill：用前一个非缺失值去填充该缺失值</p>
+<p>backfill&#x2F;bfill：用下一个非缺失值填充该缺失值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">df = pd.DataFrame([[np.nan, <span class="number">2</span>, np.nan, <span class="number">0</span>],</span><br><span class="line">                  [<span class="number">3</span>, <span class="number">4</span>, <span class="string">&quot;&quot;</span>, <span class="number">1</span>],</span><br><span class="line">                 [np.nan, np.nan, np.nan, <span class="number">5</span>],</span><br><span class="line">                [np.nan, <span class="number">3</span>, <span class="string">&quot;&quot;</span>, <span class="number">4</span>]],</span><br><span class="line">                 columns=<span class="built_in">list</span>(<span class="string">&#x27;ABCD&#x27;</span>))</span><br><span class="line"> </span><br><span class="line">df.fillna(<span class="number">3</span>)  <span class="comment">#  进行值的填充 ,没对原对象进行修改 </span></span><br><span class="line">df.fillna(<span class="number">0</span>,inplace=<span class="literal">True</span>)<span class="comment"># 对nan值填充为0 ,并且对df进行改变 默认是False不改变 </span></span><br><span class="line"><span class="comment"># 进行特定的行填充(赋值)</span></span><br><span class="line">df.iloc[<span class="number">0</span>] = df.iloc[<span class="number">0</span>].fillna(<span class="number">9</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进行特定的列填充(赋值)  操作是把C列的nan值替换成  D列的平均值 </span></span><br><span class="line">df[<span class="string">&#x27;C&#x27;</span>] =  df[<span class="string">&#x27;C&#x27;</span>].fillna(df[<span class="string">&#x27;D&#x27;</span>].mean())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#  method参数</span></span><br><span class="line">df = pd.DataFrame([[<span class="number">1</span> ,<span class="number">2</span>, np.nan, <span class="number">0</span>],</span><br><span class="line">                  [<span class="number">3</span>, <span class="number">4</span>, <span class="string">&quot;&quot;</span>, <span class="number">1</span>],</span><br><span class="line">                 [np.nan, <span class="number">4</span>, np.nan, <span class="number">5</span>],</span><br><span class="line">                [np.nan, <span class="number">3</span>, <span class="string">&quot;&quot;</span>, <span class="number">4</span>]],</span><br><span class="line">                 columns=<span class="built_in">list</span>(<span class="string">&#x27;ABCD&#x27;</span>))</span><br><span class="line"></span><br><span class="line">df.fillna(axis=<span class="number">1</span>,method=<span class="string">&#x27;ffill&#x27;</span>) <span class="comment"># 在 平行向(行)进行填充 找前一个变量填充 axis = 1 为行数据 </span></span><br><span class="line">df.fillna(axis=<span class="number">1</span>,method=<span class="string">&#x27;bfill&#x27;</span>)  <span class="comment">#  </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换空值&#x27;&#x27;</span></span><br><span class="line"><span class="comment"># 错误示范</span></span><br><span class="line">df[df[<span class="string">&#x27;C&#x27;</span>]==<span class="string">&quot;&quot;</span>][<span class="string">&#x27;C&#x27;</span>] = <span class="string">&#x27;hello&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 找到索引 </span></span><br><span class="line">n_index = df[df[<span class="string">&#x27;C&#x27;</span>] == <span class="string">&quot;&quot;</span>].index</span><br><span class="line">df.loc[n_index,<span class="string">&#x27;C&#x27;</span>]  = <span class="string">&#x27;hello&#x27;</span>  <span class="comment"># 根据索引进行赋值 </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 另外一种填充NaN值的方法 </span></span><br><span class="line">df.fillna(&#123;<span class="string">&#x27;A&#x27;</span>:<span class="number">0.3</span>,<span class="string">&#x27;B&#x27;</span>:<span class="number">44</span>,<span class="string">&#x27;C&#x27;</span>:<span class="number">55</span>&#125;)  <span class="comment">#  把A列的nan值都变成了 0.3  B列变成了44 ,c列变成了 55 </span></span><br></pre></td></tr></table></figure>
+
+<h3 id="缺失值的计算"><a href="#缺失值的计算" class="headerlink" title="缺失值的计算"></a>缺失值的计算</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">df[<span class="string">&#x27;A&#x27;</span>].mean()  <span class="comment"># 不会计算缺失值 </span></span><br><span class="line">df[<span class="string">&#x27;A&#x27;</span>].<span class="built_in">sum</span>()<span class="comment"># 不会计算缺失值</span></span><br><span class="line"></span><br><span class="line">df.loc[<span class="number">0</span>,<span class="string">&#x27;A&#x27;</span>]  + <span class="number">1</span>  <span class="comment">#  缺失值加任何数都是缺失值 </span></span><br></pre></td></tr></table></figure>
+
+<h3 id="替代值"><a href="#替代值" class="headerlink" title="替代值"></a>替代值</h3><h5 id="replace"><a href="#replace" class="headerlink" title="replace"></a>replace</h5><h6 id="一对一替换"><a href="#一对一替换" class="headerlink" title="一对一替换"></a>一对一替换</h6><p>将数据表中的值“背包”全部替换为“挎包”。replace()函数括号中逗号前面的参数是需要替换的值，逗号后面的参数是替换后的值。<br>参数inplace默认是不对原表替换，设置为True则原表上替换。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">data.replace(<span class="string">&#x27;背包&#x27;</span>,<span class="string">&#x27;挎包&#x27;</span>, inplace=<span class="literal">True</span>)  <span class="comment"># 对原对象进行修改</span></span><br></pre></td></tr></table></figure>
+
+<h6 id="多对一"><a href="#多对一" class="headerlink" title="多对一"></a>多对一</h6><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.replace([<span class="string">&#x27;背包&#x27;</span>,<span class="string">&#x27;手提包&#x27;</span>,<span class="string">&#x27;单肩包&#x27;</span>,<span class="string">&#x27;钱包&#x27;</span>], <span class="string">&#x27;挎包&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h6 id="多对多替换"><a href="#多对多替换" class="headerlink" title="多对多替换"></a>多对多替换</h6><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.replace(&#123;<span class="string">&#x27;背包&#x27;</span>:<span class="string">&#x27;大大大包&#x27;</span>, <span class="number">16</span>:<span class="number">3900</span>, <span class="number">58</span>:<span class="number">6800</span>&#125;,)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="删除重复值"><a href="#删除重复值" class="headerlink" title="删除重复值"></a>删除重复值</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">data1,data2,data3,data4,data5 =[<span class="string">&#x27;a&#x27;</span>,<span class="number">3</span>,<span class="number">3</span>],[<span class="string">&#x27;b&#x27;</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="string">&#x27;a&#x27;</span>,<span class="number">3</span>,<span class="number">3</span>],[<span class="string">&#x27;c&#x27;</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="string">&#x27;b&#x27;</span>,<span class="number">2</span>,<span class="number">7</span>]</span><br><span class="line">df=pd.DataFrame([data1,data2,data3,data4,data5],columns=[<span class="string">&#x27;col1&#x27;</span>,<span class="string">&#x27;col2&#x27;</span>,<span class="string">&#x27;col3&#x27;</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 判断重复数据记录</span></span><br><span class="line">isDu=df.duplicated() <span class="comment">#判断重复数据记录   行与行之间的的进行对比比较</span></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df.drop_duplicates()  <span class="comment"># 删除的是 为True的那一行的数据 </span></span><br><span class="line">df.drop_duplicates(<span class="string">&#x27;col1&#x27;</span>)<span class="comment">#删除col1列值相同记录行数据，index为2,4的记录行被删除 </span></span><br><span class="line"></span><br><span class="line">df.drop_duplicates(<span class="string">&#x27;col2&#x27;</span>) <span class="comment">#删除col2列值相同的记录，index为2和3的记录行被删除, 以index为最开始为基准</span></span><br><span class="line"></span><br><span class="line">df.drop_duplicates([<span class="string">&#x27;col1&#x27;</span>,<span class="string">&#x27;col2&#x27;</span>]) <span class="comment">#删除指定列（col1和col2）值相同的记录  0  13  </span></span><br><span class="line"><span class="comment">#特别注意 : 指定列的时候要加一个容器 列表 元组  也有inplace  = True </span></span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"><span class="string">&quot;&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">可以利用drop_duplicates()函数的参数keep来自定义删除重复值时保留哪个重复值所在的行。</span></span><br><span class="line"><span class="string">例如:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">参数keep默认设置为&#x27;first&#x27;，表示保留第一个重复值所在的行。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 默认保留第一个重复值所在的行，删除其他重复值所在的行。</span></span><br><span class="line"></span><br><span class="line">df.drop_duplicates(<span class="string">&#x27;col1&#x27;</span>,keep = <span class="string">&#x27;last&#x27;</span>) <span class="comment"># 如果要保留最后一个重复值所在的行，从后往前依次进行对比,则将参数keep设置为&#x27;last&#x27;。</span></span><br><span class="line"></span><br><span class="line">df.drop_duplicates(keep = <span class="literal">False</span>)   <span class="comment"># 还可以将参数keep设置为False，表示把重复值一个不留地全部删除。</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="获取唯一值"><a href="#获取唯一值" class="headerlink" title="获取唯一值"></a>获取唯一值</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">df[<span class="string">&#x27;col1&#x27;</span>].unique()</span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;col1&#x27;</span>].nunique()  <span class="comment"># 返回的是唯一值的个数</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="排序数据"><a href="#排序数据" class="headerlink" title="排序数据"></a>排序数据</h3><p>排序数据主要会用到sort_values()函数</p>
+<ul>
+<li>sort_values()函数的功能是将数据按照大小进行升序排序或降序排序；</li>
+</ul>
+<h4 id="sort-values"><a href="#sort-values" class="headerlink" title="sort_values()"></a>sort_values()</h4><p>sort_values()函数的常用参数有两个：</p>
+<ul>
+<li>一个是by，用于指定要排序的列；</li>
+<li>另一个是ascending，用于指定排序方式是升序还是降序。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data.sort_values(by=<span class="string">&#x27;数量&#x27;</span>)  <span class="comment">#  默认是升序 </span></span><br><span class="line">data.sort_values(by=<span class="string">&#x27;数量&#x27;</span>,ascending= <span class="literal">False</span>)   <span class="comment">#,ascending= False 为降序   如果数据相同按照索引排序</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="sort-index"><a href="#sort-index" class="headerlink" title="sort_index()"></a>sort_index()</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data.sort_index()</span><br><span class="line">data.sort_index(ascending= <span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="数据类型的转换"><a href="#数据类型的转换" class="headerlink" title="数据类型的转换"></a>数据类型的转换</h3><p>当利用pandas进行数据处理的时候，经常会遇到数据类型的问题，当拿到数据的时候，首先需要确定拿到的是正确类型的数据，一般通过数据类型的转化</p>
+<p>![image-20211021102156388](第三章 缺失值的处理 (1).assets&#x2F;image-20211021102156388.png)</p>
+<h4 id="转换数据类型-astype"><a href="#转换数据类型-astype" class="headerlink" title="转换数据类型 astype"></a>转换数据类型 astype</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;a&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;b&#x27;</span>: [<span class="number">0.55</span>, <span class="number">0.66</span>, <span class="number">1.55</span>],</span><br><span class="line">    <span class="string">&#x27;c&#x27;</span>: [<span class="string">&#x27;Jack&#x27;</span>, <span class="string">&#x27;Tony&#x27;</span>, <span class="string">&#x27;Posi&#x27;</span>]</span><br><span class="line">&#125;)</span><br><span class="line">df.dtypes <span class="comment"># 查看数据类型</span></span><br><span class="line">df.info() </span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;b&#x27;</span>].astype(<span class="built_in">int</span>)  <span class="comment">#  把float类型转化成 int类型  向下取整 </span></span><br><span class="line">df[<span class="string">&#x27;b&#x27;</span>] = df[<span class="string">&#x27;b&#x27;</span>].astype(<span class="string">&#x27;int&#x27;</span>) <span class="comment">#  把转化完了以后进行对列的赋值  要不然没有修改 </span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="to-numeric"><a href="#to-numeric" class="headerlink" title="to_numeric()"></a>to_numeric()</h5><p>把变量转化为数值类型(int,float) </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;a&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>,<span class="number">7</span>],</span><br><span class="line">    <span class="string">&#x27;b&#x27;</span>: [<span class="number">0.55</span>, <span class="number">0.66</span>, <span class="number">1.55</span>,<span class="string">&#x27;miss&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;c&#x27;</span>: [<span class="string">&#x27;Jack&#x27;</span>, <span class="string">&#x27;Tony&#x27;</span>, <span class="string">&#x27;Posi&#x27;</span>,<span class="string">&#x27;James&#x27;</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;b&#x27;</span>].astype(<span class="string">&#x27;float&#x27;</span>)    <span class="comment"># 直接报错</span></span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;b&#x27;</span>] = pd.to_numeric(df[<span class="string">&#x27;b&#x27;</span>],errors=<span class="string">&#x27;coerce&#x27;</span>)  <span class="comment">#  在非数值的时候添加NaN值 </span></span><br><span class="line">df[<span class="string">&#x27;b&#x27;</span>].dtype   <span class="comment"># 变成了 float 类型</span></span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;b&#x27;</span>] = df[<span class="string">&#x27;b&#x27;</span>].fillna(<span class="number">0</span>)   <span class="comment">#  填充NaN值 进行赋值</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="时间类型的操作"><a href="#时间类型的操作" class="headerlink" title="时间类型的操作"></a>时间类型的操作</h3><p><strong>to_datetime</strong></p>
+<p> 可以使用to_datetime()函数把一个对象转化成datetime类型 </p>
+<p>该函数的作用是：将字符串输入转化为日期时间。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#  to_datetime    set_index   to_period  resample </span></span><br><span class="line"></span><br><span class="line">data=pd.read_csv(<span class="string">&#x27;data/1.data清洗/hz_weather.csv&#x27;</span>)</span><br><span class="line">data.head()</span><br><span class="line"></span><br><span class="line">data.info()  <span class="comment"># 可以看到日期是  字符串类型</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1.修改日期格式</span></span><br><span class="line">data[<span class="string">&#x27;日期&#x27;</span>] = pd.to_datetime(data [<span class="string">&#x27;日期&#x27;</span>])</span><br><span class="line"></span><br><span class="line">data.info()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2、将日期设置为索引</span></span><br><span class="line">data.set_index(<span class="string">&#x27;日期&#x27;</span>,inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">data.index</span><br><span class="line"></span><br><span class="line">data.index&lt;<span class="string">&#x27;2017-3-1&#x27;</span></span><br><span class="line"><span class="comment">#  或者 </span></span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line">data.index&lt;datetime(<span class="number">2017</span>,<span class="number">3</span>,<span class="number">20</span>) </span><br><span class="line"></span><br><span class="line"><span class="comment"># 提取1月份的数据</span></span><br><span class="line"></span><br><span class="line">data[data.index.month ==<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 转换成月份</span></span><br><span class="line">data.to_period(<span class="string">&#x27;M&#x27;</span>)  <span class="comment">#  Y  D  </span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN,en,default">
     <link itemprop="mainEntityOfPage" href="http://xiryg.github.io/2023/08/02/pandas%E5%9F%BA%E7%A1%80%E4%B9%8BDataFrame/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -168,7 +346,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="Xiryg's Blog.">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -193,7 +371,21 @@
                 <time title="修改时间：2023-08-03 14:57:40" itemprop="dateModified" datetime="2023-08-03T14:57:40+08:00">2023-08-03</time>
               </span>
 
-          <br>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/08/02/pandas%E5%9F%BA%E7%A1%80%E4%B9%8BDataFrame/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/08/02/pandas%E5%9F%BA%E7%A1%80%E4%B9%8BDataFrame/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
@@ -324,7 +516,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="Xiryg's Blog.">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -343,7 +535,21 @@
               <time title="创建时间：2023-08-02 22:52:56 / 修改时间：11:37:35" itemprop="dateCreated datePublished" datetime="2023-08-02T22:52:56+08:00">2023-08-02</time>
             </span>
 
-          <br>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/08/02/hello-world/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/08/02/hello-world/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
@@ -409,7 +615,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="Xiryg's Blog.">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -428,7 +634,21 @@
               <time title="创建时间：2023-08-02 21:00:13 / 修改时间：23:15:46" itemprop="dateCreated datePublished" datetime="2023-08-02T21:00:13+08:00">2023-08-02</time>
             </span>
 
-          <br>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/08/02/pandas%E5%9F%BA%E7%A1%80Series/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/08/02/pandas%E5%9F%BA%E7%A1%80Series/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
@@ -587,7 +807,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="Xiryg's Blog.">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -606,7 +826,21 @@
               <time title="创建时间：2023-08-02 15:45:00 / 修改时间：15:45:32" itemprop="dateCreated datePublished" datetime="2023-08-02T15:45:00+08:00">2023-08-02</time>
             </span>
 
-          <br>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/08/02/my-second-blog/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/08/02/my-second-blog/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
@@ -659,7 +893,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="Xiryg's Blog.">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -678,7 +912,21 @@
               <time title="创建时间：2023-08-02 13:26:13 / 修改时间：16:10:31" itemprop="dateCreated datePublished" datetime="2023-08-02T13:26:13+08:00">2023-08-02</time>
             </span>
 
-          <br>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/08/02/my-first-blog/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/08/02/my-first-blog/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
@@ -787,7 +1035,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -823,24 +1071,6 @@
     <footer class="footer">
       <div class="footer-inner">
         
-  <div class="languages">
-    <label class="lang-select-label">
-      <i class="fa fa-language"></i>
-      <span>简体中文</span>
-      <i class="fa fa-angle-up" aria-hidden="true"></i>
-    </label>
-    <select class="lang-select" data-canonical="">
-      
-        <option value="zh-CN" data-href="/index.html" selected="">
-          简体中文
-        </option>
-      
-        <option value="en" data-href="/en/index.html" selected="">
-          English
-        </option>
-      
-    </select>
-  </div>
 
         
 
@@ -857,15 +1087,15 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">4k</span>
+    <span title="站点总字数">6k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">15 分钟</span>
+    <span title="站点阅读时长">22 分钟</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
   </div>
 
         
@@ -891,7 +1121,7 @@
 <script src="/js/motion.js"></script>
 
 
-<script src="/js/schemes/pisces.js"></script>
+<script src="/js/schemes/muse.js"></script>
 
 
 <script src="/js/next-boot.js"></script>
@@ -920,6 +1150,35 @@
   
 
   
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Huk3ZeWiVjBrk9gezvxxFojR-gzGzoHsz',
+      appKey     : 'g5DT10GBC03tBBa2siB81UdS',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
 
 </body>
 </html>
