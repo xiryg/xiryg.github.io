@@ -391,7 +391,7 @@ pre {
 }
 pre,
 code {
-  font-family: 'Bangers', consolas, Menlo, monospace, "PingFang SC", "Microsoft YaHei";
+  font-family: 'Hack', consolas, Menlo, monospace, "PingFang SC", "Microsoft YaHei";
 }
 code {
   background: #eee;
@@ -1271,7 +1271,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #cd87c3;
+  background: #16b36e;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
