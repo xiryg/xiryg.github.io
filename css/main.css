@@ -985,7 +985,7 @@ pre .javascript .function {
   color: var(--brand-hover-color);
 }
 .site-title {
-  font-family: 'Bangers', 'Monda', "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: 'Bangers', sans-serif;
   font-size: 1.375em;
   font-weight: normal;
   margin: 0;
