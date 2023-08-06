@@ -373,4 +373,115 @@
         <tag>python, pandas, 数据分析, 数据处理</tag>
       </tags>
   </entry>
+  <entry>
+    <title>透视表的处理</title>
+    <url>/2023/08/06/%E9%80%8F%E8%A7%86%E8%A1%A8%E7%9A%84%E5%A4%84%E7%90%86/</url>
+    <content><![CDATA[<h2 id="透视表的处理"><a href="#透视表的处理" class="headerlink" title="透视表的处理"></a>透视表的处理</h2><h3 id="透视表"><a href="#透视表" class="headerlink" title="透视表"></a>透视表</h3><ul>
+<li><p>透视表是一种可以对数据动态排布并且分类汇总的表格格式。或许大多数人都在Excel使用过数据透视表，也体会到它的强大功能，而在pandas中它被称作pivot_table。</p>
+</li>
+<li><p>透视表的优点：</p>
+<ul>
+<li><p>灵活性高，可以随意定制你的分析计算要求,比如聚合函数</p>
+</li>
+<li><p>脉络清晰易于理解数据</p>
+</li>
+<li><p>操作性强，报表神器</p>
+</li>
+<li><p>更快（一旦设置之后）</p>
+</li>
+<li><p>自行说明（通过查看代码，你将知道它做了什么）</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="pivot-table函数"><a href="#pivot-table函数" class="headerlink" title="pivot_table函数"></a>pivot_table函数</h4><ul>
+<li>index参数：分类汇总的分类条件<ul>
+<li>每个pivot_table必须拥有一个index</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">df = pd.read_csv(<span class="string">&#x27;./data/透视表-篮球赛.csv&#x27;</span>)   <span class="comment">#  哈登在对阵各队的情况数据表</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># index 参数 </span></span><br><span class="line"><span class="comment"># 想看看哈登不同主客场下的数据 会把不是数字的列剔除</span></span><br><span class="line">df.pivot_table(index=[<span class="string">&#x27;主客场&#x27;</span>])</span><br><span class="line"><span class="comment"># 想看看哈登对阵同一对手在不同主客场下的数据，分类条件为对手和主客场</span></span><br><span class="line">df.pivot_table(index=[<span class="string">&#x27;主客场&#x27;</span>,<span class="string">&#x27;对手&#x27;</span>])</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">Index就是层次字段，要通过透视表获取什么信息就按照相应的顺序设置字段，</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># values参数：需要对计算的数据进行筛选(你想看到的值)</span></span><br><span class="line">df.pivot_table(index=[<span class="string">&#x27;主客场&#x27;</span>],values=[<span class="string">&#x27;得分&#x27;</span>,<span class="string">&#x27;篮板&#x27;</span>,<span class="string">&#x27;助攻&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment">#获取每个队主客场的总得分（在总得分的基础上又进行了对手的分类）</span></span><br><span class="line">df.pivot_table(index=<span class="string">&#x27;主客场&#x27;</span>,values=<span class="string">&#x27;得分&#x27;</span>,columns=<span class="string">&#x27;对手&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># aggfunc参数</span></span><br><span class="line"><span class="comment"># 还想获得哈登在主客场和不同胜负情况下的总得分、总篮板、总助攻时：</span></span><br><span class="line">df.pivot_table(index=[<span class="string">&#x27;主客场&#x27;</span>,<span class="string">&#x27;胜负&#x27;</span>],values=[<span class="string">&#x27;得分&#x27;</span>,<span class="string">&#x27;篮板&#x27;</span>,<span class="string">&#x27;助攻&#x27;</span>],aggfunc=<span class="string">&#x27;sum&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Columns类似Index可以设置列层次字段，它不是一个必要参数，作为一种分割数据的可选方式。</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># columns参数 </span></span><br><span class="line">df.pivot_table(index=<span class="string">&#x27;主客场&#x27;</span>,columns=<span class="string">&quot;胜负&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># fill_value参数</span></span><br><span class="line"><span class="comment">#获取每个队主客场的总得分（在总得分的基础上又进行了对手的分类）</span></span><br><span class="line">df.pivot_table(index=<span class="string">&#x27;主客场&#x27;</span>,values=<span class="string">&#x27;得分&#x27;</span>,columns=<span class="string">&#x27;对手&#x27;</span>,aggfunc=<span class="string">&#x27;sum&#x27;</span>,fill_value= <span class="number">0</span> )</span><br></pre></td></tr></table></figure>
+
+<p>文档[透视表-篮球赛.csv][w]</p>
+<h3 id="pandas数据分组"><a href="#pandas数据分组" class="headerlink" title="pandas数据分组"></a>pandas数据分组</h3><p><img src="https://raw.githubusercontent.com/xiryg/blog_picture/main/picture/1635038867340.png" alt="1635038867340"></p>
+<h4 id="groupby-函数"><a href="#groupby-函数" class="headerlink" title="groupby()函数"></a>groupby()函数</h4><p>该方法提供的是分组聚合步骤中的拆分功能，能根据索引或字段对数据进行分组。其常 用参数与使用格式如下:</p>
+<h4 id="小示例"><a href="#小示例" class="headerlink" title="小示例"></a>小示例</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.read_excel(<span class="string">&#x27;./data_former/forbes_2018.xlsx&#x27;</span>)</span><br><span class="line"></span><br><span class="line">df.head()</span><br><span class="line"> </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="Dataframe的分组"><a href="#Dataframe的分组" class="headerlink" title="Dataframe的分组"></a>Dataframe的分组</h4><p><strong>group.size() # 每组的个数</strong></p>
+<p><strong>group.groups # 查看分组的情况</strong></p>
+<p><strong>group.get_group(‘F’)根据分组后的名字选择分组数据</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">group = df.groupby(<span class="string">&#x27;gender&#x27;</span>)  <span class="comment"># 对整个数据进行分组,里面放列索引名或者一个列的series类型都可以 </span></span><br><span class="line">&gt;&gt;&gt;<span class="built_in">print</span>(group)</span><br><span class="line">&lt;pandas.core.groupby.generic.DataFrameGroupBy <span class="built_in">object</span> at <span class="number">0x0B7BC710</span>&gt;  <span class="comment">#是一个对象</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">list</span>(group) <span class="comment"># 查看分组了以后具体长什么样子</span></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;group.size() <span class="comment"># 每组的个数</span></span><br><span class="line"></span><br><span class="line">gender</span><br><span class="line">F     <span class="number">221</span>  <span class="comment"># 女性企业家 221 </span></span><br><span class="line">M    <span class="number">1810</span>  <span class="comment"># 男性企业家 1810 </span></span><br><span class="line">dtype: int64</span><br><span class="line">    </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>group.groups <span class="comment"># 查看分组的情况 索引的情况</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>group.get_group(<span class="string">&#x27;F&#x27;</span>).head() <span class="comment">#查看是男性企业家的数据, 根据分组后的名字选择分组数据</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#  或者也可以进行索引重置  reset_index()</span></span><br><span class="line">df = group.get_group(<span class="string">&#x27;F&#x27;</span>).reset_index(drop = <span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="对series进行分组"><a href="#对series进行分组" class="headerlink" title="对series进行分组"></a>对series进行分组</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">group  = df[<span class="string">&#x27;age&#x27;</span>].groupby(df[<span class="string">&#x27;gender&#x27;</span>])  <span class="comment"># 特别注意的就是前面是series类型 分组的也是series类型.</span></span><br><span class="line">&gt;&gt;&gt;group  <span class="comment">#  理解 :  每个年龄也是有类别的 ,比如男和女 </span></span><br><span class="line"></span><br><span class="line">&lt;pandas.core.groupby.generic.SeriesGroupBy <span class="built_in">object</span> at <span class="number">0x068D4F90</span>&gt;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;group.size()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>group.groups</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>group.get_group(<span class="string">&#x27;F&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="统计函数"><a href="#统计函数" class="headerlink" title="统计函数"></a>统计函数</h3><table>
+<thead>
+<tr>
+<th align="center">函数</th>
+<th align="center">说明</th>
+<th align="center">函数</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">count</td>
+<td align="center">计算分组的数目,包括缺失值</td>
+<td align="center">cumcount</td>
+<td align="center">对每个分组的组员进行标记</td>
+</tr>
+<tr>
+<td align="center">head</td>
+<td align="center">返回买组的前n个值</td>
+<td align="center">size</td>
+<td align="center">返回每组的大小</td>
+</tr>
+<tr>
+<td align="center">max</td>
+<td align="center">返回每组的最大值</td>
+<td align="center">min</td>
+<td align="center">返回每组的最小值</td>
+</tr>
+<tr>
+<td align="center">mean</td>
+<td align="center">返回每组的均值</td>
+<td align="center">std</td>
+<td align="center">返回每组的标准差</td>
+</tr>
+<tr>
+<td align="center">median</td>
+<td align="center">返回每组的中位数</td>
+<td align="center">sum</td>
+<td align="center">返回每组的的和</td>
+</tr>
+</tbody></table>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">group = df.groupby(<span class="string">&#x27;gender&#x27;</span>)</span><br><span class="line"><span class="built_in">list</span>(group)  <span class="comment">#  查看详细数据 </span></span><br><span class="line">group.groups <span class="comment">#  查看数据(字典形式) 数据是相对应的索引 </span></span><br><span class="line"></span><br><span class="line">f_group = group.get_group(<span class="string">&#x27;F&#x27;</span>) <span class="comment"># 查看F的所有数据(Dataframe形式!!!!!!!)</span></span><br><span class="line">f_group[<span class="string">&#x27;age&#x27;</span>].mean() <span class="comment"># 获取年龄的平均值</span></span><br><span class="line">f_group[<span class="string">&#x27;age&#x27;</span>].<span class="built_in">max</span>()  <span class="comment"># 获取年龄的最大值</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="分组遍历"><a href="#分组遍历" class="headerlink" title="分组遍历"></a>分组遍历</h3><p>获取的是 <strong>分组后的名字以及改组后的数据</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">group = df.groupby(<span class="string">&#x27;gender&#x27;</span>)</span><br><span class="line"><span class="built_in">list</span>(group)  <span class="comment">#  查看详细数据 </span></span><br><span class="line">group.groups <span class="comment">#  查看数据(字典的形式)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 分组后的名字是: F  M </span></span><br><span class="line"><span class="comment"># 改组后的数据是: 每个index对应的值</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> name ,data <span class="keyword">in</span> group:  <span class="comment">#遍历对象</span></span><br><span class="line">    <span class="built_in">print</span>(name)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> name ,data <span class="keyword">in</span> group:</span><br><span class="line">    <span class="built_in">print</span>(data)  <span class="comment">#  详细的数据  </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> name ,data <span class="keyword">in</span> group:</span><br><span class="line">    <span class="built_in">print</span>(name, data) </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="keyword">for</span> name ,data <span class="keyword">in</span> group:</span><br><span class="line">    f_mean  = data[<span class="string">&#x27;age&#x27;</span>].mean()  <span class="comment"># 可以求出来年龄的平均值</span></span><br><span class="line">    f_max =  data[<span class="string">&#x27;age&#x27;</span>].<span class="built_in">max</span>() <span class="comment"># 年龄的最大值</span></span><br><span class="line">    <span class="built_in">print</span>(name, f_mean,f_max)    </span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="多列分组"><a href="#多列分组" class="headerlink" title="多列分组"></a>多列分组</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">group = df.groupby([<span class="string">&#x27;country&#x27;</span>,<span class="string">&#x27;gender&#x27;</span>])  <span class="comment"># 根据country完以后再对gender分组 </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">list</span>(group)</span><br><span class="line">group.size()</span><br><span class="line">&gt;&gt;&gt;group.get_group((<span class="string">&#x27;Algeria&#x27;</span>,<span class="string">&#x27;M&#x27;</span>))   <span class="comment"># 可以把具体的数据筛选出来 .df形式</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="agg函数"><a href="#agg函数" class="headerlink" title="agg函数"></a>agg函数</h3><p>聚合操作是<code>groupby</code>后非常常见的操作，会写<code>SQL</code>的朋友对此应该是非常熟悉了。聚合操作可以用来求和、均值、最大值、最小值等，下面的表格列出了Pandas中常见的聚合操作。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy  <span class="keyword">as</span> np</span><br><span class="line">company=[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;C&quot;</span>]</span><br><span class="line"></span><br><span class="line">data=pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&quot;company&quot;</span>:[company[x] <span class="keyword">for</span> x <span class="keyword">in</span> np.random.randint(<span class="number">0</span>,<span class="built_in">len</span>(company),<span class="number">10</span>)],</span><br><span class="line">    <span class="string">&quot;salary&quot;</span>:np.random.randint(<span class="number">5</span>,<span class="number">50</span>,<span class="number">10</span>),</span><br><span class="line">    <span class="string">&quot;age&quot;</span>:np.random.randint(<span class="number">15</span>,<span class="number">50</span>,<span class="number">10</span>)</span><br><span class="line">&#125;</span><br><span class="line">)</span><br><span class="line">data</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果我想求不同公司员工的平均年龄和平均薪水，可以按照下方的代码进行：</span></span><br><span class="line">data.groupby(<span class="string">&quot;company&quot;</span>).agg(<span class="string">&#x27;mean&#x27;</span>)  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果想对针对不同的列求不同的值，比如要计算不同公司员工的平均年龄以及薪水的中位数，可以利用字典进行聚合操作的指定：</span></span><br><span class="line"></span><br><span class="line">data.groupby(<span class="string">&#x27;company&#x27;</span>).agg(&#123;<span class="string">&#x27;salary&#x27;</span>:<span class="string">&#x27;median&#x27;</span>,<span class="string">&#x27;age&#x27;</span>:<span class="string">&#x27;mean&#x27;</span>&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/xiryg/blog_picture/main/picture/1635065078175.png" alt="1635065078175"></p>
+<h3 id="transform函数"><a href="#transform函数" class="headerlink" title="transform函数"></a>transform函数</h3><p><code>transform</code>是一种什么数据操作？和<code>agg</code>有什么区别呢？为了更好地理解<code>transform</code>和<code>agg</code>的不同，下面从实际的应用场景出发进行对比。</p>
+<p>在上面的<code>agg</code>中，我们学会了如何求不同公司员工的平均薪水，如果现在需要在原数据集中新增一列<code>avg_salary</code>，代表<strong>员工所在的公司的平均薪水（相同公司的员工具有一样的平均薪水）</strong>，该怎么实现呢？如果按照正常的步骤来计算，需要先求得不同公司的平均薪水，然后按照员工和公司的对应关系填充到对应的位置，不用<code>transform</code>的话，实现代码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy  <span class="keyword">as</span> np</span><br><span class="line">company=[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;C&quot;</span>]</span><br><span class="line"></span><br><span class="line">data=pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&quot;company&quot;</span>:[company[x] <span class="keyword">for</span> x <span class="keyword">in</span> np.random.randint(<span class="number">0</span>,<span class="built_in">len</span>(company),<span class="number">10</span>)],</span><br><span class="line">    <span class="string">&quot;salary&quot;</span>:np.random.randint(<span class="number">5</span>,<span class="number">50</span>,<span class="number">10</span>),</span><br><span class="line">    <span class="string">&quot;age&quot;</span>:np.random.randint(<span class="number">15</span>,<span class="number">50</span>,<span class="number">10</span>)</span><br><span class="line">&#125;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第一种方法: </span></span><br><span class="line">avg_salary_dict = data.groupby(<span class="string">&#x27;company&#x27;</span>)[<span class="string">&#x27;salary&#x27;</span>].mean().to_dict()</span><br><span class="line"><span class="built_in">print</span>(avg_salary_dict)</span><br><span class="line">data[<span class="string">&#x27;avg_salary&#x27;</span>] = data[<span class="string">&#x27;company&#x27;</span>].<span class="built_in">map</span>(avg_salary_dict)</span><br><span class="line"><span class="comment"># 第二种方法</span></span><br><span class="line">data[<span class="string">&#x27;avg_salary&#x27;</span>] = data.groupby(<span class="string">&#x27;company&#x27;</span>)[<span class="string">&#x27;salary&#x27;</span>].transform(<span class="string">&#x27;mean&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/xiryg/blog_picture/main/picture/1635065053929.png" alt="img"></p>
+<h3 id="过滤器filter"><a href="#过滤器filter" class="headerlink" title="过滤器filter"></a>过滤器filter</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy  <span class="keyword">as</span> np</span><br><span class="line">company=[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;C&quot;</span>]</span><br><span class="line"></span><br><span class="line">data=pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&quot;company&quot;</span>:[company[x] <span class="keyword">for</span> x <span class="keyword">in</span> np.random.randint(<span class="number">0</span>,<span class="built_in">len</span>(company),<span class="number">10</span>)],</span><br><span class="line">    <span class="string">&quot;salary&quot;</span>:np.random.randint(<span class="number">5</span>,<span class="number">50</span>,<span class="number">10</span>),</span><br><span class="line">    <span class="string">&quot;age&quot;</span>:np.random.randint(<span class="number">15</span>,<span class="number">50</span>,<span class="number">10</span>)</span><br><span class="line">&#125;</span><br><span class="line">)</span><br><span class="line">------------------</span><br><span class="line">data.groupby(<span class="string">&#x27;company&#x27;</span>)[<span class="string">&#x27;age&#x27;</span>].mean()</span><br><span class="line">---------------------</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fun</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="built_in">print</span>(x)</span><br><span class="line">    <span class="built_in">print</span>(x[<span class="string">&#x27;salary&#x27;</span>].mean())</span><br><span class="line">    <span class="keyword">return</span> x[<span class="string">&#x27;salary&#x27;</span>].mean()&gt; <span class="number">27</span></span><br><span class="line"></span><br><span class="line">data.groupby(<span class="string">&#x27;company&#x27;</span>).<span class="built_in">filter</span>(fun)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 和apply进行对比 </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fun</span>(<span class="params">x</span>):</span><br><span class="line"><span class="comment">#     print(x)</span></span><br><span class="line"><span class="comment">#     print(x[&#x27;salary&#x27;].mean())</span></span><br><span class="line">    <span class="keyword">return</span> x[<span class="string">&#x27;salary&#x27;</span>].mean()&gt; <span class="number">27</span></span><br><span class="line"></span><br><span class="line">data.groupby(<span class="string">&#x27;company&#x27;</span>).apply(fun)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>[w]: <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3hpcnlnL2Jsb2dfcGljdHVyZS9ibG9iL21haW4vcmVzb3VyY2UvJUU5JTgwJThGJUU4JUE3JTg2JUU4JUExJUE4LSVFNyVBRiVBRSVFNyU5MCU4MyVFOCVCNSU5Qi5jc3Y=">blog_picture&#x2F;resource&#x2F;透视表-篮球赛.csv at main · xiryg&#x2F;blog_picture (github.com)<i class="fa fa-external-link-alt"></i></span></p>
+]]></content>
+      <tags>
+        <tag>python, pandas, 数据分析, 数据处理</tag>
+      </tags>
+  </entry>
 </search>
