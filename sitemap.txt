@@ -1,6 +1,6 @@
+http://xiryg.github.io/2023/08/06/Rhythm-of-Nature/
 http://xiryg.github.io/2023/08/06/%E9%80%8F%E8%A7%86%E8%A1%A8%E7%9A%84%E5%A4%84%E7%90%86/
 http://xiryg.github.io/categories/index.html
-http://xiryg.github.io/google1c88102bbdbf3050.html
 http://xiryg.github.io/schedule/index.html
 http://xiryg.github.io/first/index.html
 http://xiryg.github.io/2023/08/04/%E7%BC%BA%E5%A4%B1%E5%80%BC%E5%A4%84%E7%90%86/
@@ -10,4 +10,5 @@ http://xiryg.github.io/2023/08/02/pandas%E5%9F%BA%E7%A1%80Series/
 http://xiryg.github.io/about/index.html
 http://xiryg.github.io/tags/index.html
 http://xiryg.github.io/
+http://xiryg.github.io/tags/nature/
 http://xiryg.github.io/tags/python-pandas-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90-%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/
