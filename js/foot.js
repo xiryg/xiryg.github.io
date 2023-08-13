@@ -1,7 +1,13 @@
 // 动态心跳，更改自己的名称
 $(document).ready(function(e){
-    $('.copyright').html('©2023 <i class="fa-fw fas fa-heartbeat card-announcement-animation cc_pointer"></i> By XIRYG.');
+    $('.copyright').html('<span style="color: silver;">@ 2023</span> <i class="fa-fw fas fa-heartbeat card-announcement-animation cc_pointer" style="color: red; animation: heartbeat 1s infinite;"></i> <span style="color: silver;">By XIRYG.</span>');
+
+    /* 添加 CSS 动画关键帧 */
+    var style = document.createElement('style');
+    style.innerHTML = '@keyframes heartbeat { 0% { transform: scale(1); } 25% { transform: scale(0.9); } 50% { transform: scale(1); } 75% { transform: scale(0.9); } 100% { transform: scale(1); } }';
+    document.head.appendChild(style);
 })
+
 
 $(document).ready(function(e){
     show_date_time();
@@ -9,7 +15,7 @@ $(document).ready(function(e){
 
 //本站运行时间，更改自己建立站点的时间
 function show_date_time(){
-$('.framework-info').html('本站已经安全运行<span id="span_dt_dt" style="color: #fff;"></span>');
+$('.framework-info').html('<span style="border: 1px solid white; padding: 5px; color: white;">本站已经安全运行<span id="span_dt_dt" style="color: #fff;"></span></span>');
 window.setTimeout("show_date_time()", 1000);
 BirthDay=new Date("8/1/2023 0:0:0");
 today=new Date();
