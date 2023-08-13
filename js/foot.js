@@ -1,12 +1,15 @@
 // 动态心跳，更改自己的名称
-$(document).ready(function(e){
-    $('.copyright').html('<span style="color: silver;">@ 2023</span> <i class="fa-fw fas fa-heartbeat card-announcement-animation cc_pointer" style="color: red; animation: heartbeat 1s infinite;"></i> <span style="color: silver;">By XIRYG.</span>');
+$(document).ready(function(e) {
+    updateName(); // 页面加载完毕时先执行一次
+    setInterval(updateName, 1000); // 每隔1秒钟执行一次
+});
 
-    /* 添加 CSS 动画关键帧 */
+function updateName() {
+    $('.copyright').html('<span style="color: silver;">@ 2023</span> <i class="fa-fw fas fa-heartbeat card-announcement-animation cc_pointer" style="color: red; animation: heartbeat 1s infinite;"></i> <span style="color: silver;">By XIRYG.</span>');
     var style = document.createElement('style');
     style.innerHTML = '@keyframes heartbeat { 0% { transform: scale(1); } 25% { transform: scale(0.9); } 50% { transform: scale(1); } 75% { transform: scale(0.9); } 100% { transform: scale(1); } }';
     document.head.appendChild(style);
-})
+}
 
 
 $(document).ready(function(e){
