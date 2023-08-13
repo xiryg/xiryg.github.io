@@ -1436,7 +1436,7 @@ canvas:not(#ribbon-canvas),
 :root {
   --global-font-size: 14px;
   --global-bg: #fff;
-  --font-color: #4c4948;
+  --font-color: #461a37;
   --hr-border: #d2ebfd;
   --hr-before-color: #bfe4fb;
   --search-bg: #f6f8fa;
@@ -1459,7 +1459,7 @@ canvas:not(#ribbon-canvas),
   --dark-grey: #cacaca;
   --white: #fff;
   --text-highlight-color: #1f2d3d;
-  --blockquote-color: #6a737d;
+  --blockquote-color: #1d1b1a;
   --blockquote-bg: rgba(73,177,245,0.1);
   --reward-pop: #f5f5f5;
   --toc-link-color: #666261;
@@ -1556,7 +1556,7 @@ button {
   touch-action: manipulation;
 }
 a {
-  color: #99a9bf;
+  color: #04364c;
   text-decoration: none;
   word-wrap: break-word;
   -webkit-transition: all 0.2s;
@@ -1567,7 +1567,7 @@ a {
   overflow-wrap: break-word;
 }
 a:hover {
-  color: #49b1f5;
+  color: #cb1e43b9;
 }
 #site-title,
 #site-subtitle,
@@ -1601,7 +1601,7 @@ img:not([src]) {
 blockquote {
   margin: 0 0 20px;
   padding: 12px 15px;
-  border-left: 3px solid #49b1f5;
+  border-left: 3px solid #c9232b;
   background-color: var(--blockquote-bg);
   color: var(--blockquote-color);
 }
@@ -4314,7 +4314,7 @@ h1.page-title + .tag-cloud-list {
   text-align: justify;
 }
 #article-container a {
-  color: #99a9bf;
+  color: #67479f;
 }
 #article-container a:hover {
   text-decoration: underline;
