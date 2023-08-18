@@ -129,6 +129,7 @@
 <p><strong>聊聊Nan 和 null   None  和空字符串 “ “  的 区别</strong> :</p>
 <p><strong>None</strong> : 表示 空无一物 ,啥也没存储 </p>
 <p>空就是空，它不是整型，不是浮点型，也不是字符串，就是一个NoneType。所以在使用len(None)时候会报错，因为NoneType没有字符串才有的方法。</p>
+<p>xxxxxxxxxx import pandas as pdimport  numpy as np ​df  &#x3D; pd.read_csv(‘.&#x2F;scientists.csv’)df.head()df.tail()df.dtypesdf.infodf.indexdf.columnsdf.valuesdf.shape# df.set_index(‘Name’)# df.set_index(‘Name’).reset_index()  # 还原 # df.reset_index(drop &#x3D; True)  #  在原来的索引乱序的前提时候用  drop &#x3D;  True   series的时候已经讲过 ​# 首先看一下数据类型是什么,才能在添加行的时候对症下药df.info()s &#x3D; pd.Series([‘Lee’,’1900-03-03’,’1999-03-03’,90,’musician’],index &#x3D; [‘Name’,’Born’,’Died’,’Age’,’Occupation’])df.append(s,ignore_index &#x3D; True)  #  或者是用之前的 s.name &#x3D; 8 ​# df.drop(7)  #删除第7行  或者 加中括号 [4,7] 删除4, 7 行 # df.drop(‘Name’,axis &#x3D; 1)    # inplace &#x3D; True  表示对最原始的df进行修改 ,但是注意 不是修改csv 文件 !df.Name[0:4]   #  选择前4个科学家的名字 # df[‘other’] &#x3D; range(0,len(df))  # df[‘other’] &#x3D; pd.Series(np.random.randint(1,100,size &#x3D;(8,)))df[df[‘Age’] &gt; df[‘Age’].mean()]​​​df.iloc[0:6]  #说下区别 df.loc[0:6] #显示索引 ​df.iloc[0,2]   # 获取单个数据df.loc[0,’Age’]​df.iloc[0]  # 取行df[‘Age’]  # 取列 ​df[[‘Age’,’Name’]] # 取指定列 df.iloc[[1,3,4]]  #  取多行​df.loc[[2,4],[‘Age’,’Name’]]  #  取指定的多行和多列 df.iloc[[2,4],[1,4]]  # 用 iloc 进行获取 指定的多行多列 ​df.loc[[2,4],[‘Age’,’Name’]].loc[2,’Age’] # 基础之前在取值 ​df &#x3D; df.iloc[[2,4],[1,4]]  # 用 iloc 进行获取 指定的多行多列 df.to_csv(‘.&#x2F;测试.csv’,index &#x3D;  False)df &#x3D; pd.read_csv(‘测试.csv’)python</p>
 <p><strong>Null</strong>: 表示空无一物，啥也没有存储。</p>
 <ul>
 <li><u><em>数据库中才使用Null</em></u></li>
@@ -179,86 +180,6 @@
       </categories>
       <tags>
         <tag>pandas, 数据分析</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>图仓+tinyimage+PicGo</title>
-    <url>/posts/558cad5e/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>我之前用过几个图床，但感觉都差了点意思：</p>
-<p>​    <strong><code>Github</code> : 免费的，设置简单，但是访问速度很慢。</strong></p>
-<p>​    <strong><code>sm.ms</code>  :  操作较麻烦，链接无了，图片也无了。</strong></p>
-<p>​    <strong><code>阿里云&amp;腾讯云</code>  :  对象存储要收费，白嫖党拒绝。</strong></p>
-<p>​    <strong><code>七牛云</code>  :  用了一个月后，要绑定域名（备案过的）。</strong></p>
-<p>​    ~ ~ ~</p>
-<hr>
-<h1 id="图仓"><a href="#图仓" class="headerlink" title="图仓"></a>图仓</h1><p>图仓链接 - <a href="https://tucang.cc/#/">图仓 (tucang.cc)</a></p>
-<p>用户上传图片的时候，通过作者大佬自己的服务器，分发到不同的节点存储。通过图片链接取图片的时候，是从众多节点中选一个权重最大的访问，按道理讲，你节点足够多，就可以实现永久访问。<span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: yellow;"><strong>OvO</strong></span></p>
-<p>对于绝大多数人，像我，就是简单的上传图片，和使用图片。</p>
-<h2 id="上传图片"><a href="#上传图片" class="headerlink" title="上传图片"></a>上传图片</h2><p><img src="https://img.tucang.cc/api/image/show/baefbe8229de53e6ffe456fb96158520" alt="image-20230816212457073"></p>
-<p>如上图所示，选取想要上传的文件夹，添加图片，开始上传即可。</p>
-<h2 id="使用图片"><a href="#使用图片" class="headerlink" title="使用图片"></a>使用图片</h2><p>图片上传成功后，在 <span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: pink;"><strong>图片管理</strong></span> 处，选取和使用图片，找到自己要使用的图片，右键，如下图所示。</p>
-<p><img src="https://img.tucang.cc/api/image/show/05365754fed0f282f7a46e2d90f0f469" alt="image-20230816213203121"></p>
-<p>点击 ”复制图片地址“ 获取图片链接。</p>
-<p>点击 ”生成图片代码“  如下：</p>
-<p><img src="https://img.tucang.cc/api/image/show/5077d4a048481ab146c06afecccf2f06" alt="image-20230816213746492"></p>
-<p>作者内置了几个模板,用起来挺方便。</p>
-<p>“图片管理”处，跟电脑操作文件差不多，可以自己摸索以下。</p>
-<h1 id="图片的压缩"><a href="#图片的压缩" class="headerlink" title="图片的压缩"></a>图片的压缩</h1><p>为了提高加载速度，节约存储空间，减少带宽消耗，上传的图片一般都是经过压缩的，很多图床的要求是单张图片不超过5M，图仓也是这样的。</p>
-<p>推荐一个网站，一个软件。</p>
-<ul>
-<li><p><a href="https://tinypng.com/">TinyPNG</a></p>
-<p><img src="https://img.tucang.cc/api/image/show/5f7b5312bd8c7085ba3158e6ef03d8b0" alt="image-20230816220124567"></p>
-</li>
-</ul>
-<p>一个在线压缩的网站，压缩后图片也保留了很高的质量，免费版有限制，基本够用。</p>
-<ul>
-<li><p><a href="https://github.com/focusbe/tinyImage">tinyImage</a></p>
-<p>界面精简明了，功能强大，操作简单。</p>
-<p><img src="https://img.tucang.cc/api/image/show/d6d0313d93bdee2adc76d631c5ffb45f" alt="image-20230816221112348"></p>
-<p>我看到这两个的时候，有点疑惑，是一家的不，都是熊猫logo，名字还差不多，好像不是，算啦，好用就行。</p>
-<h1 id="PicGo：一款开源的图床管理工具"><a href="#PicGo：一款开源的图床管理工具" class="headerlink" title="PicGo：一款开源的图床管理工具"></a>PicGo：一款开源的图床管理工具</h1><p>Github下载地址：<a href="https://github.com/Molunerfinn/PicGo/releases">Releases · Molunerfinn&#x2F;PicGo (github.com)</a></p>
-<p>PicGo官方指南：<a href="https://picgo.github.io/PicGo-Doc/zh/guide/">PicGo is Here | PicGo</a></p>
-<p><img src="https://img.tucang.cc/api/image/show/3d46d39a4165860afaa5f3f9355b61c7" alt="image-20230816222612219"></p>
-<p>界面如下图。</p>
-<p><img src="https://img.tucang.cc/api/image/show/be20251ee1703a45412a8863933caa13" alt="image-20230816222820083"></p>
-<p>图床设置里，并没有图仓的图床设置，所以我们要自定义Web图床。</p>
-<h2 id="插件下载"><a href="#插件下载" class="headerlink" title="插件下载"></a>插件下载</h2><p><img src="https://img.tucang.cc/api/image/show/0c2dc1d9fdb352ad016e38164b6c431e" alt="image-20230816223207566"></p>
-<p>“插件设置” -&gt; 输入”自定义” -&gt; “安装”（打红勾的）。等待一下（安装不成功，换流量即可，开热点）</p>
-<h2 id="图床设置"><a href="#图床设置" class="headerlink" title="图床设置"></a>图床设置</h2><p><img src="https://img.tucang.cc/api/image/show/076896d7ac84d221f68b8239372db109"></p>
-<p>自定义web图床：</p>
-<ul>
-<li><p>图床配置名：自己取一个（随意）</p>
-</li>
-<li><p>API地址：<a href="https://tucang.cc/api/v1/upload">https://tucang.cc/api/v1/upload</a></p>
-</li>
-<li><p>POST参数名：file</p>
-</li>
-<li><p>JSON路径：data.url</p>
-</li>
-<li><p>自定义请求头：有需要再填</p>
-</li>
-<li><p>自定义body：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span> </span><br><span class="line">    <span class="attr">&quot;token&quot;</span><span class="punctuation">:</span> <span class="string">&quot;你的Token&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;sync&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;true&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;syncApiIds&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;1，2，3&quot;</span><span class="punctuation">,</span> </span><br><span class="line">    <span class="attr">&quot;folderId&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;文件id&quot;</span> </span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>token获取：”我的“ -&gt; “设置” -&gt; ”重置“ -&gt; “复制”</li>
-<li>sync：true # 同步上传</li>
-<li>syncApiIds: 同步上传的节点，从节点中查看。</li>
-<li>folderd: 文件id        获取：选择文件 -&gt; 右键 -&gt; 详情 -&gt;文件ID</li>
-</ul>
-</li>
-</ul>
-<p>其余配置，查看使用文档：<a href="https://doc.tucang.cc/web/#/655396588/223024529">tucang.cc</a></p>
-<hr>
-<h1 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h1><p>以上就是图床的搭建流程，应该还算详细，有疑惑之处，请在评论区评论，我看到后会立马回复，如有疏漏或错误的地方，还请指出，我会进行修改。希望这篇文章能对你有帮助！</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>图床搭建</category>
-      </categories>
-      <tags>
-        <tag>图床</tag>
       </tags>
   </entry>
   <entry>
@@ -353,6 +274,125 @@
       </tags>
   </entry>
   <entry>
+    <title>图仓+tinyimage+PicGo</title>
+    <url>/posts/558cad5e/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>我之前用过几个图床，但感觉都差了点意思：</p>
+<p>​    <strong><code>Github</code> : 免费的，设置简单，但是访问速度很慢。</strong></p>
+<p>​    <strong><code>sm.ms</code>  :  操作较麻烦，链接无了，图片也无了。</strong></p>
+<p>​    <strong><code>阿里云&amp;腾讯云</code>  :  对象存储要收费，白嫖党拒绝。</strong></p>
+<p>​    <strong><code>七牛云</code>  :  用了一个月后，要绑定域名（备案过的）。</strong></p>
+<p>​    ~ ~ ~</p>
+<hr>
+<h1 id="图仓"><a href="#图仓" class="headerlink" title="图仓"></a>图仓</h1><p>图仓链接 - <a href="https://tucang.cc/#/">图仓 (tucang.cc)</a></p>
+<p>用户上传图片的时候，通过作者大佬自己的服务器，分发到不同的节点存储。通过图片链接取图片的时候，是从众多节点中选一个权重最大的访问，按道理讲，你节点足够多，就可以实现永久访问。<span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: yellow;"><strong>OvO</strong></span></p>
+<p>对于绝大多数人，像我，就是简单的上传图片，和使用图片。</p>
+<h2 id="上传图片"><a href="#上传图片" class="headerlink" title="上传图片"></a>上传图片</h2><p><img src="https://img.tucang.cc/api/image/show/baefbe8229de53e6ffe456fb96158520" alt="image-20230816212457073"></p>
+<p>如上图所示，选取想要上传的文件夹，添加图片，开始上传即可。</p>
+<h2 id="使用图片"><a href="#使用图片" class="headerlink" title="使用图片"></a>使用图片</h2><p>图片上传成功后，在 <span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: pink;"><strong>图片管理</strong></span> 处，选取和使用图片，找到自己要使用的图片，右键，如下图所示。</p>
+<p><img src="https://img.tucang.cc/api/image/show/05365754fed0f282f7a46e2d90f0f469" alt="image-20230816213203121"></p>
+<p>点击 ”复制图片地址“ 获取图片链接。</p>
+<p>点击 ”生成图片代码“  如下：</p>
+<p><img src="https://img.tucang.cc/api/image/show/5077d4a048481ab146c06afecccf2f06" alt="image-20230816213746492"></p>
+<p>作者内置了几个模板,用起来挺方便。</p>
+<p>“图片管理”处，跟电脑操作文件差不多，可以自己摸索以下。</p>
+<h1 id="图片的压缩"><a href="#图片的压缩" class="headerlink" title="图片的压缩"></a>图片的压缩</h1><p>为了提高加载速度，节约存储空间，减少带宽消耗，上传的图片一般都是经过压缩的，很多图床的要求是单张图片不超过5M，图仓也是这样的。</p>
+<p>推荐一个网站，一个软件。</p>
+<ul>
+<li><p><a href="https://tinypng.com/">TinyPNG</a></p>
+<p><img src="https://img.tucang.cc/api/image/show/5f7b5312bd8c7085ba3158e6ef03d8b0" alt="image-20230816220124567"></p>
+</li>
+</ul>
+<p>一个在线压缩的网站，压缩后图片也保留了很高的质量，免费版有限制，基本够用。</p>
+<ul>
+<li><p><a href="https://github.com/focusbe/tinyImage">tinyImage</a></p>
+<p>界面精简明了，功能强大，操作简单。</p>
+<p><img src="https://img.tucang.cc/api/image/show/d6d0313d93bdee2adc76d631c5ffb45f" alt="image-20230816221112348"></p>
+<p>我看到这两个的时候，有点疑惑，是一家的不，都是熊猫logo，名字还差不多，好像不是，算啦，好用就行。</p>
+<h1 id="PicGo：一款开源的图床管理工具"><a href="#PicGo：一款开源的图床管理工具" class="headerlink" title="PicGo：一款开源的图床管理工具"></a>PicGo：一款开源的图床管理工具</h1><p>Github下载地址：<a href="https://github.com/Molunerfinn/PicGo/releases">Releases · Molunerfinn&#x2F;PicGo (github.com)</a></p>
+<p>PicGo官方指南：<a href="https://picgo.github.io/PicGo-Doc/zh/guide/">PicGo is Here | PicGo</a></p>
+<p><img src="https://img.tucang.cc/api/image/show/3d46d39a4165860afaa5f3f9355b61c7" alt="image-20230816222612219"></p>
+<p>界面如下图。</p>
+<p><img src="https://img.tucang.cc/api/image/show/be20251ee1703a45412a8863933caa13" alt="image-20230816222820083"></p>
+<p>图床设置里，并没有图仓的图床设置，所以我们要自定义Web图床。</p>
+<h2 id="插件下载"><a href="#插件下载" class="headerlink" title="插件下载"></a>插件下载</h2><p><img src="https://img.tucang.cc/api/image/show/0c2dc1d9fdb352ad016e38164b6c431e" alt="image-20230816223207566"></p>
+<p>“插件设置” -&gt; 输入”自定义” -&gt; “安装”（打红勾的）。等待一下（安装不成功，换流量即可，开热点）</p>
+<h2 id="图床设置"><a href="#图床设置" class="headerlink" title="图床设置"></a>图床设置</h2><p><img src="https://img.tucang.cc/api/image/show/076896d7ac84d221f68b8239372db109"></p>
+<p>自定义web图床：</p>
+<ul>
+<li><p>图床配置名：自己取一个（随意）</p>
+</li>
+<li><p>API地址：<a href="https://tucang.cc/api/v1/upload">https://tucang.cc/api/v1/upload</a></p>
+</li>
+<li><p>POST参数名：file</p>
+</li>
+<li><p>JSON路径：data.url</p>
+</li>
+<li><p>自定义请求头：有需要再填</p>
+</li>
+<li><p>自定义body：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span> </span><br><span class="line">    <span class="attr">&quot;token&quot;</span><span class="punctuation">:</span> <span class="string">&quot;你的Token&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;sync&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;true&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;syncApiIds&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;1，2，3&quot;</span><span class="punctuation">,</span> </span><br><span class="line">    <span class="attr">&quot;folderId&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;文件id&quot;</span> </span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>token获取：”我的“ -&gt; “设置” -&gt; ”重置“ -&gt; “复制”</li>
+<li>sync：true # 同步上传</li>
+<li>syncApiIds: 同步上传的节点，从节点中查看。</li>
+<li>folderd: 文件id        获取：选择文件 -&gt; 右键 -&gt; 详情 -&gt;文件ID</li>
+</ul>
+</li>
+</ul>
+<p>其余配置，查看使用文档：<a href="https://doc.tucang.cc/web/#/655396588/223024529">tucang.cc</a></p>
+<hr>
+<h1 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h1><p>以上就是图床的搭建流程，应该还算详细，有疑惑之处，请在评论区评论，我看到后会立马回复，如有疏漏或错误的地方，还请指出，我会进行修改。希望这篇文章能对你有帮助！</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>图床搭建</category>
+      </categories>
+      <tags>
+        <tag>图床</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>素数判别</title>
+    <url>/posts/178aa3d4/</url>
+    <content><![CDATA[<h1 id="素数判断法"><a href="#素数判断法" class="headerlink" title="素数判断法"></a>素数判断法</h1><h2 id="质数判断法"><a href="#质数判断法" class="headerlink" title="质数判断法"></a>质数判断法</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">is_prime</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">if</span> x &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,<span class="built_in">int</span>(math.sqrt(x)) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> x % i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">is_prime(<span class="number">17</span>)  <span class="comment"># True</span></span><br><span class="line">is_prime(<span class="number">23</span>)  <span class="comment"># True</span></span><br><span class="line">is_prime(<span class="number">56</span>)  <span class="comment"># False</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: black;"><strong>说明</strong></span> : 在此方法中我们从 <code>2</code> 开始遍历到 <code>x</code> 的平方根 (使用math.sqrt()获取 <code>x</code>  的平方根的整数部分 + 1),判断是否存在能整除 <code>x</code> 的数, 如果存在 <code>x</code> 不是素数;反之,则为素数.</p>
+</blockquote>
+<p>$$<br>时间复杂度为: O(sqrt(x))<br>$$</p>
+<p>**相关执行过程如下 : **</p>
+<iframe width="800" height="500" frameborder="0" src="https://pythontutor.com/iframe-embed.html#code=import%20math%0A%0Adef%20is_prime%28x%29%3A%0A%20%20%20%20if%20x%20%3C%3D%201%3A%0A%20%20%20%20%20%20%20%20return%20False%0A%20%20%20%20%0A%20%20%20%20for%20i%20in%20range%282,int%28math.sqrt%28x%29%29%20%2B%201%29%3A%0A%20%20%20%20%20%20%20%20if%20x%20%25%20i%20%3D%3D%200%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20return%20False%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20return%20True%0Ais_prime%2817%29%20%20%23%20True%0Ais_prime%2823%29%20%20%23%20True%0Ais_prime%2856%29%20%20%23%20False&codeDivHeight=400&codeDivWidth=350&cumulative=true&curInstr=14&heapPrimitives=true&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false"> </iframe>
+
+
+
+<hr>
+<h2 id="埃氏筛-埃拉托斯特尼筛法"><a href="#埃氏筛-埃拉托斯特尼筛法" class="headerlink" title="埃氏筛 (埃拉托斯特尼筛法)"></a>埃氏筛 (埃拉托斯特尼筛法)</h2><p>相关链接: <a href="https://zh.wikipedia.org/wiki/%E5%9F%83%E6%8B%89%E6%89%98%E6%96%AF%E7%89%B9%E5%B0%BC%E7%AD%9B%E6%B3%95#Python_3.6-3.10">埃拉托斯特尼筛法  (wikipedia.org)</a></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sieve_of_eratosthenes</span>(<span class="params">n</span>):</span><br><span class="line">    is_prime = [<span class="literal">True</span>] * (n + <span class="number">1</span>)</span><br><span class="line">    is_prime[<span class="number">0</span>] = is_prime[<span class="number">1</span>] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="built_in">int</span>(n ** <span class="number">0.5</span>) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> is_prime[i]:</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i * i, n + <span class="number">1</span>, i):</span><br><span class="line">                is_prime[j] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    primes = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, n + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> is_prime[i]:</span><br><span class="line">            primes.append(i)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> primes</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sieve_of_eratosthenes(<span class="number">20</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># [2, 3, 5, 7, 11, 13, 17, 19]</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: black;"><strong>说明</strong></span> : 起初 , 创建一个布尔数组 <code>is_prime</code> , 全部初始化为 <code>True</code> ,将索引 <code>0</code> 和 <code>1</code> 赋值为 <code>False</code> , 从 <code>2</code>  开始遍历到 <code>n</code> 的平方根(平方根取整+1) , 如果当前数字 <code>i</code> 是素数（即 <code>is_prime[i]</code> 为 <code>True</code>），则将其倍数 <code>i*i</code>、<code>i*(i+1)</code>、<code>i*(i+2)</code>… 标记为非素数（将对应的 <code>is_prime[j]</code> 置为 <code>False</code>）。最后，我们遍历从 2 到 n 的所有数字，将 <code>is_prime</code> 中值为 <code>True</code> 的索引添加到素数列表 <code>primes</code> 中。 </p>
+</blockquote>
+<p>**相关执行过程如下 : **</p>
+<iframe width="800" height="500" frameborder="0" src="https://pythontutor.com/iframe-embed.html#code=def%20sieve_of_eratosthenes%28n%29%3A%0A%20%20%20%20is_prime%20%3D%20%5BTrue%5D%20*%20%28n%20%2B%201%29%0A%20%20%20%20is_prime%5B0%5D%20%3D%20is_prime%5B1%5D%20%3D%20False%0A%0A%20%20%20%20for%20i%20in%20range%282,%20int%28n%20**%200.5%29%20%2B%201%29%3A%0A%20%20%20%20%20%20%20%20if%20is_prime%5Bi%5D%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20for%20j%20in%20range%28i%20*%20i,%20n%20%2B%201,%20i%29%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20is_prime%5Bj%5D%20%3D%20False%0A%0A%20%20%20%20primes%20%3D%20%5B%5D%0A%20%20%20%20for%20i%20in%20range%282,%20n%20%2B%201%29%3A%0A%20%20%20%20%20%20%20%20if%20is_prime%5Bi%5D%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20primes.append%28i%29%0A%0A%20%20%20%20return%20primes%0A%0Aprint%28sieve_of_eratosthenes%2820%29%29&codeDivHeight=400&codeDivWidth=350&cumulative=true&curInstr=90&heapPrimitives=true&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false"> </iframe>
+
+<p>$$<br>时间复杂度为:O(n log log n)<br>$$</p>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>以上是关于质数判断法和埃拉托斯特尼筛法的 Python 示例代码和相关说明.</p>
+<p><code>质数判断法</code> 更适用于判断单个素数</p>
+<p><code>埃拉托斯特尼筛法</code> 比较适合取得一定范围内的素数序列</p>
+<p>根据具体需求选择相应算法</p>
+<hr>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>素数</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>数据的连接和映射</title>
     <url>/posts/951018cf/</url>
     <content><![CDATA[<h2 id="数据的连接"><a href="#数据的连接" class="headerlink" title="数据的连接"></a>数据的连接</h2><p><strong>数据的连接</strong>是在数据处理和分析中常见的一个操作。当我们需要将多个数据集合并起来，以便</p>
@@ -425,110 +465,6 @@
 <p>​        </p>
 <h4 id="Dataframe的apply方法"><a href="#Dataframe的apply方法" class="headerlink" title="Dataframe的apply方法"></a>Dataframe的apply方法</h4><p>Dataframe通常两个维度,因此当Dataframe应用一个函数的时候,首先需要指定该函数的轴是哪里,? 逐行还是逐列?</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 沿着0轴列进行求和</span></span><br><span class="line">data[[<span class="string">&quot;height&quot;</span>,<span class="string">&quot;weight&quot;</span>,<span class="string">&quot;age&quot;</span>]].apply(np.<span class="built_in">sum</span>, axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#那如果在实际使用中需要按行进行操作（axis=1）,那整个过程又是怎么实现的呢？</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">BMI</span>(<span class="params">series</span>):</span><br><span class="line">    <span class="built_in">print</span>(series)</span><br><span class="line">    weight = series[<span class="string">&quot;weight&quot;</span>]</span><br><span class="line">    height = series[<span class="string">&quot;height&quot;</span>]</span><br><span class="line">    BMI = weight/height</span><br><span class="line">    <span class="keyword">return</span> BMI</span><br><span class="line"></span><br><span class="line">data[<span class="string">&quot;BMI&quot;</span>] = data.apply(BMI,axis=<span class="number">1</span>)  <span class="comment">#  传进去的都是axis = 1 行数据</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>数据分析</category>
-      </categories>
-      <tags>
-        <tag>pandas, 数据分析</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>缺失值处理</title>
-    <url>/posts/93bcec7e/</url>
-    <content><![CDATA[<h3 id="缺失值的处理"><a href="#缺失值的处理" class="headerlink" title="缺失值的处理"></a>缺失值的处理</h3><p>数据缺失。这也是大部分数据分析工作所会遇到的之一。而正确处理缺失值，也是我们在数据分析中数据预处理环节的关键的一环。下面我将讲讲在我学习Pandas的时候，对缺失值处理的一些总结：</p>
-<p>表现形式是 : <strong>NaN  NAN  nan</strong>  都是缺失值</p>
-<span id="more"></span>
-
-<h3 id="处理丢失数据"><a href="#处理丢失数据" class="headerlink" title="处理丢失数据"></a>处理丢失数据</h3><ul>
-<li>怎么去创建缺失值:(缺失值是怎么来的 )<ul>
-<li>None</li>
-<li>np.nan</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># NaN值的表现   None np.nan </span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(data=np.random.randint(<span class="number">0</span>,<span class="number">100</span>,size=(<span class="number">7</span>,<span class="number">5</span>)), index =[i <span class="keyword">for</span> i <span class="keyword">in</span>  <span class="string">&#x27;pythonl&#x27;</span>])</span><br><span class="line">df.iloc[<span class="number">2</span>,<span class="number">3</span>] = <span class="literal">None</span></span><br><span class="line">df.iloc[<span class="number">4</span>,<span class="number">2</span>] = np.nan</span><br><span class="line">df.iloc[<span class="number">1</span>,<span class="number">4</span>] = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># nan值是否可以运算 ?</span></span><br><span class="line">np.nan + <span class="number">1</span>   <span class="comment"># 可以进行运算</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="pandas处理缺失值操作"><a href="#pandas处理缺失值操作" class="headerlink" title="pandas处理缺失值操作"></a>pandas处理缺失值操作</h3><ul>
-<li>方式1：查看空值<ul>
-<li>isnull，any</li>
-<li>notnull，all</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 检测整张表中的缺失值的数据  </span></span><br><span class="line">df.isnull()  <span class="comment"># 返回Dataframe的形式 TRUE是缺失和False 是不缺失,series也有这个方法 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#r如果哪些行中有空值</span></span><br><span class="line">df.isnull().<span class="built_in">any</span>(axis=<span class="number">1</span>)   <span class="comment"># 此时注意和drop的区别 # 不写默认是列</span></span><br><span class="line"><span class="comment">#r如果哪些列中有空值</span></span><br><span class="line">df.isnull().<span class="built_in">any</span>(axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df.notnull()  <span class="comment">#  True 是不缺失 ,False 是缺失 </span></span><br><span class="line"><span class="comment">#r如果哪些行中有空值</span></span><br><span class="line">df.notnull().<span class="built_in">all</span>(axis=<span class="number">1</span>)</span><br><span class="line"><span class="comment">#r如果哪些列中有空值</span></span><br><span class="line">df.notnull().<span class="built_in">all</span>(axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 布尔值作为索引 的时候  只能是代表的是行  所以说 axis= 1 此时会把所有的非缺失值取出  </span></span><br><span class="line">df[df.notnull().<span class="built_in">all</span>(axis=<span class="number">1</span>)]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除为NaN 值的数据</span></span><br><span class="line"><span class="comment">#获取对应的空的Dataframe数据</span></span><br><span class="line">df[df.isnull().<span class="built_in">any</span>(axis = <span class="number">1</span>)]</span><br><span class="line"><span class="comment"># 取出索引</span></span><br><span class="line">df[df.isnull().<span class="built_in">any</span>(axis = <span class="number">1</span>)].index</span><br><span class="line"><span class="comment"># 根据drop函数进行删除</span></span><br><span class="line">df.drop(labels=indexs,axis=<span class="number">0</span>)  <span class="comment">#  此时在drop中  axis = 0  为行数据</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<p>方式2：</p>
-<ul>
-<li>dropna：可以直接将缺失的行或者列进行删除</li>
-</ul>
-<h3 id="删除缺失值"><a href="#删除缺失值" class="headerlink" title="删除缺失值"></a>删除缺失值</h3><h4 id="dropna"><a href="#dropna" class="headerlink" title="dropna()"></a>dropna()</h4><p>函数作用：删除含有空值的行或列</p>
-<h5 id="axis"><a href="#axis" class="headerlink" title="axis"></a>axis</h5><p>:维度，axis&#x3D;0表示index行,axis&#x3D;1表示columns列，默认为0</p>
-<h5 id="how"><a href="#how" class="headerlink" title="how:"></a>how:</h5><p>“all”表示这一行或列中的元素全部缺失（为nan）才删除这一行或列，”any”表示这一行或列中只要有元素缺失，就删除这一行或列</p>
-<h5 id="thresh"><a href="#thresh" class="headerlink" title="thresh"></a>thresh</h5><p>保留至少3个非nan值的行或者列 注意是保留 </p>
-<h5 id="inplace"><a href="#inplace" class="headerlink" title="inplace"></a>inplace</h5><p>刷选过缺失值得新数据是存为副本还是直接在原数据上进行修改。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">df = pd.DataFrame([[np.nan, <span class="number">2</span>, np.nan, <span class="number">0</span>],</span><br><span class="line">                  [<span class="number">3</span>, <span class="number">4</span>, <span class="string">&quot;&quot;</span>, <span class="number">1</span>],</span><br><span class="line">                 [np.nan, np.nan, np.nan, <span class="number">5</span>],</span><br><span class="line">                [np.nan, <span class="number">3</span>, <span class="string">&quot;&quot;</span>, <span class="number">4</span>]],</span><br><span class="line">                 columns=<span class="built_in">list</span>(<span class="string">&#x27;ABCD&#x27;</span>))</span><br><span class="line"></span><br><span class="line">df.dropna(how=<span class="string">&#x27;any&#x27;</span>,axis=<span class="number">1</span>)  <span class="comment"># 带有nan的列就删除 默认是 any </span></span><br><span class="line">df.dropna(axis=<span class="number">1</span>) <span class="comment"># 表示删除了带nan的列 </span></span><br><span class="line">df.dropna()   <span class="comment">#  默认是 axis= 0 是行 </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df = pd.DataFrame([[np.nan, <span class="number">2</span>, np.nan, <span class="number">0</span>],</span><br><span class="line">                  [<span class="number">3</span>, <span class="number">4</span>, <span class="string">&quot;&quot;</span>, <span class="number">1</span>],</span><br><span class="line">                 [np.nan, np.nan, np.nan, <span class="literal">None</span>],</span><br><span class="line">                [np.nan, <span class="number">3</span>, <span class="string">&quot;&quot;</span>, <span class="number">4</span>]],</span><br><span class="line">                 columns=<span class="built_in">list</span>(<span class="string">&#x27;ABCD&#x27;</span>))</span><br><span class="line"></span><br><span class="line">df.dropna(how=<span class="string">&#x27;all&#x27;</span>,axis=<span class="number">0</span>)  <span class="comment"># how= &#x27;all&#x27; 的时候 是列或者行全为空的时候才删除</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df = pd.DataFrame([[np.nan, <span class="number">2</span>, np.nan, <span class="number">0</span>],</span><br><span class="line">                  [<span class="number">3</span>, <span class="number">4</span>, np.nan, <span class="number">1</span>],</span><br><span class="line">                 [np.nan, np.nan, np.nan, <span class="number">5</span>],</span><br><span class="line">                [np.nan, <span class="number">3</span>, np.nan, <span class="number">4</span>]],</span><br><span class="line">                 columns=<span class="built_in">list</span>(<span class="string">&#x27;ABCD&#x27;</span>))</span><br><span class="line">df  </span><br><span class="line">	A	B	C	D</span><br><span class="line"><span class="number">0</span>	NaN	<span class="number">2.0</span>	NaN	<span class="number">0</span></span><br><span class="line"><span class="number">1</span>	<span class="number">3.0</span>	<span class="number">4.0</span>	NaN	<span class="number">1</span></span><br><span class="line"><span class="number">2</span>	NaN	NaN	NaN	<span class="number">5</span></span><br><span class="line"><span class="number">3</span>	NaN	<span class="number">3.0</span>	NaN	<span class="number">4</span></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;df.dropna(thresh=<span class="number">3</span>)  <span class="comment"># 这参数用得很少  保留至少3个非nan值的行或者列 注意是保留 </span></span><br><span class="line"></span><br><span class="line">	A	B	C	D</span><br><span class="line"><span class="number">1</span>	<span class="number">3.0</span>	<span class="number">4.0</span>	NaN	<span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="填充缺失值"><a href="#填充缺失值" class="headerlink" title="填充缺失值"></a>填充缺失值</h3><h4 id="fillna"><a href="#fillna" class="headerlink" title="fillna()"></a>fillna()</h4><p>参数: </p>
-<h5 id="value"><a href="#value" class="headerlink" title="value"></a>value</h5><p>需要用什么值去填充缺失值</p>
-<p><strong>axis参数</strong></p>
-<p>一般和method参数连用  axis&#x3D; 1 代表是行 axis&#x3D; 0 代表的是 列 </p>
-<h5 id="inplace-1"><a href="#inplace-1" class="headerlink" title="inplace"></a>inplace</h5><p>参数的取值：True、False</p>
-<p>True：直接修改原对象</p>
-<p>False：原对象不变（缺省默认）</p>
-<h5 id="method"><a href="#method" class="headerlink" title="method"></a>method</h5><p><strong>注意这个参数不能与value同时出现</strong></p>
-<p>method参数的取值 ： {‘pad’, ‘ffill’,‘backfill’, ‘bfill’, None}</p>
-<p>pad&#x2F;ffill：用前一个非缺失值去填充该缺失值</p>
-<p>backfill&#x2F;bfill：用下一个非缺失值填充该缺失值</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df = pd.DataFrame([[np.nan, <span class="number">2</span>, np.nan, <span class="number">0</span>],</span><br><span class="line">                  [<span class="number">3</span>, <span class="number">4</span>, <span class="string">&quot;&quot;</span>, <span class="number">1</span>],</span><br><span class="line">                 [np.nan, np.nan, np.nan, <span class="number">5</span>],</span><br><span class="line">                [np.nan, <span class="number">3</span>, <span class="string">&quot;&quot;</span>, <span class="number">4</span>]],</span><br><span class="line">                 columns=<span class="built_in">list</span>(<span class="string">&#x27;ABCD&#x27;</span>))</span><br><span class="line"> </span><br><span class="line">df.fillna(<span class="number">3</span>)  <span class="comment">#  进行值的填充 ,没对原对象进行修改 </span></span><br><span class="line">df.fillna(<span class="number">0</span>,inplace=<span class="literal">True</span>)<span class="comment"># 对nan值填充为0 ,并且对df进行改变 默认是False不改变 </span></span><br><span class="line"><span class="comment"># 进行特定的行填充(赋值)</span></span><br><span class="line">df.iloc[<span class="number">0</span>] = df.iloc[<span class="number">0</span>].fillna(<span class="number">9</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进行特定的列填充(赋值)  操作是把C列的nan值替换成  D列的平均值 </span></span><br><span class="line">df[<span class="string">&#x27;C&#x27;</span>] =  df[<span class="string">&#x27;C&#x27;</span>].fillna(df[<span class="string">&#x27;D&#x27;</span>].mean())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#  method参数</span></span><br><span class="line">df = pd.DataFrame([[<span class="number">1</span> ,<span class="number">2</span>, np.nan, <span class="number">0</span>],</span><br><span class="line">                  [<span class="number">3</span>, <span class="number">4</span>, <span class="string">&quot;&quot;</span>, <span class="number">1</span>],</span><br><span class="line">                 [np.nan, <span class="number">4</span>, np.nan, <span class="number">5</span>],</span><br><span class="line">                [np.nan, <span class="number">3</span>, <span class="string">&quot;&quot;</span>, <span class="number">4</span>]],</span><br><span class="line">                 columns=<span class="built_in">list</span>(<span class="string">&#x27;ABCD&#x27;</span>))</span><br><span class="line"></span><br><span class="line">df.fillna(axis=<span class="number">1</span>,method=<span class="string">&#x27;ffill&#x27;</span>) <span class="comment"># 在 平行向(行)进行填充 找前一个变量填充 axis = 1 为行数据 </span></span><br><span class="line">df.fillna(axis=<span class="number">1</span>,method=<span class="string">&#x27;bfill&#x27;</span>)  <span class="comment">#  </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换空值&#x27;&#x27;</span></span><br><span class="line"><span class="comment"># 错误示范</span></span><br><span class="line">df[df[<span class="string">&#x27;C&#x27;</span>]==<span class="string">&quot;&quot;</span>][<span class="string">&#x27;C&#x27;</span>] = <span class="string">&#x27;hello&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 找到索引 </span></span><br><span class="line">n_index = df[df[<span class="string">&#x27;C&#x27;</span>] == <span class="string">&quot;&quot;</span>].index</span><br><span class="line">df.loc[n_index,<span class="string">&#x27;C&#x27;</span>]  = <span class="string">&#x27;hello&#x27;</span>  <span class="comment"># 根据索引进行赋值 </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 另外一种填充NaN值的方法 </span></span><br><span class="line">df.fillna(&#123;<span class="string">&#x27;A&#x27;</span>:<span class="number">0.3</span>,<span class="string">&#x27;B&#x27;</span>:<span class="number">44</span>,<span class="string">&#x27;C&#x27;</span>:<span class="number">55</span>&#125;)  <span class="comment">#  把A列的nan值都变成了 0.3  B列变成了44 ,c列变成了 55 </span></span><br></pre></td></tr></table></figure>
-
-<h3 id="缺失值的计算"><a href="#缺失值的计算" class="headerlink" title="缺失值的计算"></a>缺失值的计算</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">df[<span class="string">&#x27;A&#x27;</span>].mean()  <span class="comment"># 不会计算缺失值 </span></span><br><span class="line">df[<span class="string">&#x27;A&#x27;</span>].<span class="built_in">sum</span>()<span class="comment"># 不会计算缺失值</span></span><br><span class="line"></span><br><span class="line">df.loc[<span class="number">0</span>,<span class="string">&#x27;A&#x27;</span>]  + <span class="number">1</span>  <span class="comment">#  缺失值加任何数都是缺失值 </span></span><br></pre></td></tr></table></figure>
-
-<h3 id="替代值"><a href="#替代值" class="headerlink" title="替代值"></a>替代值</h3><h5 id="replace"><a href="#replace" class="headerlink" title="replace"></a>replace</h5><h6 id="一对一替换"><a href="#一对一替换" class="headerlink" title="一对一替换"></a>一对一替换</h6><p>将数据表中的值“背包”全部替换为“挎包”。replace()函数括号中逗号前面的参数是需要替换的值，逗号后面的参数是替换后的值。<br>参数inplace默认是不对原表替换，设置为True则原表上替换。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">data.replace(<span class="string">&#x27;背包&#x27;</span>,<span class="string">&#x27;挎包&#x27;</span>, inplace=<span class="literal">True</span>)  <span class="comment"># 对原对象进行修改</span></span><br></pre></td></tr></table></figure>
-
-<h6 id="多对一"><a href="#多对一" class="headerlink" title="多对一"></a>多对一</h6><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data.replace([<span class="string">&#x27;背包&#x27;</span>,<span class="string">&#x27;手提包&#x27;</span>,<span class="string">&#x27;单肩包&#x27;</span>,<span class="string">&#x27;钱包&#x27;</span>], <span class="string">&#x27;挎包&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<h6 id="多对多替换"><a href="#多对多替换" class="headerlink" title="多对多替换"></a>多对多替换</h6><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data.replace(&#123;<span class="string">&#x27;背包&#x27;</span>:<span class="string">&#x27;大大大包&#x27;</span>, <span class="number">16</span>:<span class="number">3900</span>, <span class="number">58</span>:<span class="number">6800</span>&#125;,)</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="删除重复值"><a href="#删除重复值" class="headerlink" title="删除重复值"></a>删除重复值</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data1,data2,data3,data4,data5 =[<span class="string">&#x27;a&#x27;</span>,<span class="number">3</span>,<span class="number">3</span>],[<span class="string">&#x27;b&#x27;</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="string">&#x27;a&#x27;</span>,<span class="number">3</span>,<span class="number">3</span>],[<span class="string">&#x27;c&#x27;</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="string">&#x27;b&#x27;</span>,<span class="number">2</span>,<span class="number">7</span>]</span><br><span class="line">df=pd.DataFrame([data1,data2,data3,data4,data5],columns=[<span class="string">&#x27;col1&#x27;</span>,<span class="string">&#x27;col2&#x27;</span>,<span class="string">&#x27;col3&#x27;</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 判断重复数据记录</span></span><br><span class="line">isDu=df.duplicated() <span class="comment">#判断重复数据记录   行与行之间的的进行对比比较</span></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df.drop_duplicates()  <span class="comment"># 删除的是 为True的那一行的数据 </span></span><br><span class="line">df.drop_duplicates(<span class="string">&#x27;col1&#x27;</span>)<span class="comment">#删除col1列值相同记录行数据，index为2,4的记录行被删除 </span></span><br><span class="line"></span><br><span class="line">df.drop_duplicates(<span class="string">&#x27;col2&#x27;</span>) <span class="comment">#删除col2列值相同的记录，index为2和3的记录行被删除, 以index为最开始为基准</span></span><br><span class="line"></span><br><span class="line">df.drop_duplicates([<span class="string">&#x27;col1&#x27;</span>,<span class="string">&#x27;col2&#x27;</span>]) <span class="comment">#删除指定列（col1和col2）值相同的记录  0  13  </span></span><br><span class="line"><span class="comment">#特别注意 : 指定列的时候要加一个容器 列表 元组  也有inplace  = True </span></span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"><span class="string">&quot;&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">可以利用drop_duplicates()函数的参数keep来自定义删除重复值时保留哪个重复值所在的行。</span></span><br><span class="line"><span class="string">例如:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">参数keep默认设置为&#x27;first&#x27;，表示保留第一个重复值所在的行。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 默认保留第一个重复值所在的行，删除其他重复值所在的行。</span></span><br><span class="line"></span><br><span class="line">df.drop_duplicates(<span class="string">&#x27;col1&#x27;</span>,keep = <span class="string">&#x27;last&#x27;</span>) <span class="comment"># 如果要保留最后一个重复值所在的行，从后往前依次进行对比,则将参数keep设置为&#x27;last&#x27;。</span></span><br><span class="line"></span><br><span class="line">df.drop_duplicates(keep = <span class="literal">False</span>)   <span class="comment"># 还可以将参数keep设置为False，表示把重复值一个不留地全部删除。</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="获取唯一值"><a href="#获取唯一值" class="headerlink" title="获取唯一值"></a>获取唯一值</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df[<span class="string">&#x27;col1&#x27;</span>].unique()</span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;col1&#x27;</span>].nunique()  <span class="comment"># 返回的是唯一值的个数</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="排序数据"><a href="#排序数据" class="headerlink" title="排序数据"></a>排序数据</h3><p>排序数据主要会用到sort_values()函数</p>
-<ul>
-<li>sort_values()函数的功能是将数据按照大小进行升序排序或降序排序；</li>
-</ul>
-<h4 id="sort-values"><a href="#sort-values" class="headerlink" title="sort_values()"></a>sort_values()</h4><p>sort_values()函数的常用参数有两个：</p>
-<ul>
-<li>一个是by，用于指定要排序的列；</li>
-<li>另一个是ascending，用于指定排序方式是升序还是降序。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data.sort_values(by=<span class="string">&#x27;数量&#x27;</span>)  <span class="comment">#  默认是升序 </span></span><br><span class="line">data.sort_values(by=<span class="string">&#x27;数量&#x27;</span>,ascending= <span class="literal">False</span>)   <span class="comment">#,ascending= False 为降序   如果数据相同按照索引排序</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="sort-index"><a href="#sort-index" class="headerlink" title="sort_index()"></a>sort_index()</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data.sort_index()</span><br><span class="line">data.sort_index(ascending= <span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="数据类型的转换"><a href="#数据类型的转换" class="headerlink" title="数据类型的转换"></a>数据类型的转换</h3><p>当利用pandas进行数据处理的时候，经常会遇到数据类型的问题，当拿到数据的时候，首先需要确定拿到的是正确类型的数据，一般通过数据类型的转化</p>
-<p>![image-20211021102156388](第三章 缺失值的处理 (1).assets&#x2F;image-20211021102156388.png)</p>
-<h4 id="转换数据类型-astype"><a href="#转换数据类型-astype" class="headerlink" title="转换数据类型 astype"></a>转换数据类型 astype</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;a&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;b&#x27;</span>: [<span class="number">0.55</span>, <span class="number">0.66</span>, <span class="number">1.55</span>],</span><br><span class="line">    <span class="string">&#x27;c&#x27;</span>: [<span class="string">&#x27;Jack&#x27;</span>, <span class="string">&#x27;Tony&#x27;</span>, <span class="string">&#x27;Posi&#x27;</span>]</span><br><span class="line">&#125;)</span><br><span class="line">df.dtypes <span class="comment"># 查看数据类型</span></span><br><span class="line">df.info() </span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;b&#x27;</span>].astype(<span class="built_in">int</span>)  <span class="comment">#  把float类型转化成 int类型  向下取整 </span></span><br><span class="line">df[<span class="string">&#x27;b&#x27;</span>] = df[<span class="string">&#x27;b&#x27;</span>].astype(<span class="string">&#x27;int&#x27;</span>) <span class="comment">#  把转化完了以后进行对列的赋值  要不然没有修改 </span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h5 id="to-numeric"><a href="#to-numeric" class="headerlink" title="to_numeric()"></a>to_numeric()</h5><p>把变量转化为数值类型(int,float) </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;a&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>,<span class="number">7</span>],</span><br><span class="line">    <span class="string">&#x27;b&#x27;</span>: [<span class="number">0.55</span>, <span class="number">0.66</span>, <span class="number">1.55</span>,<span class="string">&#x27;miss&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;c&#x27;</span>: [<span class="string">&#x27;Jack&#x27;</span>, <span class="string">&#x27;Tony&#x27;</span>, <span class="string">&#x27;Posi&#x27;</span>,<span class="string">&#x27;James&#x27;</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;b&#x27;</span>].astype(<span class="string">&#x27;float&#x27;</span>)    <span class="comment"># 直接报错</span></span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;b&#x27;</span>] = pd.to_numeric(df[<span class="string">&#x27;b&#x27;</span>],errors=<span class="string">&#x27;coerce&#x27;</span>)  <span class="comment">#  在非数值的时候添加NaN值 </span></span><br><span class="line">df[<span class="string">&#x27;b&#x27;</span>].dtype   <span class="comment"># 变成了 float 类型</span></span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;b&#x27;</span>] = df[<span class="string">&#x27;b&#x27;</span>].fillna(<span class="number">0</span>)   <span class="comment">#  填充NaN值 进行赋值</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="时间类型的操作"><a href="#时间类型的操作" class="headerlink" title="时间类型的操作"></a>时间类型的操作</h3><p><strong>to_datetime</strong></p>
-<p> 可以使用to_datetime()函数把一个对象转化成datetime类型 </p>
-<p>该函数的作用是：将字符串输入转化为日期时间。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#  to_datetime    set_index   to_period  resample </span></span><br><span class="line"></span><br><span class="line">data=pd.read_csv(<span class="string">&#x27;data/1.data清洗/hz_weather.csv&#x27;</span>)</span><br><span class="line">data.head()</span><br><span class="line"></span><br><span class="line">data.info()  <span class="comment"># 可以看到日期是  字符串类型</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1.修改日期格式</span></span><br><span class="line">data[<span class="string">&#x27;日期&#x27;</span>] = pd.to_datetime(data [<span class="string">&#x27;日期&#x27;</span>])</span><br><span class="line"></span><br><span class="line">data.info()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2、将日期设置为索引</span></span><br><span class="line">data.set_index(<span class="string">&#x27;日期&#x27;</span>,inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">data.index</span><br><span class="line"></span><br><span class="line">data.index&lt;<span class="string">&#x27;2017-3-1&#x27;</span></span><br><span class="line"><span class="comment">#  或者 </span></span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line">data.index&lt;datetime(<span class="number">2017</span>,<span class="number">3</span>,<span class="number">20</span>) </span><br><span class="line"></span><br><span class="line"><span class="comment"># 提取1月份的数据</span></span><br><span class="line"></span><br><span class="line">data[data.index.month ==<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 转换成月份</span></span><br><span class="line">data.to_period(<span class="string">&#x27;M&#x27;</span>)  <span class="comment">#  Y  D  </span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>数据分析</category>
@@ -646,6 +582,110 @@
 
 
 <p>[w]: <a href="https://github.com/xiryg/blog_picture/blob/main/resource/%E9%80%8F%E8%A7%86%E8%A1%A8-%E7%AF%AE%E7%90%83%E8%B5%9B.csv">blog_picture&#x2F;resource&#x2F;透视表-篮球赛.csv at main · xiryg&#x2F;blog_picture (github.com)</a></p>
+]]></content>
+      <categories>
+        <category>数据分析</category>
+      </categories>
+      <tags>
+        <tag>pandas, 数据分析</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>缺失值处理</title>
+    <url>/posts/93bcec7e/</url>
+    <content><![CDATA[<h3 id="缺失值的处理"><a href="#缺失值的处理" class="headerlink" title="缺失值的处理"></a>缺失值的处理</h3><p>数据缺失。这也是大部分数据分析工作所会遇到的之一。而正确处理缺失值，也是我们在数据分析中数据预处理环节的关键的一环。下面我将讲讲在我学习Pandas的时候，对缺失值处理的一些总结：</p>
+<p>表现形式是 : <strong>NaN  NAN  nan</strong>  都是缺失值</p>
+<span id="more"></span>
+
+<h3 id="处理丢失数据"><a href="#处理丢失数据" class="headerlink" title="处理丢失数据"></a>处理丢失数据</h3><ul>
+<li>怎么去创建缺失值:(缺失值是怎么来的 )<ul>
+<li>None</li>
+<li>np.nan</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># NaN值的表现   None np.nan </span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(data=np.random.randint(<span class="number">0</span>,<span class="number">100</span>,size=(<span class="number">7</span>,<span class="number">5</span>)), index =[i <span class="keyword">for</span> i <span class="keyword">in</span>  <span class="string">&#x27;pythonl&#x27;</span>])</span><br><span class="line">df.iloc[<span class="number">2</span>,<span class="number">3</span>] = <span class="literal">None</span></span><br><span class="line">df.iloc[<span class="number">4</span>,<span class="number">2</span>] = np.nan</span><br><span class="line">df.iloc[<span class="number">1</span>,<span class="number">4</span>] = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># nan值是否可以运算 ?</span></span><br><span class="line">np.nan + <span class="number">1</span>   <span class="comment"># 可以进行运算</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="pandas处理缺失值操作"><a href="#pandas处理缺失值操作" class="headerlink" title="pandas处理缺失值操作"></a>pandas处理缺失值操作</h3><ul>
+<li>方式1：查看空值<ul>
+<li>isnull，any</li>
+<li>notnull，all</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 检测整张表中的缺失值的数据  </span></span><br><span class="line">df.isnull()  <span class="comment"># 返回Dataframe的形式 TRUE是缺失和False 是不缺失,series也有这个方法 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#r如果哪些行中有空值</span></span><br><span class="line">df.isnull().<span class="built_in">any</span>(axis=<span class="number">1</span>)   <span class="comment"># 此时注意和drop的区别 # 不写默认是列</span></span><br><span class="line"><span class="comment">#r如果哪些列中有空值</span></span><br><span class="line">df.isnull().<span class="built_in">any</span>(axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df.notnull()  <span class="comment">#  True 是不缺失 ,False 是缺失 </span></span><br><span class="line"><span class="comment">#r如果哪些行中有空值</span></span><br><span class="line">df.notnull().<span class="built_in">all</span>(axis=<span class="number">1</span>)</span><br><span class="line"><span class="comment">#r如果哪些列中有空值</span></span><br><span class="line">df.notnull().<span class="built_in">all</span>(axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 布尔值作为索引 的时候  只能是代表的是行  所以说 axis= 1 此时会把所有的非缺失值取出  </span></span><br><span class="line">df[df.notnull().<span class="built_in">all</span>(axis=<span class="number">1</span>)]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除为NaN 值的数据</span></span><br><span class="line"><span class="comment">#获取对应的空的Dataframe数据</span></span><br><span class="line">df[df.isnull().<span class="built_in">any</span>(axis = <span class="number">1</span>)]</span><br><span class="line"><span class="comment"># 取出索引</span></span><br><span class="line">df[df.isnull().<span class="built_in">any</span>(axis = <span class="number">1</span>)].index</span><br><span class="line"><span class="comment"># 根据drop函数进行删除</span></span><br><span class="line">df.drop(labels=indexs,axis=<span class="number">0</span>)  <span class="comment">#  此时在drop中  axis = 0  为行数据</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>方式2：</p>
+<ul>
+<li>dropna：可以直接将缺失的行或者列进行删除</li>
+</ul>
+<h3 id="删除缺失值"><a href="#删除缺失值" class="headerlink" title="删除缺失值"></a>删除缺失值</h3><h4 id="dropna"><a href="#dropna" class="headerlink" title="dropna()"></a>dropna()</h4><p>函数作用：删除含有空值的行或列</p>
+<h5 id="axis"><a href="#axis" class="headerlink" title="axis"></a>axis</h5><p>:维度，axis&#x3D;0表示index行,axis&#x3D;1表示columns列，默认为0</p>
+<h5 id="how"><a href="#how" class="headerlink" title="how:"></a>how:</h5><p>“all”表示这一行或列中的元素全部缺失（为nan）才删除这一行或列，”any”表示这一行或列中只要有元素缺失，就删除这一行或列</p>
+<h5 id="thresh"><a href="#thresh" class="headerlink" title="thresh"></a>thresh</h5><p>保留至少3个非nan值的行或者列 注意是保留 </p>
+<h5 id="inplace"><a href="#inplace" class="headerlink" title="inplace"></a>inplace</h5><p>刷选过缺失值得新数据是存为副本还是直接在原数据上进行修改。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">df = pd.DataFrame([[np.nan, <span class="number">2</span>, np.nan, <span class="number">0</span>],</span><br><span class="line">                  [<span class="number">3</span>, <span class="number">4</span>, <span class="string">&quot;&quot;</span>, <span class="number">1</span>],</span><br><span class="line">                 [np.nan, np.nan, np.nan, <span class="number">5</span>],</span><br><span class="line">                [np.nan, <span class="number">3</span>, <span class="string">&quot;&quot;</span>, <span class="number">4</span>]],</span><br><span class="line">                 columns=<span class="built_in">list</span>(<span class="string">&#x27;ABCD&#x27;</span>))</span><br><span class="line"></span><br><span class="line">df.dropna(how=<span class="string">&#x27;any&#x27;</span>,axis=<span class="number">1</span>)  <span class="comment"># 带有nan的列就删除 默认是 any </span></span><br><span class="line">df.dropna(axis=<span class="number">1</span>) <span class="comment"># 表示删除了带nan的列 </span></span><br><span class="line">df.dropna()   <span class="comment">#  默认是 axis= 0 是行 </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df = pd.DataFrame([[np.nan, <span class="number">2</span>, np.nan, <span class="number">0</span>],</span><br><span class="line">                  [<span class="number">3</span>, <span class="number">4</span>, <span class="string">&quot;&quot;</span>, <span class="number">1</span>],</span><br><span class="line">                 [np.nan, np.nan, np.nan, <span class="literal">None</span>],</span><br><span class="line">                [np.nan, <span class="number">3</span>, <span class="string">&quot;&quot;</span>, <span class="number">4</span>]],</span><br><span class="line">                 columns=<span class="built_in">list</span>(<span class="string">&#x27;ABCD&#x27;</span>))</span><br><span class="line"></span><br><span class="line">df.dropna(how=<span class="string">&#x27;all&#x27;</span>,axis=<span class="number">0</span>)  <span class="comment"># how= &#x27;all&#x27; 的时候 是列或者行全为空的时候才删除</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df = pd.DataFrame([[np.nan, <span class="number">2</span>, np.nan, <span class="number">0</span>],</span><br><span class="line">                  [<span class="number">3</span>, <span class="number">4</span>, np.nan, <span class="number">1</span>],</span><br><span class="line">                 [np.nan, np.nan, np.nan, <span class="number">5</span>],</span><br><span class="line">                [np.nan, <span class="number">3</span>, np.nan, <span class="number">4</span>]],</span><br><span class="line">                 columns=<span class="built_in">list</span>(<span class="string">&#x27;ABCD&#x27;</span>))</span><br><span class="line">df  </span><br><span class="line">	A	B	C	D</span><br><span class="line"><span class="number">0</span>	NaN	<span class="number">2.0</span>	NaN	<span class="number">0</span></span><br><span class="line"><span class="number">1</span>	<span class="number">3.0</span>	<span class="number">4.0</span>	NaN	<span class="number">1</span></span><br><span class="line"><span class="number">2</span>	NaN	NaN	NaN	<span class="number">5</span></span><br><span class="line"><span class="number">3</span>	NaN	<span class="number">3.0</span>	NaN	<span class="number">4</span></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;df.dropna(thresh=<span class="number">3</span>)  <span class="comment"># 这参数用得很少  保留至少3个非nan值的行或者列 注意是保留 </span></span><br><span class="line"></span><br><span class="line">	A	B	C	D</span><br><span class="line"><span class="number">1</span>	<span class="number">3.0</span>	<span class="number">4.0</span>	NaN	<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="填充缺失值"><a href="#填充缺失值" class="headerlink" title="填充缺失值"></a>填充缺失值</h3><h4 id="fillna"><a href="#fillna" class="headerlink" title="fillna()"></a>fillna()</h4><p>参数: </p>
+<h5 id="value"><a href="#value" class="headerlink" title="value"></a>value</h5><p>需要用什么值去填充缺失值</p>
+<p><strong>axis参数</strong></p>
+<p>一般和method参数连用  axis&#x3D; 1 代表是行 axis&#x3D; 0 代表的是 列 </p>
+<h5 id="inplace-1"><a href="#inplace-1" class="headerlink" title="inplace"></a>inplace</h5><p>参数的取值：True、False</p>
+<p>True：直接修改原对象</p>
+<p>False：原对象不变（缺省默认）</p>
+<h5 id="method"><a href="#method" class="headerlink" title="method"></a>method</h5><p><strong>注意这个参数不能与value同时出现</strong></p>
+<p>method参数的取值 ： {‘pad’, ‘ffill’,‘backfill’, ‘bfill’, None}</p>
+<p>pad&#x2F;ffill：用前一个非缺失值去填充该缺失值</p>
+<p>backfill&#x2F;bfill：用下一个非缺失值填充该缺失值</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df = pd.DataFrame([[np.nan, <span class="number">2</span>, np.nan, <span class="number">0</span>],</span><br><span class="line">                  [<span class="number">3</span>, <span class="number">4</span>, <span class="string">&quot;&quot;</span>, <span class="number">1</span>],</span><br><span class="line">                 [np.nan, np.nan, np.nan, <span class="number">5</span>],</span><br><span class="line">                [np.nan, <span class="number">3</span>, <span class="string">&quot;&quot;</span>, <span class="number">4</span>]],</span><br><span class="line">                 columns=<span class="built_in">list</span>(<span class="string">&#x27;ABCD&#x27;</span>))</span><br><span class="line"> </span><br><span class="line">df.fillna(<span class="number">3</span>)  <span class="comment">#  进行值的填充 ,没对原对象进行修改 </span></span><br><span class="line">df.fillna(<span class="number">0</span>,inplace=<span class="literal">True</span>)<span class="comment"># 对nan值填充为0 ,并且对df进行改变 默认是False不改变 </span></span><br><span class="line"><span class="comment"># 进行特定的行填充(赋值)</span></span><br><span class="line">df.iloc[<span class="number">0</span>] = df.iloc[<span class="number">0</span>].fillna(<span class="number">9</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进行特定的列填充(赋值)  操作是把C列的nan值替换成  D列的平均值 </span></span><br><span class="line">df[<span class="string">&#x27;C&#x27;</span>] =  df[<span class="string">&#x27;C&#x27;</span>].fillna(df[<span class="string">&#x27;D&#x27;</span>].mean())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#  method参数</span></span><br><span class="line">df = pd.DataFrame([[<span class="number">1</span> ,<span class="number">2</span>, np.nan, <span class="number">0</span>],</span><br><span class="line">                  [<span class="number">3</span>, <span class="number">4</span>, <span class="string">&quot;&quot;</span>, <span class="number">1</span>],</span><br><span class="line">                 [np.nan, <span class="number">4</span>, np.nan, <span class="number">5</span>],</span><br><span class="line">                [np.nan, <span class="number">3</span>, <span class="string">&quot;&quot;</span>, <span class="number">4</span>]],</span><br><span class="line">                 columns=<span class="built_in">list</span>(<span class="string">&#x27;ABCD&#x27;</span>))</span><br><span class="line"></span><br><span class="line">df.fillna(axis=<span class="number">1</span>,method=<span class="string">&#x27;ffill&#x27;</span>) <span class="comment"># 在 平行向(行)进行填充 找前一个变量填充 axis = 1 为行数据 </span></span><br><span class="line">df.fillna(axis=<span class="number">1</span>,method=<span class="string">&#x27;bfill&#x27;</span>)  <span class="comment">#  </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换空值&#x27;&#x27;</span></span><br><span class="line"><span class="comment"># 错误示范</span></span><br><span class="line">df[df[<span class="string">&#x27;C&#x27;</span>]==<span class="string">&quot;&quot;</span>][<span class="string">&#x27;C&#x27;</span>] = <span class="string">&#x27;hello&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 找到索引 </span></span><br><span class="line">n_index = df[df[<span class="string">&#x27;C&#x27;</span>] == <span class="string">&quot;&quot;</span>].index</span><br><span class="line">df.loc[n_index,<span class="string">&#x27;C&#x27;</span>]  = <span class="string">&#x27;hello&#x27;</span>  <span class="comment"># 根据索引进行赋值 </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 另外一种填充NaN值的方法 </span></span><br><span class="line">df.fillna(&#123;<span class="string">&#x27;A&#x27;</span>:<span class="number">0.3</span>,<span class="string">&#x27;B&#x27;</span>:<span class="number">44</span>,<span class="string">&#x27;C&#x27;</span>:<span class="number">55</span>&#125;)  <span class="comment">#  把A列的nan值都变成了 0.3  B列变成了44 ,c列变成了 55 </span></span><br></pre></td></tr></table></figure>
+
+<h3 id="缺失值的计算"><a href="#缺失值的计算" class="headerlink" title="缺失值的计算"></a>缺失值的计算</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">df[<span class="string">&#x27;A&#x27;</span>].mean()  <span class="comment"># 不会计算缺失值 </span></span><br><span class="line">df[<span class="string">&#x27;A&#x27;</span>].<span class="built_in">sum</span>()<span class="comment"># 不会计算缺失值</span></span><br><span class="line"></span><br><span class="line">df.loc[<span class="number">0</span>,<span class="string">&#x27;A&#x27;</span>]  + <span class="number">1</span>  <span class="comment">#  缺失值加任何数都是缺失值 </span></span><br></pre></td></tr></table></figure>
+
+<h3 id="替代值"><a href="#替代值" class="headerlink" title="替代值"></a>替代值</h3><h5 id="replace"><a href="#replace" class="headerlink" title="replace"></a>replace</h5><h6 id="一对一替换"><a href="#一对一替换" class="headerlink" title="一对一替换"></a>一对一替换</h6><p>将数据表中的值“背包”全部替换为“挎包”。replace()函数括号中逗号前面的参数是需要替换的值，逗号后面的参数是替换后的值。<br>参数inplace默认是不对原表替换，设置为True则原表上替换。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">data.replace(<span class="string">&#x27;背包&#x27;</span>,<span class="string">&#x27;挎包&#x27;</span>, inplace=<span class="literal">True</span>)  <span class="comment"># 对原对象进行修改</span></span><br></pre></td></tr></table></figure>
+
+<h6 id="多对一"><a href="#多对一" class="headerlink" title="多对一"></a>多对一</h6><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data.replace([<span class="string">&#x27;背包&#x27;</span>,<span class="string">&#x27;手提包&#x27;</span>,<span class="string">&#x27;单肩包&#x27;</span>,<span class="string">&#x27;钱包&#x27;</span>], <span class="string">&#x27;挎包&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h6 id="多对多替换"><a href="#多对多替换" class="headerlink" title="多对多替换"></a>多对多替换</h6><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data.replace(&#123;<span class="string">&#x27;背包&#x27;</span>:<span class="string">&#x27;大大大包&#x27;</span>, <span class="number">16</span>:<span class="number">3900</span>, <span class="number">58</span>:<span class="number">6800</span>&#125;,)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="删除重复值"><a href="#删除重复值" class="headerlink" title="删除重复值"></a>删除重复值</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data1,data2,data3,data4,data5 =[<span class="string">&#x27;a&#x27;</span>,<span class="number">3</span>,<span class="number">3</span>],[<span class="string">&#x27;b&#x27;</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="string">&#x27;a&#x27;</span>,<span class="number">3</span>,<span class="number">3</span>],[<span class="string">&#x27;c&#x27;</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="string">&#x27;b&#x27;</span>,<span class="number">2</span>,<span class="number">7</span>]</span><br><span class="line">df=pd.DataFrame([data1,data2,data3,data4,data5],columns=[<span class="string">&#x27;col1&#x27;</span>,<span class="string">&#x27;col2&#x27;</span>,<span class="string">&#x27;col3&#x27;</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 判断重复数据记录</span></span><br><span class="line">isDu=df.duplicated() <span class="comment">#判断重复数据记录   行与行之间的的进行对比比较</span></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df.drop_duplicates()  <span class="comment"># 删除的是 为True的那一行的数据 </span></span><br><span class="line">df.drop_duplicates(<span class="string">&#x27;col1&#x27;</span>)<span class="comment">#删除col1列值相同记录行数据，index为2,4的记录行被删除 </span></span><br><span class="line"></span><br><span class="line">df.drop_duplicates(<span class="string">&#x27;col2&#x27;</span>) <span class="comment">#删除col2列值相同的记录，index为2和3的记录行被删除, 以index为最开始为基准</span></span><br><span class="line"></span><br><span class="line">df.drop_duplicates([<span class="string">&#x27;col1&#x27;</span>,<span class="string">&#x27;col2&#x27;</span>]) <span class="comment">#删除指定列（col1和col2）值相同的记录  0  13  </span></span><br><span class="line"><span class="comment">#特别注意 : 指定列的时候要加一个容器 列表 元组  也有inplace  = True </span></span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"><span class="string">&quot;&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">可以利用drop_duplicates()函数的参数keep来自定义删除重复值时保留哪个重复值所在的行。</span></span><br><span class="line"><span class="string">例如:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">参数keep默认设置为&#x27;first&#x27;，表示保留第一个重复值所在的行。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 默认保留第一个重复值所在的行，删除其他重复值所在的行。</span></span><br><span class="line"></span><br><span class="line">df.drop_duplicates(<span class="string">&#x27;col1&#x27;</span>,keep = <span class="string">&#x27;last&#x27;</span>) <span class="comment"># 如果要保留最后一个重复值所在的行，从后往前依次进行对比,则将参数keep设置为&#x27;last&#x27;。</span></span><br><span class="line"></span><br><span class="line">df.drop_duplicates(keep = <span class="literal">False</span>)   <span class="comment"># 还可以将参数keep设置为False，表示把重复值一个不留地全部删除。</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="获取唯一值"><a href="#获取唯一值" class="headerlink" title="获取唯一值"></a>获取唯一值</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df[<span class="string">&#x27;col1&#x27;</span>].unique()</span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;col1&#x27;</span>].nunique()  <span class="comment"># 返回的是唯一值的个数</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="排序数据"><a href="#排序数据" class="headerlink" title="排序数据"></a>排序数据</h3><p>排序数据主要会用到sort_values()函数</p>
+<ul>
+<li>sort_values()函数的功能是将数据按照大小进行升序排序或降序排序；</li>
+</ul>
+<h4 id="sort-values"><a href="#sort-values" class="headerlink" title="sort_values()"></a>sort_values()</h4><p>sort_values()函数的常用参数有两个：</p>
+<ul>
+<li>一个是by，用于指定要排序的列；</li>
+<li>另一个是ascending，用于指定排序方式是升序还是降序。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data.sort_values(by=<span class="string">&#x27;数量&#x27;</span>)  <span class="comment">#  默认是升序 </span></span><br><span class="line">data.sort_values(by=<span class="string">&#x27;数量&#x27;</span>,ascending= <span class="literal">False</span>)   <span class="comment">#,ascending= False 为降序   如果数据相同按照索引排序</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="sort-index"><a href="#sort-index" class="headerlink" title="sort_index()"></a>sort_index()</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data.sort_index()</span><br><span class="line">data.sort_index(ascending= <span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="数据类型的转换"><a href="#数据类型的转换" class="headerlink" title="数据类型的转换"></a>数据类型的转换</h3><p>当利用pandas进行数据处理的时候，经常会遇到数据类型的问题，当拿到数据的时候，首先需要确定拿到的是正确类型的数据，一般通过数据类型的转化</p>
+<p>![image-20211021102156388](第三章 缺失值的处理 (1).assets&#x2F;image-20211021102156388.png)</p>
+<h4 id="转换数据类型-astype"><a href="#转换数据类型-astype" class="headerlink" title="转换数据类型 astype"></a>转换数据类型 astype</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;a&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;b&#x27;</span>: [<span class="number">0.55</span>, <span class="number">0.66</span>, <span class="number">1.55</span>],</span><br><span class="line">    <span class="string">&#x27;c&#x27;</span>: [<span class="string">&#x27;Jack&#x27;</span>, <span class="string">&#x27;Tony&#x27;</span>, <span class="string">&#x27;Posi&#x27;</span>]</span><br><span class="line">&#125;)</span><br><span class="line">df.dtypes <span class="comment"># 查看数据类型</span></span><br><span class="line">df.info() </span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;b&#x27;</span>].astype(<span class="built_in">int</span>)  <span class="comment">#  把float类型转化成 int类型  向下取整 </span></span><br><span class="line">df[<span class="string">&#x27;b&#x27;</span>] = df[<span class="string">&#x27;b&#x27;</span>].astype(<span class="string">&#x27;int&#x27;</span>) <span class="comment">#  把转化完了以后进行对列的赋值  要不然没有修改 </span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="to-numeric"><a href="#to-numeric" class="headerlink" title="to_numeric()"></a>to_numeric()</h5><p>把变量转化为数值类型(int,float) </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;a&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>,<span class="number">7</span>],</span><br><span class="line">    <span class="string">&#x27;b&#x27;</span>: [<span class="number">0.55</span>, <span class="number">0.66</span>, <span class="number">1.55</span>,<span class="string">&#x27;miss&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;c&#x27;</span>: [<span class="string">&#x27;Jack&#x27;</span>, <span class="string">&#x27;Tony&#x27;</span>, <span class="string">&#x27;Posi&#x27;</span>,<span class="string">&#x27;James&#x27;</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;b&#x27;</span>].astype(<span class="string">&#x27;float&#x27;</span>)    <span class="comment"># 直接报错</span></span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;b&#x27;</span>] = pd.to_numeric(df[<span class="string">&#x27;b&#x27;</span>],errors=<span class="string">&#x27;coerce&#x27;</span>)  <span class="comment">#  在非数值的时候添加NaN值 </span></span><br><span class="line">df[<span class="string">&#x27;b&#x27;</span>].dtype   <span class="comment"># 变成了 float 类型</span></span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;b&#x27;</span>] = df[<span class="string">&#x27;b&#x27;</span>].fillna(<span class="number">0</span>)   <span class="comment">#  填充NaN值 进行赋值</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="时间类型的操作"><a href="#时间类型的操作" class="headerlink" title="时间类型的操作"></a>时间类型的操作</h3><p><strong>to_datetime</strong></p>
+<p> 可以使用to_datetime()函数把一个对象转化成datetime类型 </p>
+<p>该函数的作用是：将字符串输入转化为日期时间。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#  to_datetime    set_index   to_period  resample </span></span><br><span class="line"></span><br><span class="line">data=pd.read_csv(<span class="string">&#x27;data/1.data清洗/hz_weather.csv&#x27;</span>)</span><br><span class="line">data.head()</span><br><span class="line"></span><br><span class="line">data.info()  <span class="comment"># 可以看到日期是  字符串类型</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1.修改日期格式</span></span><br><span class="line">data[<span class="string">&#x27;日期&#x27;</span>] = pd.to_datetime(data [<span class="string">&#x27;日期&#x27;</span>])</span><br><span class="line"></span><br><span class="line">data.info()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2、将日期设置为索引</span></span><br><span class="line">data.set_index(<span class="string">&#x27;日期&#x27;</span>,inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">data.index</span><br><span class="line"></span><br><span class="line">data.index&lt;<span class="string">&#x27;2017-3-1&#x27;</span></span><br><span class="line"><span class="comment">#  或者 </span></span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line">data.index&lt;datetime(<span class="number">2017</span>,<span class="number">3</span>,<span class="number">20</span>) </span><br><span class="line"></span><br><span class="line"><span class="comment"># 提取1月份的数据</span></span><br><span class="line"></span><br><span class="line">data[data.index.month ==<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 转换成月份</span></span><br><span class="line">data.to_period(<span class="string">&#x27;M&#x27;</span>)  <span class="comment">#  Y  D  </span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>数据分析</category>
