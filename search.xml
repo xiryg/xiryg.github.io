@@ -291,6 +291,43 @@
       </tags>
   </entry>
   <entry>
+    <title>素数判别</title>
+    <url>/posts/178aa3d4/</url>
+    <content><![CDATA[<h1 id="素数判断法"><a href="#素数判断法" class="headerlink" title="素数判断法"></a>素数判断法</h1><h2 id="质数判断法"><a href="#质数判断法" class="headerlink" title="质数判断法"></a>质数判断法</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">is_prime</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">if</span> x &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,<span class="built_in">int</span>(math.sqrt(x)) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> x % i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">is_prime(<span class="number">17</span>)  <span class="comment"># True</span></span><br><span class="line">is_prime(<span class="number">23</span>)  <span class="comment"># True</span></span><br><span class="line">is_prime(<span class="number">56</span>)  <span class="comment"># False</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: black;"><strong>说明</strong></span> : 在此方法中我们从 <code>2</code> 开始遍历到 <code>x</code> 的平方根 (使用math.sqrt()获取 <code>x</code>  的平方根的整数部分 + 1),判断是否存在能整除 <code>x</code> 的数, 如果存在 <code>x</code> 不是素数;反之,则为素数.</p>
+</blockquote>
+<script type="math/tex; mode=display">
+时间复杂度为: O(sqrt(x))</script><p><strong>相关执行过程如下 : </strong></p>
+<iframe width="800" height="500" frameborder="0" src="https://pythontutor.com/iframe-embed.html#code=import%20math%0A%0Adef%20is_prime%28x%29%3A%0A%20%20%20%20if%20x%20%3C%3D%201%3A%0A%20%20%20%20%20%20%20%20return%20False%0A%20%20%20%20%0A%20%20%20%20for%20i%20in%20range%282,int%28math.sqrt%28x%29%29%20%2B%201%29%3A%0A%20%20%20%20%20%20%20%20if%20x%20%25%20i%20%3D%3D%200%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20return%20False%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20return%20True%0Ais_prime%2817%29%20%20%23%20True%0Ais_prime%2823%29%20%20%23%20True%0Ais_prime%2856%29%20%20%23%20False&codeDivHeight=400&codeDivWidth=350&cumulative=true&curInstr=14&heapPrimitives=true&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false"> </iframe>
+
+
+
+<hr>
+<h2 id="埃氏筛-埃拉托斯特尼筛法"><a href="#埃氏筛-埃拉托斯特尼筛法" class="headerlink" title="埃氏筛 (埃拉托斯特尼筛法)"></a>埃氏筛 (埃拉托斯特尼筛法)</h2><p>相关链接: <a href="https://zh.wikipedia.org/wiki/埃拉托斯特尼筛法#Python_3.6-3.10">埃拉托斯特尼筛法  (wikipedia.org)</a></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sieve_of_eratosthenes</span>(<span class="params">n</span>):</span><br><span class="line">    is_prime = [<span class="literal">True</span>] * (n + <span class="number">1</span>)</span><br><span class="line">    is_prime[<span class="number">0</span>] = is_prime[<span class="number">1</span>] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="built_in">int</span>(n ** <span class="number">0.5</span>) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> is_prime[i]:</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i * i, n + <span class="number">1</span>, i):</span><br><span class="line">                is_prime[j] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    primes = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, n + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> is_prime[i]:</span><br><span class="line">            primes.append(i)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> primes</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sieve_of_eratosthenes(<span class="number">20</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># [2, 3, 5, 7, 11, 13, 17, 19]</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: black;"><strong>说明</strong></span> : 起初 , 创建一个布尔数组 <code>is_prime</code> , 全部初始化为 <code>True</code> ,将索引 <code>0</code> 和 <code>1</code> 赋值为 <code>False</code> , 从 <code>2</code>  开始遍历到 <code>n</code> 的平方根(平方根取整+1) , 如果当前数字 <code>i</code> 是素数（即 <code>is_prime[i]</code> 为 <code>True</code>），则将其倍数 <code>i*i</code>、<code>i*(i+1)</code>、<code>i*(i+2)</code>… 标记为非素数（将对应的 <code>is_prime[j]</code> 置为 <code>False</code>）。最后，我们遍历从 2 到 n 的所有数字，将 <code>is_prime</code> 中值为 <code>True</code> 的索引添加到素数列表 <code>primes</code> 中。 </p>
+</blockquote>
+<p><strong>相关执行过程如下 : </strong></p>
+<iframe width="800" height="500" frameborder="0" src="https://pythontutor.com/iframe-embed.html#code=def%20sieve_of_eratosthenes%28n%29%3A%0A%20%20%20%20is_prime%20%3D%20%5BTrue%5D%20*%20%28n%20%2B%201%29%0A%20%20%20%20is_prime%5B0%5D%20%3D%20is_prime%5B1%5D%20%3D%20False%0A%0A%20%20%20%20for%20i%20in%20range%282,%20int%28n%20**%200.5%29%20%2B%201%29%3A%0A%20%20%20%20%20%20%20%20if%20is_prime%5Bi%5D%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20for%20j%20in%20range%28i%20*%20i,%20n%20%2B%201,%20i%29%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20is_prime%5Bj%5D%20%3D%20False%0A%0A%20%20%20%20primes%20%3D%20%5B%5D%0A%20%20%20%20for%20i%20in%20range%282,%20n%20%2B%201%29%3A%0A%20%20%20%20%20%20%20%20if%20is_prime%5Bi%5D%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20primes.append%28i%29%0A%0A%20%20%20%20return%20primes%0A%0Aprint%28sieve_of_eratosthenes%2820%29%29&codeDivHeight=400&codeDivWidth=350&cumulative=true&curInstr=90&heapPrimitives=true&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false"> </iframe>
+
+<script type="math/tex; mode=display">
+时间复杂度为:O(n log log n)</script><hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>以上是关于质数判断法和埃拉托斯特尼筛法的 Python 示例代码和相关说明.</p>
+<p><code>质数判断法</code> 更适用于判断单个素数</p>
+<p><code>埃拉托斯特尼筛法</code> 比较适合取得一定范围内的素数序列</p>
+<p>根据具体需求选择相应算法</p>
+<hr>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>素数</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>数据的连接和映射</title>
     <url>/posts/951018cf/</url>
     <content><![CDATA[<h2 id="数据的连接"><a href="#数据的连接" class="headerlink" title="数据的连接"></a>数据的连接</h2><p><strong>数据的连接</strong>是在数据处理和分析中常见的一个操作。当我们需要将多个数据集合并起来，以便</p>
@@ -345,43 +382,6 @@
       </categories>
       <tags>
         <tag>pandas, 数据分析</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>素数判别</title>
-    <url>/posts/178aa3d4/</url>
-    <content><![CDATA[<h1 id="素数判断法"><a href="#素数判断法" class="headerlink" title="素数判断法"></a>素数判断法</h1><h2 id="质数判断法"><a href="#质数判断法" class="headerlink" title="质数判断法"></a>质数判断法</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">is_prime</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">if</span> x &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,<span class="built_in">int</span>(math.sqrt(x)) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> x % i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">is_prime(<span class="number">17</span>)  <span class="comment"># True</span></span><br><span class="line">is_prime(<span class="number">23</span>)  <span class="comment"># True</span></span><br><span class="line">is_prime(<span class="number">56</span>)  <span class="comment"># False</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: black;"><strong>说明</strong></span> : 在此方法中我们从 <code>2</code> 开始遍历到 <code>x</code> 的平方根 (使用math.sqrt()获取 <code>x</code>  的平方根的整数部分 + 1),判断是否存在能整除 <code>x</code> 的数, 如果存在 <code>x</code> 不是素数;反之,则为素数.</p>
-</blockquote>
-<script type="math/tex; mode=display">
-时间复杂度为: O(sqrt(x))</script><p><strong>相关执行过程如下 : </strong></p>
-<iframe width="800" height="500" frameborder="0" src="https://pythontutor.com/iframe-embed.html#code=import%20math%0A%0Adef%20is_prime%28x%29%3A%0A%20%20%20%20if%20x%20%3C%3D%201%3A%0A%20%20%20%20%20%20%20%20return%20False%0A%20%20%20%20%0A%20%20%20%20for%20i%20in%20range%282,int%28math.sqrt%28x%29%29%20%2B%201%29%3A%0A%20%20%20%20%20%20%20%20if%20x%20%25%20i%20%3D%3D%200%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20return%20False%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20return%20True%0Ais_prime%2817%29%20%20%23%20True%0Ais_prime%2823%29%20%20%23%20True%0Ais_prime%2856%29%20%20%23%20False&codeDivHeight=400&codeDivWidth=350&cumulative=true&curInstr=14&heapPrimitives=true&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false"> </iframe>
-
-
-
-<hr>
-<h2 id="埃氏筛-埃拉托斯特尼筛法"><a href="#埃氏筛-埃拉托斯特尼筛法" class="headerlink" title="埃氏筛 (埃拉托斯特尼筛法)"></a>埃氏筛 (埃拉托斯特尼筛法)</h2><p>相关链接: <a href="https://zh.wikipedia.org/wiki/埃拉托斯特尼筛法#Python_3.6-3.10">埃拉托斯特尼筛法  (wikipedia.org)</a></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sieve_of_eratosthenes</span>(<span class="params">n</span>):</span><br><span class="line">    is_prime = [<span class="literal">True</span>] * (n + <span class="number">1</span>)</span><br><span class="line">    is_prime[<span class="number">0</span>] = is_prime[<span class="number">1</span>] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="built_in">int</span>(n ** <span class="number">0.5</span>) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> is_prime[i]:</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i * i, n + <span class="number">1</span>, i):</span><br><span class="line">                is_prime[j] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    primes = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, n + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> is_prime[i]:</span><br><span class="line">            primes.append(i)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> primes</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sieve_of_eratosthenes(<span class="number">20</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># [2, 3, 5, 7, 11, 13, 17, 19]</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: black;"><strong>说明</strong></span> : 起初 , 创建一个布尔数组 <code>is_prime</code> , 全部初始化为 <code>True</code> ,将索引 <code>0</code> 和 <code>1</code> 赋值为 <code>False</code> , 从 <code>2</code>  开始遍历到 <code>n</code> 的平方根(平方根取整+1) , 如果当前数字 <code>i</code> 是素数（即 <code>is_prime[i]</code> 为 <code>True</code>），则将其倍数 <code>i*i</code>、<code>i*(i+1)</code>、<code>i*(i+2)</code>… 标记为非素数（将对应的 <code>is_prime[j]</code> 置为 <code>False</code>）。最后，我们遍历从 2 到 n 的所有数字，将 <code>is_prime</code> 中值为 <code>True</code> 的索引添加到素数列表 <code>primes</code> 中。 </p>
-</blockquote>
-<p><strong>相关执行过程如下 : </strong></p>
-<iframe width="800" height="500" frameborder="0" src="https://pythontutor.com/iframe-embed.html#code=def%20sieve_of_eratosthenes%28n%29%3A%0A%20%20%20%20is_prime%20%3D%20%5BTrue%5D%20*%20%28n%20%2B%201%29%0A%20%20%20%20is_prime%5B0%5D%20%3D%20is_prime%5B1%5D%20%3D%20False%0A%0A%20%20%20%20for%20i%20in%20range%282,%20int%28n%20**%200.5%29%20%2B%201%29%3A%0A%20%20%20%20%20%20%20%20if%20is_prime%5Bi%5D%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20for%20j%20in%20range%28i%20*%20i,%20n%20%2B%201,%20i%29%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20is_prime%5Bj%5D%20%3D%20False%0A%0A%20%20%20%20primes%20%3D%20%5B%5D%0A%20%20%20%20for%20i%20in%20range%282,%20n%20%2B%201%29%3A%0A%20%20%20%20%20%20%20%20if%20is_prime%5Bi%5D%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20primes.append%28i%29%0A%0A%20%20%20%20return%20primes%0A%0Aprint%28sieve_of_eratosthenes%2820%29%29&codeDivHeight=400&codeDivWidth=350&cumulative=true&curInstr=90&heapPrimitives=true&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false"> </iframe>
-
-<script type="math/tex; mode=display">
-时间复杂度为:O(n log log n)</script><hr>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>以上是关于质数判断法和埃拉托斯特尼筛法的 Python 示例代码和相关说明.</p>
-<p><code>质数判断法</code> 更适用于判断单个素数</p>
-<p><code>埃拉托斯特尼筛法</code> 比较适合取得一定范围内的素数序列</p>
-<p>根据具体需求选择相应算法</p>
-<hr>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>素数</tag>
       </tags>
   </entry>
   <entry>
