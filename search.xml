@@ -51,93 +51,6 @@
       </tags>
   </entry>
   <entry>
-    <title>pandas基础之DataFrame</title>
-    <url>/posts/d366272/</url>
-    <content><![CDATA[<h3 id="简介"><a class="markdownIt-Anchor" href="#简介"></a> 简介</h3>
-<p>DataFrame是pandas中最常见的对象(series也是)</p>
-<p>DataFrame提供的是一个<strong>类似表的结构</strong>，<strong>由多个Series组成DataFrame 是一个表格型的数据类型</strong></p>
-<p>DataFrame 常用于表达二维数据,什么叫做二维呢 ?  非常接近于电子表格,它的竖行称之为 columns，称之为 index，也就是说可以通过 columns 和 index 来确定一个主句的位置。</p>
-<p>对于DataFrame的操作无非也就是<code>增删改查</code></p>
-<h3 id="dataframe的三种创建"><a class="markdownIt-Anchor" href="#dataframe的三种创建"></a> DataFrame的三种创建</h3>
-<p>DataFrame()函数的参数index的值相当于行索引，若不手动赋值，将默认从0开始分配。<strong>columns的值相当于列索引</strong>，若不手动赋值，也将默认从0开始分配。</p>
-<h4 id="二维数组创建常用"><a class="markdownIt-Anchor" href="#二维数组创建常用"></a> 二维数组创建(常用)</h4>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas  <span class="keyword">as</span> pd  </span><br><span class="line"><span class="keyword">import</span>  numpy  <span class="keyword">as</span> np </span><br><span class="line"></span><br><span class="line">s = np.random.randint(<span class="number">1</span>,<span class="number">100</span>,size = (<span class="number">3</span>,<span class="number">2</span>))</span><br><span class="line"></span><br><span class="line">df  = pd.DataFrame(s,index=[<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;b&#x27;</span>,<span class="string">&#x27;c&#x27;</span>],columns= [<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;B&#x27;</span>])</span><br></pre></td></tr></table></figure>
-<h4 id="字典式和列表创建"><a class="markdownIt-Anchor" href="#字典式和列表创建"></a> 字典式和列表创建</h4>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#  注意是字典里边有列表 </span></span><br><span class="line"><span class="comment"># 设置行和列</span></span><br><span class="line">data1 = &#123;</span><br><span class="line">    <span class="string">&quot;a&quot;</span>:[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],    <span class="comment"># 注意 字典里面第一个键 就是df 的columns </span></span><br><span class="line">    <span class="string">&quot;b&quot;</span>:[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],</span><br><span class="line">    <span class="string">&quot;c&quot;</span>:[<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>]   </span><br><span class="line">&#125;</span><br><span class="line">df = pd.DataFrame(data=data1, index=[<span class="string">&quot;p1&quot;</span>, <span class="string">&quot;p2&quot;</span>, <span class="string">&quot;p3&quot;</span>])</span><br><span class="line">df</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="字典和series创建"><a class="markdownIt-Anchor" href="#字典和series创建"></a> 字典和Series创建</h4>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data2 = &#123;<span class="string">&quot;one&quot;</span>:pd.Series([<span class="number">1</span>,<span class="number">2</span>,<span class="number">444</span>],), <span class="comment"># 必须得先添加index </span></span><br><span class="line">        <span class="string">&quot;two&quot;</span>:pd.Series([<span class="number">12</span>,<span class="number">3</span>,<span class="number">4</span>] )&#125;</span><br><span class="line">df = pd.DataFrame(data2)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="dataframe的常用属性和方法"><a class="markdownIt-Anchor" href="#dataframe的常用属性和方法"></a> Dataframe的常用属性和方法</h3>
-<h4 id="查看数据和类型"><a class="markdownIt-Anchor" href="#查看数据和类型"></a> 查看数据和类型</h4>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">df = pd.DataFrame(&#123;<span class="string">&#x27;Country&#x27;</span>: [<span class="string">&#x27;China&#x27;</span>, <span class="string">&#x27;China&#x27;</span>, <span class="string">&#x27;India&#x27;</span>, <span class="string">&#x27;India&#x27;</span>, <span class="string">&#x27;America&#x27;</span>, <span class="string">&#x27;Japan&#x27;</span>, <span class="string">&#x27;China&#x27;</span>, <span class="string">&#x27;India&#x27;</span>],</span><br><span class="line"></span><br><span class="line">                   <span class="string">&#x27;Income&#x27;</span>: [<span class="number">10000</span>, <span class="number">10000</span>, <span class="number">5000</span>, <span class="number">5002</span>, <span class="number">40000</span>, <span class="number">50000</span>, <span class="number">8000</span>, <span class="number">5000</span>],</span><br><span class="line"></span><br><span class="line">                   <span class="string">&#x27;Age&#x27;</span>: [<span class="number">50</span>, <span class="number">43</span>, <span class="number">34</span>, <span class="number">40</span>, <span class="number">25</span>, <span class="number">25</span>, <span class="number">45</span>, <span class="number">32</span>]&#125;</span><br><span class="line">                 )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df.head()  <span class="comment">#查看前5个 , 可以写数字 </span></span><br><span class="line">df.tail()  <span class="comment"># 查看后5个</span></span><br><span class="line">df.dtypes  <span class="comment">#  查看数据元素类型  s.dtype  和series进行对比</span></span><br><span class="line"><span class="built_in">type</span>(df)   <span class="comment"># 查看数据集的类型</span></span><br><span class="line">df.shape  <span class="comment"># shape是属性  不是方法 千万不要加括号 </span></span><br><span class="line">df.size</span><br><span class="line">df.info()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看索引</span></span><br><span class="line">df.index  <span class="comment">#  要注意没有括号</span></span><br><span class="line"><span class="comment"># 查看列名</span></span><br><span class="line">df.columns  <span class="comment">#  要注意没有括号</span></span><br><span class="line">df.values    <span class="comment">#  要注意没有括号  df.values  #  numpy类型数组</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="列索引设置行索引"><a class="markdownIt-Anchor" href="#列索引设置行索引"></a> 列索引设置行索引</h4>
-<p><strong>set_index    把列索引设置成行索引</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df_new = df.set_index(<span class="string">&#x27;Country&#x27;</span>)  <span class="comment">#  把 country列设置成索引  </span></span><br></pre></td></tr></table></figure>
-<h4 id="还原列索引"><a class="markdownIt-Anchor" href="#还原列索引"></a> 还原列索引</h4>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"> <span class="comment"># 即进行还原了刚才的set_index 的操作 </span></span><br><span class="line">df_new01 = df_new.reset_index()   <span class="comment"># 注意此时是 df_new</span></span><br><span class="line">df_new01 </span><br></pre></td></tr></table></figure>
-<h4 id="添加一行"><a class="markdownIt-Anchor" href="#添加一行"></a> 添加一行</h4>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 第一种方法 </span></span><br><span class="line">s= pd.Series([<span class="string">&#x27;i&#x27;</span>,<span class="number">100</span>,<span class="number">30</span>],index= [<span class="string">&#x27;Country&#x27;</span>,<span class="string">&#x27;Income&#x27;</span>,<span class="string">&#x27;Age&#x27;</span>])</span><br><span class="line">df.append(s,ignore_index= <span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二种方法 </span></span><br><span class="line">s= pd.Series([<span class="string">&#x27;i&#x27;</span>,<span class="number">100</span>,<span class="number">30</span>],index= [<span class="string">&#x27;Country&#x27;</span>,<span class="string">&#x27;Income&#x27;</span>,<span class="string">&#x27;Age&#x27;</span>])</span><br><span class="line">s.name = <span class="number">8</span>   <span class="comment">#必须设置name属性 这样才能进行添加 name的值是 要添加的索引值 </span></span><br><span class="line">df.append(s)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="删除一行"><a class="markdownIt-Anchor" href="#删除一行"></a> 删除一行</h4>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.drop(<span class="number">7</span>) <span class="comment"># 删除索引为7 的 </span></span><br><span class="line">df = df.drop([<span class="number">6</span>,<span class="number">8</span>])  <span class="comment"># 删除索引为6,8 行 默认是行  # 单个的话 有没有中括号都可以   默认删除为行 </span></span><br></pre></td></tr></table></figure>
-<h4 id="列操作"><a class="markdownIt-Anchor" href="#列操作"></a> 列操作</h4>
-<h5 id="查看列"><a class="markdownIt-Anchor" href="#查看列"></a> 查看列</h5>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.columns  <span class="comment">#  Index([&#x27;Country&#x27;, &#x27;Income&#x27;, &#x27;Age&#x27;], dtype=&#x27;object&#x27;)</span></span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;Country&#x27;</span>]  <span class="comment">#  df.Country 含义是一样的 是series形式</span></span><br><span class="line"></span><br><span class="line">df[[<span class="string">&#x27;Country&#x27;</span>,<span class="string">&#x27;Income&#x27;</span>]]  <span class="comment">#  取两列的值  注意传入的列表形式  最后是df形式</span></span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;Country&#x27;</span>].unique()  <span class="comment"># 去重 </span></span><br><span class="line">df[<span class="string">&#x27;Country&#x27;</span>].nunique()  <span class="comment">#  去重以后查看个数 </span></span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;Country&#x27;</span>].value_counts() <span class="comment"># 统计元素数据的个数 </span></span><br></pre></td></tr></table></figure>
-<h5 id="增加一列"><a class="markdownIt-Anchor" href="#增加一列"></a> 增加一列</h5>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df[<span class="string">&#x27;eco&#x27;</span>] = <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">9</span>)  <span class="comment">#  值的填入</span></span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;enco&#x27;</span>] = pd.Series(<span class="built_in">range</span>(<span class="number">9</span>))  </span><br><span class="line"></span><br><span class="line"><span class="comment">#会根据索引的对应进行填入 ,即series的和df 行索引 索引必须得相同  ,如果不相同,不会报错,但是会为缺失值 </span></span><br><span class="line">df[<span class="string">&#x27;enco&#x27;</span>] = pd.Series(<span class="built_in">range</span>(<span class="number">4</span>),index = [<span class="number">3</span>,<span class="number">43</span>,<span class="number">5</span>,<span class="number">6</span>])</span><br></pre></td></tr></table></figure>
-<h5 id="删除列"><a class="markdownIt-Anchor" href="#删除列"></a> 删除列</h5>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">df.drop(<span class="string">&#x27;Country&#x27;</span>)  <span class="comment"># 会报错</span></span><br><span class="line">df.drop(<span class="string">&#x27;Country&#x27;</span>,axis= <span class="number">1</span> )  <span class="comment"># 用drop需要指定行和列 axis= 1是列  ,但不是对原对象进行删除(重新输入df还会有country这一列)</span></span><br><span class="line">df.drop(<span class="string">&#x27;Country&#x27;</span>,axis= <span class="number">1</span>, inplace= <span class="literal">True</span> )  <span class="comment">#  直接对原对象进行删除  理解它很重要</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">del</span>  df[<span class="string">&#x27;Income&#x27;</span>]  <span class="comment">#  直接对原对象的列进行删除</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 特别注意  :  drop函数中   axis = 1  代表的是列  axis= 0 代表的是行 其他的函数则相反 </span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h5 id="对列的所有值进行修改"><a class="markdownIt-Anchor" href="#对列的所有值进行修改"></a> 对列的所有值进行修改</h5>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df[<span class="string">&#x27;Income&#x27;</span>] = <span class="number">20</span>  <span class="comment"># 进行赋值 </span></span><br></pre></td></tr></table></figure>
-<h5 id="通过布尔值进行获取重要"><a class="markdownIt-Anchor" href="#通过布尔值进行获取重要"></a> 通过布尔值进行获取(重要)</h5>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.Age  <span class="comment">#  查看年龄</span></span><br><span class="line">df.Age.mean()    <span class="comment"># 查看年龄的平均值 </span></span><br><span class="line">df.Age&gt; df.Age.mean()</span><br><span class="line"></span><br><span class="line">df[df.Age&gt; df.Age.mean()]  <span class="comment">#  代表把是 True 值的都拿到了 </span></span><br></pre></td></tr></table></figure>
-<h4 id="行操作"><a class="markdownIt-Anchor" href="#行操作"></a> 行操作</h4>
-<p>问题如果我想要取第三行,第四行,第一列和第二列的数据 形成一个Dataframe怎么取  ?</p>
-<h5 id="ilock-和lock的区别"><a class="markdownIt-Anchor" href="#ilock-和lock的区别"></a> ilock 和lock的区别</h5>
-<table>
-<thead>
-<tr>
-<th>获取行子集的方法</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>loc</td>
-<td>基于索引标签获取行子集(显示索引)</td>
-</tr>
-<tr>
-<td>ilock</td>
-<td>基于行索引获取行子集(隐式索引)</td>
-</tr>
-</tbody>
-</table>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;Country&#x27;</span>:[<span class="string">&#x27;China&#x27;</span>, <span class="string">&#x27;China&#x27;</span>, <span class="string">&#x27;India&#x27;</span>, <span class="string">&#x27;India&#x27;</span>, <span class="string">&#x27;America&#x27;</span>, <span class="string">&#x27;Japan&#x27;</span>, <span class="string">&#x27;China&#x27;</span>, <span class="string">&#x27;India&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;Income&#x27;</span>: [<span class="number">10000</span>, <span class="number">10000</span>, <span class="number">5000</span>, <span class="number">5002</span>, <span class="number">40000</span>, <span class="number">50000</span>, <span class="number">8000</span>, <span class="number">5000</span>],</span><br><span class="line">    <span class="string">&#x27;Age&#x27;</span>: [<span class="number">50</span>, <span class="number">43</span>, <span class="number">34</span>, <span class="number">40</span>, <span class="number">25</span>, <span class="number">25</span>, <span class="number">45</span>, <span class="number">32</span>]</span><br><span class="line">&#125;,index = [<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;b&#x27;</span>,<span class="string">&#x27;c&#x27;</span>,<span class="string">&#x27;d&#x27;</span>,<span class="string">&#x27;e&#x27;</span>,<span class="string">&#x27;f&#x27;</span>,<span class="string">&#x27;g&#x27;</span>,<span class="string">&#x27;h&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取列 </span></span><br><span class="line">df[<span class="string">&#x27;Country&#x27;</span>]  <span class="comment"># series的形式 </span></span><br><span class="line">df[[<span class="string">&#x27;Country&#x27;</span>]]   <span class="comment">#  Dataframe的形式 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 取列已经知道了,取行怎么取 </span></span><br><span class="line">df.head(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取单行 loc后面默认取行 </span></span><br><span class="line">df.loc[<span class="string">&#x27;a&#x27;</span>] <span class="comment"># 把显示索引为 a 的 行数据取出来 是Series类型 </span></span><br><span class="line">df.loc[[<span class="string">&#x27;a&#x27;</span>]] <span class="comment"># 把显示索引为 a 的 行数据取出来 是Dataframe的类型  因为是二维</span></span><br><span class="line"></span><br><span class="line">df.loc[-<span class="number">1</span>]  <span class="comment"># 会报错  因为没有行名(显示索引)是为 -1  的 </span></span><br><span class="line">df.iloc[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取指定多行</span></span><br><span class="line">df.iloc[[<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>]] <span class="comment">#  获取多行</span></span><br><span class="line">df[<span class="number">0</span>:<span class="number">3</span>]  <span class="comment"># 注意是隐式索引(了解)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 行列混合</span></span><br><span class="line">语法是df.loc[行,列]   (iloc同样适用)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取列 </span></span><br><span class="line">df.loc[:,<span class="string">&#x27;Country&#x27;</span>] <span class="comment">#  逗号左边的冒号是的是取所有的行,冒号右边是取指定的列  series的形式 </span></span><br><span class="line">df[<span class="string">&#x27;Country&#x27;</span>]  <span class="comment"># 等同于</span></span><br><span class="line"></span><br><span class="line">df.loc[:,[<span class="string">&#x27;Country&#x27;</span>,<span class="string">&#x27;Income&#x27;</span>]]  <span class="comment">#  特别注意:  loc对应的是名字 也就是显示索引   Dataframe的形式 </span></span><br><span class="line">df[[<span class="string">&#x27;Country&#x27;</span>,<span class="string">&#x27;Age&#x27;</span>]]   <span class="comment"># 等同于 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#获取指定的多行多列 : 特别注意两个中括号的使用 Dataframe的形式 </span></span><br><span class="line">df.loc[[<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;b&#x27;</span>],[<span class="string">&#x27;Country&#x27;</span>,<span class="string">&#x27;Age&#x27;</span>]]</span><br><span class="line">df.iloc[[<span class="number">0</span>,<span class="number">2</span>],[<span class="number">1</span>,<span class="number">2</span>]]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df.loc[<span class="string">&#x27;a&#x27;</span>:<span class="string">&#x27;e&#x27;</span>,<span class="string">&#x27;Country&#x27;</span>:<span class="string">&#x27;Age&#x27;</span>]  <span class="comment"># 这个就不用加中括号  因为有冒号 </span></span><br><span class="line">df.iloc[<span class="number">0</span>:<span class="number">4</span>,<span class="number">0</span>:<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取单个数据</span></span><br><span class="line">df.loc[<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;Country&#x27;</span>] </span><br><span class="line">df.loc[[<span class="string">&#x27;a&#x27;</span>],[<span class="string">&#x27;Country&#x27;</span>]]</span><br><span class="line"><span class="comment"># 获取单个数据的Dataframe, 特别注意中括号的使用  小窍门: 只要前后都有两个中括号 一定就是Dataframe的类型包括冒号 也算是中括号的含义</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 特别注意 就是显式索引和隐式索引区间的问题  </span></span><br><span class="line">df.iloc[<span class="number">0</span>: <span class="number">3</span>,<span class="number">0</span>:<span class="number">3</span>]</span><br><span class="line">df.loc[<span class="string">&#x27;a&#x27;</span>:<span class="string">&#x27;c&#x27;</span>,<span class="string">&#x27;Age&#x27;</span>: <span class="string">&#x27;Income&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 小练习: 取国家为India前两行行数据</span></span><br><span class="line"></span><br><span class="line">df[df.Country == <span class="string">&#x27;India&#x27;</span>].iloc[<span class="number">0</span>:<span class="number">2</span>]</span><br><span class="line">df[df.Country == <span class="string">&#x27;India&#x27;</span>].head(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 小练习 : Age列等于偶数那些数据 赋值成 90岁 </span></span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;Age&#x27;</span>] = <span class="number">90</span>  <span class="comment">#  正常赋值 </span></span><br><span class="line"></span><br><span class="line">df[df[<span class="string">&#x27;Age&#x27;</span>] %<span class="number">2</span> == <span class="number">0</span> ][<span class="string">&#x27;Age&#x27;</span>] = <span class="number">90</span>    <span class="comment"># 会出现异样  </span></span><br><span class="line"></span><br><span class="line">new__index = df[df[<span class="string">&#x27;Age&#x27;</span>] %<span class="number">2</span> == <span class="number">0</span> ].index   <span class="comment">#先取出index </span></span><br><span class="line">df.loc[new__index,<span class="string">&#x27;Age&#x27;</span>] =  <span class="number">90</span></span><br></pre></td></tr></table></figure>
-<p>loc 更加灵活多变，代码的可读性更高，iloc 的代码简洁，但可读性不高。具体在数据<br />
-分析工作中使用哪一种方法，根据情况而定，大多数时候建议使用 loc 方法.</p>
-<h5 id="易错点"><a class="markdownIt-Anchor" href="#易错点"></a> 易错点</h5>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">df[<span class="string">&#x27;a&#x27;</span> : <span class="string">&#x27;c&#x27;</span>]  <span class="comment">#   显性索引都是闭区间</span></span><br><span class="line">df[<span class="number">0</span> : <span class="number">4</span>]   <span class="comment"># 隐式索引是左闭右开区间  </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df.loc[:,<span class="string">&#x27;Income&#x27;</span>]  <span class="comment"># series类型   一般会df[&#x27;Income&#x27;]  取值 </span></span><br><span class="line">df.loc[:,[<span class="string">&#x27;Income&#x27;</span>]]  <span class="comment">#  Dataframe类型 ,小窍门 : 因为有两个中括号(冒号也有中括号的含义)是二维的有行和列 </span></span><br><span class="line"> </span><br><span class="line">df.loc[<span class="string">&#x27;b&#x27;</span>,<span class="string">&#x27;Income&#x27;</span>]  <span class="comment">#  取值 为一个元素</span></span><br><span class="line">df.loc[<span class="string">&#x27;b&#x27;</span>,[<span class="string">&#x27;Income&#x27;</span>]]  <span class="comment"># series类型 ,只有一个&#x27;b&#x27;,是series类型 此时loc分不清取一个还是多个 </span></span><br><span class="line"></span><br><span class="line">df.loc[[<span class="string">&#x27;b&#x27;</span>],[<span class="string">&#x27;Income&#x27;</span>]]  <span class="comment"># 这样才是 Datafame类型  和之前的对比 ,因为是有两个中括号</span></span><br></pre></td></tr></table></figure>
-<h4 id="写入文件"><a class="markdownIt-Anchor" href="#写入文件"></a> 写入文件</h4>
-<p><strong>特别注意 :</strong></p>
-<p>写入文件的的时候 , 一定要一个单元格运行一次代码  不要一行单元格运行多个代码 否则会出现尴尬的错误</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">test_dict = &#123;</span><br><span class="line">    <span class="string">&#x27;name&#x27;</span>: [<span class="string">&#x27;Alice&#x27;</span>, <span class="string">&#x27;Bob&#x27;</span>, <span class="string">&#x27;Cindy&#x27;</span>, <span class="string">&#x27;Eric&#x27;</span>, <span class="string">&#x27;Helen&#x27;</span>, <span class="string">&#x27;Grace &#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;math&#x27;</span>: [<span class="number">90</span>, <span class="number">89</span>, <span class="number">99</span>, <span class="number">78</span>, <span class="number">97</span>, <span class="number">93</span>],</span><br><span class="line">    <span class="string">&#x27;english&#x27;</span>: [<span class="number">89</span>, <span class="number">94</span>, <span class="number">80</span>, <span class="number">94</span>, <span class="number">94</span>, <span class="number">90</span>]</span><br><span class="line">&#125;  <span class="comment"># 准备数据</span></span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(test_dict)   </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df.to_csv(<span class="string">&#x27;./ceshi2.csv&#x27;</span>)  <span class="comment"># 存储数据 </span></span><br><span class="line"></span><br><span class="line">pd.read_csv(<span class="string">&#x27;./ceshi2.csv&#x27;</span>)  <span class="comment">#  读入数据 </span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>非常尴尬的一点就是  :   多了一个 unnameed : 0  这一列   这是在 存储 csv的时候  默认把之前的在jupyter显示的索引存进去</p>
-<p>两种办法解决  :</p>
-<ul>
-<li>to_csv(index = False )   即可解决</li>
-<li>用drop进行删除列为  unnameed : 0   然后 drop的参数里变成  inplace  =  True 即可</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">test_dict = &#123;<span class="string">&#x27;id&#x27;</span>:[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],<span class="string">&#x27;name&#x27;</span>:[<span class="string">&#x27;Alice&#x27;</span>,<span class="string">&#x27;Bob&#x27;</span>,<span class="string">&#x27;Cindy&#x27;</span>,<span class="string">&#x27;Eric&#x27;</span>,<span class="string">&#x27;Helen&#x27;</span>,<span class="string">&#x27;Grace &#x27;</span>],<span class="string">&#x27;math&#x27;</span>:[<span class="number">90</span>,<span class="number">89</span>,<span class="number">99</span>,<span class="number">78</span>,<span class="number">97</span>,<span class="number">93</span>],<span class="string">&#x27;english&#x27;</span>:[<span class="number">89</span>,<span class="number">94</span>,<span class="number">80</span>,<span class="number">94</span>,<span class="number">94</span>,<span class="number">90</span>]&#125;</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(test_dict)</span><br><span class="line"></span><br><span class="line">df.to_csv(<span class="string">&#x27;./ceshi2.csv&#x27;</span>,index =  <span class="literal">False</span>)  <span class="comment"># 消除  unnamed 列 </span></span><br><span class="line"></span><br><span class="line">pd.read_csv(<span class="string">&#x27;./ceshi2.csv&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="案例分析"><a class="markdownIt-Anchor" href="#案例分析"></a> 案例分析</h3>
-<p>数据集 :  scientists.csv</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span>  numpy <span class="keyword">as</span> np </span><br><span class="line"></span><br><span class="line">df  = pd.read_csv(<span class="string">&#x27;./scientists.csv&#x27;</span>)</span><br><span class="line">df.head()</span><br><span class="line">df.tail()</span><br><span class="line">df.dtypes</span><br><span class="line">df.info</span><br><span class="line">df.index</span><br><span class="line">df.columns</span><br><span class="line">df.values</span><br><span class="line">df.shape</span><br><span class="line"><span class="comment"># df.set_index(&#x27;Name&#x27;)</span></span><br><span class="line"><span class="comment"># df.set_index(&#x27;Name&#x27;).reset_index()  # 还原 </span></span><br><span class="line"><span class="comment"># df.reset_index(drop = True)  #  在原来的索引乱序的前提时候用  drop =  True   series的时候已经讲过 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 首先看一下数据类型是什么,才能在添加行的时候对症下药</span></span><br><span class="line">df.info()</span><br><span class="line">s = pd.Series([<span class="string">&#x27;Lee&#x27;</span>,<span class="string">&#x27;1900-03-03&#x27;</span>,<span class="string">&#x27;1999-03-03&#x27;</span>,<span class="number">90</span>,<span class="string">&#x27;musician&#x27;</span>],index = [<span class="string">&#x27;Name&#x27;</span>,<span class="string">&#x27;Born&#x27;</span>,<span class="string">&#x27;Died&#x27;</span>,<span class="string">&#x27;Age&#x27;</span>,<span class="string">&#x27;Occupation&#x27;</span>])</span><br><span class="line">df.append(s,ignore_index = <span class="literal">True</span>)  <span class="comment">#  或者是用之前的 s.name = 8 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># df.drop(7)  #删除第7行  或者 加中括号 [4,7] 删除4, 7 行 </span></span><br><span class="line"><span class="comment"># df.drop(&#x27;Name&#x27;,axis = 1)    # inplace = True  表示对最原始的df进行修改 ,但是注意 不是修改csv 文件 !</span></span><br><span class="line">df.Name[<span class="number">0</span>:<span class="number">4</span>]   <span class="comment">#  选择前4个科学家的名字 </span></span><br><span class="line"><span class="comment"># df[&#x27;other&#x27;] = range(0,len(df))  </span></span><br><span class="line"><span class="comment"># df[&#x27;other&#x27;] = pd.Series(np.random.randint(1,100,size =(8,)))</span></span><br><span class="line">df[df[<span class="string">&#x27;Age&#x27;</span>] &gt; df[<span class="string">&#x27;Age&#x27;</span>].mean()]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df.iloc[<span class="number">0</span>:<span class="number">6</span>]  <span class="comment">#说下区别 </span></span><br><span class="line">df.loc[<span class="number">0</span>:<span class="number">6</span>] <span class="comment">#显示索引 </span></span><br><span class="line"></span><br><span class="line">df.iloc[<span class="number">0</span>,<span class="number">2</span>]   <span class="comment"># 获取单个数据</span></span><br><span class="line">df.loc[<span class="number">0</span>,<span class="string">&#x27;Age&#x27;</span>]</span><br><span class="line"></span><br><span class="line">df.iloc[<span class="number">0</span>]  <span class="comment"># 取行</span></span><br><span class="line">df[<span class="string">&#x27;Age&#x27;</span>]  <span class="comment"># 取列 </span></span><br><span class="line"></span><br><span class="line">df[[<span class="string">&#x27;Age&#x27;</span>,<span class="string">&#x27;Name&#x27;</span>]] <span class="comment"># 取指定列 </span></span><br><span class="line">df.iloc[[<span class="number">1</span>,<span class="number">3</span>,<span class="number">4</span>]]  <span class="comment">#  取多行</span></span><br><span class="line"></span><br><span class="line">df.loc[[<span class="number">2</span>,<span class="number">4</span>],[<span class="string">&#x27;Age&#x27;</span>,<span class="string">&#x27;Name&#x27;</span>]]  <span class="comment">#  取指定的多行和多列 </span></span><br><span class="line">df.iloc[[<span class="number">2</span>,<span class="number">4</span>],[<span class="number">1</span>,<span class="number">4</span>]]  <span class="comment"># 用 iloc 进行获取 指定的多行多列 </span></span><br><span class="line"></span><br><span class="line">df.loc[[<span class="number">2</span>,<span class="number">4</span>],[<span class="string">&#x27;Age&#x27;</span>,<span class="string">&#x27;Name&#x27;</span>]].loc[<span class="number">2</span>,<span class="string">&#x27;Age&#x27;</span>] <span class="comment"># 基础之前在取值 </span></span><br><span class="line"></span><br><span class="line">df = df.iloc[[<span class="number">2</span>,<span class="number">4</span>],[<span class="number">1</span>,<span class="number">4</span>]]  <span class="comment"># 用 iloc 进行获取 指定的多行多列 </span></span><br><span class="line">df.to_csv(<span class="string">&#x27;./测试.csv&#x27;</span>,index =  <span class="literal">False</span>)</span><br><span class="line">df = pd.read_csv(<span class="string">&#x27;测试.csv&#x27;</span>)</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>数据分析</category>
-      </categories>
-      <tags>
-        <tag>pandas, 数据分析</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>pandas基础Series</title>
     <url>/posts/a288cc11/</url>
     <content><![CDATA[<h2 id="pandas基础之series"><a class="markdownIt-Anchor" href="#pandas基础之series"></a> <strong>pandas基础之series</strong></h2>
@@ -243,6 +156,93 @@
 <h4 id="读取excel文件"><a class="markdownIt-Anchor" href="#读取excel文件"></a> 读取excel文件</h4>
 <p>pandas 提供了 read_excel 函数来读取“xls”“xlsx”两种 Excel 文件,如果是csv文件就用read_csv方法进行读取.</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd  </span><br><span class="line">df = pd.read_excel(<span class="string">&#x27;./豆瓣电影数据.xlsx&#x27;</span>)  <span class="comment">#  read_excel方法进行读取excel文件 </span></span><br><span class="line">df.head()  <span class="comment">#  默认取前五行  </span></span><br><span class="line"></span><br><span class="line"> <span class="comment">#  属性 </span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(df[<span class="string">&#x27;年代&#x27;</span>]))  <span class="comment"># 查看 数据类型 </span></span><br><span class="line">df[<span class="string">&#x27;年代&#x27;</span>].index  <span class="comment"># 查看series的索引属性</span></span><br><span class="line">df[<span class="string">&#x27;年代&#x27;</span>].values   <span class="comment">#  查看  series的 值 </span></span><br><span class="line">df[<span class="string">&#x27;年代&#x27;</span>].size  <span class="comment">#  查看个数 </span></span><br><span class="line">df[<span class="string">&#x27;年代&#x27;</span>].shape  <span class="comment"># 查看形状 </span></span><br><span class="line">df[<span class="string">&#x27;年代&#x27;</span>].dtype  <span class="comment">#  查看里面元素的类型 </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法 </span></span><br><span class="line">df[<span class="string">&#x27;年代&#x27;</span>].to_dict()[<span class="number">1</span>]</span><br><span class="line">df[<span class="string">&#x27;年代&#x27;</span>].tolist()</span><br><span class="line">df[<span class="string">&#x27;年代&#x27;</span>].isnull()</span><br><span class="line">df[<span class="string">&#x27;年代&#x27;</span>].head(<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">df_new = df[<span class="string">&#x27;年代&#x27;</span>].head(<span class="number">10</span>).drop(<span class="number">7</span>)   <span class="comment">#删除 索引为7  的数据 </span></span><br><span class="line"></span><br><span class="line">df_new.sort_index(ascending= <span class="literal">False</span>)   <span class="comment"># 降序排列 </span></span><br><span class="line"></span><br><span class="line">df_new.append(pd.Series([<span class="number">1999</span>])).reset_index(drop = <span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算</span></span><br><span class="line">df_new.count() <span class="comment">#  计算行数</span></span><br><span class="line">df_new.<span class="built_in">min</span>()  <span class="comment"># 最小值</span></span><br><span class="line">df_new.<span class="built_in">max</span>()   <span class="comment"># 最大值 </span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>数据分析</category>
+      </categories>
+      <tags>
+        <tag>pandas, 数据分析</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>pandas基础之DataFrame</title>
+    <url>/posts/d366272/</url>
+    <content><![CDATA[<h3 id="简介"><a class="markdownIt-Anchor" href="#简介"></a> 简介</h3>
+<p>DataFrame是pandas中最常见的对象(series也是)</p>
+<p>DataFrame提供的是一个<strong>类似表的结构</strong>，<strong>由多个Series组成DataFrame 是一个表格型的数据类型</strong></p>
+<p>DataFrame 常用于表达二维数据,什么叫做二维呢 ?  非常接近于电子表格,它的竖行称之为 columns，称之为 index，也就是说可以通过 columns 和 index 来确定一个主句的位置。</p>
+<p>对于DataFrame的操作无非也就是<code>增删改查</code></p>
+<h3 id="dataframe的三种创建"><a class="markdownIt-Anchor" href="#dataframe的三种创建"></a> DataFrame的三种创建</h3>
+<p>DataFrame()函数的参数index的值相当于行索引，若不手动赋值，将默认从0开始分配。<strong>columns的值相当于列索引</strong>，若不手动赋值，也将默认从0开始分配。</p>
+<h4 id="二维数组创建常用"><a class="markdownIt-Anchor" href="#二维数组创建常用"></a> 二维数组创建(常用)</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas  <span class="keyword">as</span> pd  </span><br><span class="line"><span class="keyword">import</span>  numpy  <span class="keyword">as</span> np </span><br><span class="line"></span><br><span class="line">s = np.random.randint(<span class="number">1</span>,<span class="number">100</span>,size = (<span class="number">3</span>,<span class="number">2</span>))</span><br><span class="line"></span><br><span class="line">df  = pd.DataFrame(s,index=[<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;b&#x27;</span>,<span class="string">&#x27;c&#x27;</span>],columns= [<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;B&#x27;</span>])</span><br></pre></td></tr></table></figure>
+<h4 id="字典式和列表创建"><a class="markdownIt-Anchor" href="#字典式和列表创建"></a> 字典式和列表创建</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#  注意是字典里边有列表 </span></span><br><span class="line"><span class="comment"># 设置行和列</span></span><br><span class="line">data1 = &#123;</span><br><span class="line">    <span class="string">&quot;a&quot;</span>:[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],    <span class="comment"># 注意 字典里面第一个键 就是df 的columns </span></span><br><span class="line">    <span class="string">&quot;b&quot;</span>:[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],</span><br><span class="line">    <span class="string">&quot;c&quot;</span>:[<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>]   </span><br><span class="line">&#125;</span><br><span class="line">df = pd.DataFrame(data=data1, index=[<span class="string">&quot;p1&quot;</span>, <span class="string">&quot;p2&quot;</span>, <span class="string">&quot;p3&quot;</span>])</span><br><span class="line">df</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="字典和series创建"><a class="markdownIt-Anchor" href="#字典和series创建"></a> 字典和Series创建</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data2 = &#123;<span class="string">&quot;one&quot;</span>:pd.Series([<span class="number">1</span>,<span class="number">2</span>,<span class="number">444</span>],), <span class="comment"># 必须得先添加index </span></span><br><span class="line">        <span class="string">&quot;two&quot;</span>:pd.Series([<span class="number">12</span>,<span class="number">3</span>,<span class="number">4</span>] )&#125;</span><br><span class="line">df = pd.DataFrame(data2)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="dataframe的常用属性和方法"><a class="markdownIt-Anchor" href="#dataframe的常用属性和方法"></a> Dataframe的常用属性和方法</h3>
+<h4 id="查看数据和类型"><a class="markdownIt-Anchor" href="#查看数据和类型"></a> 查看数据和类型</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">df = pd.DataFrame(&#123;<span class="string">&#x27;Country&#x27;</span>: [<span class="string">&#x27;China&#x27;</span>, <span class="string">&#x27;China&#x27;</span>, <span class="string">&#x27;India&#x27;</span>, <span class="string">&#x27;India&#x27;</span>, <span class="string">&#x27;America&#x27;</span>, <span class="string">&#x27;Japan&#x27;</span>, <span class="string">&#x27;China&#x27;</span>, <span class="string">&#x27;India&#x27;</span>],</span><br><span class="line"></span><br><span class="line">                   <span class="string">&#x27;Income&#x27;</span>: [<span class="number">10000</span>, <span class="number">10000</span>, <span class="number">5000</span>, <span class="number">5002</span>, <span class="number">40000</span>, <span class="number">50000</span>, <span class="number">8000</span>, <span class="number">5000</span>],</span><br><span class="line"></span><br><span class="line">                   <span class="string">&#x27;Age&#x27;</span>: [<span class="number">50</span>, <span class="number">43</span>, <span class="number">34</span>, <span class="number">40</span>, <span class="number">25</span>, <span class="number">25</span>, <span class="number">45</span>, <span class="number">32</span>]&#125;</span><br><span class="line">                 )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df.head()  <span class="comment">#查看前5个 , 可以写数字 </span></span><br><span class="line">df.tail()  <span class="comment"># 查看后5个</span></span><br><span class="line">df.dtypes  <span class="comment">#  查看数据元素类型  s.dtype  和series进行对比</span></span><br><span class="line"><span class="built_in">type</span>(df)   <span class="comment"># 查看数据集的类型</span></span><br><span class="line">df.shape  <span class="comment"># shape是属性  不是方法 千万不要加括号 </span></span><br><span class="line">df.size</span><br><span class="line">df.info()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看索引</span></span><br><span class="line">df.index  <span class="comment">#  要注意没有括号</span></span><br><span class="line"><span class="comment"># 查看列名</span></span><br><span class="line">df.columns  <span class="comment">#  要注意没有括号</span></span><br><span class="line">df.values    <span class="comment">#  要注意没有括号  df.values  #  numpy类型数组</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="列索引设置行索引"><a class="markdownIt-Anchor" href="#列索引设置行索引"></a> 列索引设置行索引</h4>
+<p><strong>set_index    把列索引设置成行索引</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df_new = df.set_index(<span class="string">&#x27;Country&#x27;</span>)  <span class="comment">#  把 country列设置成索引  </span></span><br></pre></td></tr></table></figure>
+<h4 id="还原列索引"><a class="markdownIt-Anchor" href="#还原列索引"></a> 还原列索引</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"> <span class="comment"># 即进行还原了刚才的set_index 的操作 </span></span><br><span class="line">df_new01 = df_new.reset_index()   <span class="comment"># 注意此时是 df_new</span></span><br><span class="line">df_new01 </span><br></pre></td></tr></table></figure>
+<h4 id="添加一行"><a class="markdownIt-Anchor" href="#添加一行"></a> 添加一行</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 第一种方法 </span></span><br><span class="line">s= pd.Series([<span class="string">&#x27;i&#x27;</span>,<span class="number">100</span>,<span class="number">30</span>],index= [<span class="string">&#x27;Country&#x27;</span>,<span class="string">&#x27;Income&#x27;</span>,<span class="string">&#x27;Age&#x27;</span>])</span><br><span class="line">df.append(s,ignore_index= <span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二种方法 </span></span><br><span class="line">s= pd.Series([<span class="string">&#x27;i&#x27;</span>,<span class="number">100</span>,<span class="number">30</span>],index= [<span class="string">&#x27;Country&#x27;</span>,<span class="string">&#x27;Income&#x27;</span>,<span class="string">&#x27;Age&#x27;</span>])</span><br><span class="line">s.name = <span class="number">8</span>   <span class="comment">#必须设置name属性 这样才能进行添加 name的值是 要添加的索引值 </span></span><br><span class="line">df.append(s)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="删除一行"><a class="markdownIt-Anchor" href="#删除一行"></a> 删除一行</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.drop(<span class="number">7</span>) <span class="comment"># 删除索引为7 的 </span></span><br><span class="line">df = df.drop([<span class="number">6</span>,<span class="number">8</span>])  <span class="comment"># 删除索引为6,8 行 默认是行  # 单个的话 有没有中括号都可以   默认删除为行 </span></span><br></pre></td></tr></table></figure>
+<h4 id="列操作"><a class="markdownIt-Anchor" href="#列操作"></a> 列操作</h4>
+<h5 id="查看列"><a class="markdownIt-Anchor" href="#查看列"></a> 查看列</h5>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.columns  <span class="comment">#  Index([&#x27;Country&#x27;, &#x27;Income&#x27;, &#x27;Age&#x27;], dtype=&#x27;object&#x27;)</span></span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;Country&#x27;</span>]  <span class="comment">#  df.Country 含义是一样的 是series形式</span></span><br><span class="line"></span><br><span class="line">df[[<span class="string">&#x27;Country&#x27;</span>,<span class="string">&#x27;Income&#x27;</span>]]  <span class="comment">#  取两列的值  注意传入的列表形式  最后是df形式</span></span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;Country&#x27;</span>].unique()  <span class="comment"># 去重 </span></span><br><span class="line">df[<span class="string">&#x27;Country&#x27;</span>].nunique()  <span class="comment">#  去重以后查看个数 </span></span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;Country&#x27;</span>].value_counts() <span class="comment"># 统计元素数据的个数 </span></span><br></pre></td></tr></table></figure>
+<h5 id="增加一列"><a class="markdownIt-Anchor" href="#增加一列"></a> 增加一列</h5>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df[<span class="string">&#x27;eco&#x27;</span>] = <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">9</span>)  <span class="comment">#  值的填入</span></span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;enco&#x27;</span>] = pd.Series(<span class="built_in">range</span>(<span class="number">9</span>))  </span><br><span class="line"></span><br><span class="line"><span class="comment">#会根据索引的对应进行填入 ,即series的和df 行索引 索引必须得相同  ,如果不相同,不会报错,但是会为缺失值 </span></span><br><span class="line">df[<span class="string">&#x27;enco&#x27;</span>] = pd.Series(<span class="built_in">range</span>(<span class="number">4</span>),index = [<span class="number">3</span>,<span class="number">43</span>,<span class="number">5</span>,<span class="number">6</span>])</span><br></pre></td></tr></table></figure>
+<h5 id="删除列"><a class="markdownIt-Anchor" href="#删除列"></a> 删除列</h5>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">df.drop(<span class="string">&#x27;Country&#x27;</span>)  <span class="comment"># 会报错</span></span><br><span class="line">df.drop(<span class="string">&#x27;Country&#x27;</span>,axis= <span class="number">1</span> )  <span class="comment"># 用drop需要指定行和列 axis= 1是列  ,但不是对原对象进行删除(重新输入df还会有country这一列)</span></span><br><span class="line">df.drop(<span class="string">&#x27;Country&#x27;</span>,axis= <span class="number">1</span>, inplace= <span class="literal">True</span> )  <span class="comment">#  直接对原对象进行删除  理解它很重要</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">del</span>  df[<span class="string">&#x27;Income&#x27;</span>]  <span class="comment">#  直接对原对象的列进行删除</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 特别注意  :  drop函数中   axis = 1  代表的是列  axis= 0 代表的是行 其他的函数则相反 </span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="对列的所有值进行修改"><a class="markdownIt-Anchor" href="#对列的所有值进行修改"></a> 对列的所有值进行修改</h5>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df[<span class="string">&#x27;Income&#x27;</span>] = <span class="number">20</span>  <span class="comment"># 进行赋值 </span></span><br></pre></td></tr></table></figure>
+<h5 id="通过布尔值进行获取重要"><a class="markdownIt-Anchor" href="#通过布尔值进行获取重要"></a> 通过布尔值进行获取(重要)</h5>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.Age  <span class="comment">#  查看年龄</span></span><br><span class="line">df.Age.mean()    <span class="comment"># 查看年龄的平均值 </span></span><br><span class="line">df.Age&gt; df.Age.mean()</span><br><span class="line"></span><br><span class="line">df[df.Age&gt; df.Age.mean()]  <span class="comment">#  代表把是 True 值的都拿到了 </span></span><br></pre></td></tr></table></figure>
+<h4 id="行操作"><a class="markdownIt-Anchor" href="#行操作"></a> 行操作</h4>
+<p>问题如果我想要取第三行,第四行,第一列和第二列的数据 形成一个Dataframe怎么取  ?</p>
+<h5 id="ilock-和lock的区别"><a class="markdownIt-Anchor" href="#ilock-和lock的区别"></a> ilock 和lock的区别</h5>
+<table>
+<thead>
+<tr>
+<th>获取行子集的方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>loc</td>
+<td>基于索引标签获取行子集(显示索引)</td>
+</tr>
+<tr>
+<td>ilock</td>
+<td>基于行索引获取行子集(隐式索引)</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;Country&#x27;</span>:[<span class="string">&#x27;China&#x27;</span>, <span class="string">&#x27;China&#x27;</span>, <span class="string">&#x27;India&#x27;</span>, <span class="string">&#x27;India&#x27;</span>, <span class="string">&#x27;America&#x27;</span>, <span class="string">&#x27;Japan&#x27;</span>, <span class="string">&#x27;China&#x27;</span>, <span class="string">&#x27;India&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;Income&#x27;</span>: [<span class="number">10000</span>, <span class="number">10000</span>, <span class="number">5000</span>, <span class="number">5002</span>, <span class="number">40000</span>, <span class="number">50000</span>, <span class="number">8000</span>, <span class="number">5000</span>],</span><br><span class="line">    <span class="string">&#x27;Age&#x27;</span>: [<span class="number">50</span>, <span class="number">43</span>, <span class="number">34</span>, <span class="number">40</span>, <span class="number">25</span>, <span class="number">25</span>, <span class="number">45</span>, <span class="number">32</span>]</span><br><span class="line">&#125;,index = [<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;b&#x27;</span>,<span class="string">&#x27;c&#x27;</span>,<span class="string">&#x27;d&#x27;</span>,<span class="string">&#x27;e&#x27;</span>,<span class="string">&#x27;f&#x27;</span>,<span class="string">&#x27;g&#x27;</span>,<span class="string">&#x27;h&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取列 </span></span><br><span class="line">df[<span class="string">&#x27;Country&#x27;</span>]  <span class="comment"># series的形式 </span></span><br><span class="line">df[[<span class="string">&#x27;Country&#x27;</span>]]   <span class="comment">#  Dataframe的形式 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 取列已经知道了,取行怎么取 </span></span><br><span class="line">df.head(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取单行 loc后面默认取行 </span></span><br><span class="line">df.loc[<span class="string">&#x27;a&#x27;</span>] <span class="comment"># 把显示索引为 a 的 行数据取出来 是Series类型 </span></span><br><span class="line">df.loc[[<span class="string">&#x27;a&#x27;</span>]] <span class="comment"># 把显示索引为 a 的 行数据取出来 是Dataframe的类型  因为是二维</span></span><br><span class="line"></span><br><span class="line">df.loc[-<span class="number">1</span>]  <span class="comment"># 会报错  因为没有行名(显示索引)是为 -1  的 </span></span><br><span class="line">df.iloc[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取指定多行</span></span><br><span class="line">df.iloc[[<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>]] <span class="comment">#  获取多行</span></span><br><span class="line">df[<span class="number">0</span>:<span class="number">3</span>]  <span class="comment"># 注意是隐式索引(了解)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 行列混合</span></span><br><span class="line">语法是df.loc[行,列]   (iloc同样适用)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取列 </span></span><br><span class="line">df.loc[:,<span class="string">&#x27;Country&#x27;</span>] <span class="comment">#  逗号左边的冒号是的是取所有的行,冒号右边是取指定的列  series的形式 </span></span><br><span class="line">df[<span class="string">&#x27;Country&#x27;</span>]  <span class="comment"># 等同于</span></span><br><span class="line"></span><br><span class="line">df.loc[:,[<span class="string">&#x27;Country&#x27;</span>,<span class="string">&#x27;Income&#x27;</span>]]  <span class="comment">#  特别注意:  loc对应的是名字 也就是显示索引   Dataframe的形式 </span></span><br><span class="line">df[[<span class="string">&#x27;Country&#x27;</span>,<span class="string">&#x27;Age&#x27;</span>]]   <span class="comment"># 等同于 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#获取指定的多行多列 : 特别注意两个中括号的使用 Dataframe的形式 </span></span><br><span class="line">df.loc[[<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;b&#x27;</span>],[<span class="string">&#x27;Country&#x27;</span>,<span class="string">&#x27;Age&#x27;</span>]]</span><br><span class="line">df.iloc[[<span class="number">0</span>,<span class="number">2</span>],[<span class="number">1</span>,<span class="number">2</span>]]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df.loc[<span class="string">&#x27;a&#x27;</span>:<span class="string">&#x27;e&#x27;</span>,<span class="string">&#x27;Country&#x27;</span>:<span class="string">&#x27;Age&#x27;</span>]  <span class="comment"># 这个就不用加中括号  因为有冒号 </span></span><br><span class="line">df.iloc[<span class="number">0</span>:<span class="number">4</span>,<span class="number">0</span>:<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取单个数据</span></span><br><span class="line">df.loc[<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;Country&#x27;</span>] </span><br><span class="line">df.loc[[<span class="string">&#x27;a&#x27;</span>],[<span class="string">&#x27;Country&#x27;</span>]]</span><br><span class="line"><span class="comment"># 获取单个数据的Dataframe, 特别注意中括号的使用  小窍门: 只要前后都有两个中括号 一定就是Dataframe的类型包括冒号 也算是中括号的含义</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 特别注意 就是显式索引和隐式索引区间的问题  </span></span><br><span class="line">df.iloc[<span class="number">0</span>: <span class="number">3</span>,<span class="number">0</span>:<span class="number">3</span>]</span><br><span class="line">df.loc[<span class="string">&#x27;a&#x27;</span>:<span class="string">&#x27;c&#x27;</span>,<span class="string">&#x27;Age&#x27;</span>: <span class="string">&#x27;Income&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 小练习: 取国家为India前两行行数据</span></span><br><span class="line"></span><br><span class="line">df[df.Country == <span class="string">&#x27;India&#x27;</span>].iloc[<span class="number">0</span>:<span class="number">2</span>]</span><br><span class="line">df[df.Country == <span class="string">&#x27;India&#x27;</span>].head(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 小练习 : Age列等于偶数那些数据 赋值成 90岁 </span></span><br><span class="line"></span><br><span class="line">df[<span class="string">&#x27;Age&#x27;</span>] = <span class="number">90</span>  <span class="comment">#  正常赋值 </span></span><br><span class="line"></span><br><span class="line">df[df[<span class="string">&#x27;Age&#x27;</span>] %<span class="number">2</span> == <span class="number">0</span> ][<span class="string">&#x27;Age&#x27;</span>] = <span class="number">90</span>    <span class="comment"># 会出现异样  </span></span><br><span class="line"></span><br><span class="line">new__index = df[df[<span class="string">&#x27;Age&#x27;</span>] %<span class="number">2</span> == <span class="number">0</span> ].index   <span class="comment">#先取出index </span></span><br><span class="line">df.loc[new__index,<span class="string">&#x27;Age&#x27;</span>] =  <span class="number">90</span></span><br></pre></td></tr></table></figure>
+<p>loc 更加灵活多变，代码的可读性更高，iloc 的代码简洁，但可读性不高。具体在数据<br />
+分析工作中使用哪一种方法，根据情况而定，大多数时候建议使用 loc 方法.</p>
+<h5 id="易错点"><a class="markdownIt-Anchor" href="#易错点"></a> 易错点</h5>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">df[<span class="string">&#x27;a&#x27;</span> : <span class="string">&#x27;c&#x27;</span>]  <span class="comment">#   显性索引都是闭区间</span></span><br><span class="line">df[<span class="number">0</span> : <span class="number">4</span>]   <span class="comment"># 隐式索引是左闭右开区间  </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df.loc[:,<span class="string">&#x27;Income&#x27;</span>]  <span class="comment"># series类型   一般会df[&#x27;Income&#x27;]  取值 </span></span><br><span class="line">df.loc[:,[<span class="string">&#x27;Income&#x27;</span>]]  <span class="comment">#  Dataframe类型 ,小窍门 : 因为有两个中括号(冒号也有中括号的含义)是二维的有行和列 </span></span><br><span class="line"> </span><br><span class="line">df.loc[<span class="string">&#x27;b&#x27;</span>,<span class="string">&#x27;Income&#x27;</span>]  <span class="comment">#  取值 为一个元素</span></span><br><span class="line">df.loc[<span class="string">&#x27;b&#x27;</span>,[<span class="string">&#x27;Income&#x27;</span>]]  <span class="comment"># series类型 ,只有一个&#x27;b&#x27;,是series类型 此时loc分不清取一个还是多个 </span></span><br><span class="line"></span><br><span class="line">df.loc[[<span class="string">&#x27;b&#x27;</span>],[<span class="string">&#x27;Income&#x27;</span>]]  <span class="comment"># 这样才是 Datafame类型  和之前的对比 ,因为是有两个中括号</span></span><br></pre></td></tr></table></figure>
+<h4 id="写入文件"><a class="markdownIt-Anchor" href="#写入文件"></a> 写入文件</h4>
+<p><strong>特别注意 :</strong></p>
+<p>写入文件的的时候 , 一定要一个单元格运行一次代码  不要一行单元格运行多个代码 否则会出现尴尬的错误</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">test_dict = &#123;</span><br><span class="line">    <span class="string">&#x27;name&#x27;</span>: [<span class="string">&#x27;Alice&#x27;</span>, <span class="string">&#x27;Bob&#x27;</span>, <span class="string">&#x27;Cindy&#x27;</span>, <span class="string">&#x27;Eric&#x27;</span>, <span class="string">&#x27;Helen&#x27;</span>, <span class="string">&#x27;Grace &#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;math&#x27;</span>: [<span class="number">90</span>, <span class="number">89</span>, <span class="number">99</span>, <span class="number">78</span>, <span class="number">97</span>, <span class="number">93</span>],</span><br><span class="line">    <span class="string">&#x27;english&#x27;</span>: [<span class="number">89</span>, <span class="number">94</span>, <span class="number">80</span>, <span class="number">94</span>, <span class="number">94</span>, <span class="number">90</span>]</span><br><span class="line">&#125;  <span class="comment"># 准备数据</span></span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(test_dict)   </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df.to_csv(<span class="string">&#x27;./ceshi2.csv&#x27;</span>)  <span class="comment"># 存储数据 </span></span><br><span class="line"></span><br><span class="line">pd.read_csv(<span class="string">&#x27;./ceshi2.csv&#x27;</span>)  <span class="comment">#  读入数据 </span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>非常尴尬的一点就是  :   多了一个 unnameed : 0  这一列   这是在 存储 csv的时候  默认把之前的在jupyter显示的索引存进去</p>
+<p>两种办法解决  :</p>
+<ul>
+<li>to_csv(index = False )   即可解决</li>
+<li>用drop进行删除列为  unnameed : 0   然后 drop的参数里变成  inplace  =  True 即可</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">test_dict = &#123;<span class="string">&#x27;id&#x27;</span>:[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],<span class="string">&#x27;name&#x27;</span>:[<span class="string">&#x27;Alice&#x27;</span>,<span class="string">&#x27;Bob&#x27;</span>,<span class="string">&#x27;Cindy&#x27;</span>,<span class="string">&#x27;Eric&#x27;</span>,<span class="string">&#x27;Helen&#x27;</span>,<span class="string">&#x27;Grace &#x27;</span>],<span class="string">&#x27;math&#x27;</span>:[<span class="number">90</span>,<span class="number">89</span>,<span class="number">99</span>,<span class="number">78</span>,<span class="number">97</span>,<span class="number">93</span>],<span class="string">&#x27;english&#x27;</span>:[<span class="number">89</span>,<span class="number">94</span>,<span class="number">80</span>,<span class="number">94</span>,<span class="number">94</span>,<span class="number">90</span>]&#125;</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(test_dict)</span><br><span class="line"></span><br><span class="line">df.to_csv(<span class="string">&#x27;./ceshi2.csv&#x27;</span>,index =  <span class="literal">False</span>)  <span class="comment"># 消除  unnamed 列 </span></span><br><span class="line"></span><br><span class="line">pd.read_csv(<span class="string">&#x27;./ceshi2.csv&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="案例分析"><a class="markdownIt-Anchor" href="#案例分析"></a> 案例分析</h3>
+<p>数据集 :  scientists.csv</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span>  numpy <span class="keyword">as</span> np </span><br><span class="line"></span><br><span class="line">df  = pd.read_csv(<span class="string">&#x27;./scientists.csv&#x27;</span>)</span><br><span class="line">df.head()</span><br><span class="line">df.tail()</span><br><span class="line">df.dtypes</span><br><span class="line">df.info</span><br><span class="line">df.index</span><br><span class="line">df.columns</span><br><span class="line">df.values</span><br><span class="line">df.shape</span><br><span class="line"><span class="comment"># df.set_index(&#x27;Name&#x27;)</span></span><br><span class="line"><span class="comment"># df.set_index(&#x27;Name&#x27;).reset_index()  # 还原 </span></span><br><span class="line"><span class="comment"># df.reset_index(drop = True)  #  在原来的索引乱序的前提时候用  drop =  True   series的时候已经讲过 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 首先看一下数据类型是什么,才能在添加行的时候对症下药</span></span><br><span class="line">df.info()</span><br><span class="line">s = pd.Series([<span class="string">&#x27;Lee&#x27;</span>,<span class="string">&#x27;1900-03-03&#x27;</span>,<span class="string">&#x27;1999-03-03&#x27;</span>,<span class="number">90</span>,<span class="string">&#x27;musician&#x27;</span>],index = [<span class="string">&#x27;Name&#x27;</span>,<span class="string">&#x27;Born&#x27;</span>,<span class="string">&#x27;Died&#x27;</span>,<span class="string">&#x27;Age&#x27;</span>,<span class="string">&#x27;Occupation&#x27;</span>])</span><br><span class="line">df.append(s,ignore_index = <span class="literal">True</span>)  <span class="comment">#  或者是用之前的 s.name = 8 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># df.drop(7)  #删除第7行  或者 加中括号 [4,7] 删除4, 7 行 </span></span><br><span class="line"><span class="comment"># df.drop(&#x27;Name&#x27;,axis = 1)    # inplace = True  表示对最原始的df进行修改 ,但是注意 不是修改csv 文件 !</span></span><br><span class="line">df.Name[<span class="number">0</span>:<span class="number">4</span>]   <span class="comment">#  选择前4个科学家的名字 </span></span><br><span class="line"><span class="comment"># df[&#x27;other&#x27;] = range(0,len(df))  </span></span><br><span class="line"><span class="comment"># df[&#x27;other&#x27;] = pd.Series(np.random.randint(1,100,size =(8,)))</span></span><br><span class="line">df[df[<span class="string">&#x27;Age&#x27;</span>] &gt; df[<span class="string">&#x27;Age&#x27;</span>].mean()]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df.iloc[<span class="number">0</span>:<span class="number">6</span>]  <span class="comment">#说下区别 </span></span><br><span class="line">df.loc[<span class="number">0</span>:<span class="number">6</span>] <span class="comment">#显示索引 </span></span><br><span class="line"></span><br><span class="line">df.iloc[<span class="number">0</span>,<span class="number">2</span>]   <span class="comment"># 获取单个数据</span></span><br><span class="line">df.loc[<span class="number">0</span>,<span class="string">&#x27;Age&#x27;</span>]</span><br><span class="line"></span><br><span class="line">df.iloc[<span class="number">0</span>]  <span class="comment"># 取行</span></span><br><span class="line">df[<span class="string">&#x27;Age&#x27;</span>]  <span class="comment"># 取列 </span></span><br><span class="line"></span><br><span class="line">df[[<span class="string">&#x27;Age&#x27;</span>,<span class="string">&#x27;Name&#x27;</span>]] <span class="comment"># 取指定列 </span></span><br><span class="line">df.iloc[[<span class="number">1</span>,<span class="number">3</span>,<span class="number">4</span>]]  <span class="comment">#  取多行</span></span><br><span class="line"></span><br><span class="line">df.loc[[<span class="number">2</span>,<span class="number">4</span>],[<span class="string">&#x27;Age&#x27;</span>,<span class="string">&#x27;Name&#x27;</span>]]  <span class="comment">#  取指定的多行和多列 </span></span><br><span class="line">df.iloc[[<span class="number">2</span>,<span class="number">4</span>],[<span class="number">1</span>,<span class="number">4</span>]]  <span class="comment"># 用 iloc 进行获取 指定的多行多列 </span></span><br><span class="line"></span><br><span class="line">df.loc[[<span class="number">2</span>,<span class="number">4</span>],[<span class="string">&#x27;Age&#x27;</span>,<span class="string">&#x27;Name&#x27;</span>]].loc[<span class="number">2</span>,<span class="string">&#x27;Age&#x27;</span>] <span class="comment"># 基础之前在取值 </span></span><br><span class="line"></span><br><span class="line">df = df.iloc[[<span class="number">2</span>,<span class="number">4</span>],[<span class="number">1</span>,<span class="number">4</span>]]  <span class="comment"># 用 iloc 进行获取 指定的多行多列 </span></span><br><span class="line">df.to_csv(<span class="string">&#x27;./测试.csv&#x27;</span>,index =  <span class="literal">False</span>)</span><br><span class="line">df = pd.read_csv(<span class="string">&#x27;测试.csv&#x27;</span>)</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>数据分析</category>
@@ -1201,6 +1201,885 @@ Name: fraction, dtype: bool
   </tbody>
 </table>
 </div>
+]]></content>
+      <categories>
+        <category>数据分析</category>
+      </categories>
+      <tags>
+        <tag>pandas, 数据分析</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>pandas基础复习2</title>
+    <url>/posts/1207525a/</url>
+    <content><![CDATA[<h1 id="pandas数据处理"><a class="markdownIt-Anchor" href="#pandas数据处理"></a> Pandas数据处理</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">df = pd.read_excel(<span class="string">&#x27;https://raw.githubusercontent.com/xiryg/blog_picture/main/resource/pandas120.xlsx&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.head()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>createTime</th>
+      <th>education</th>
+      <th>salary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2020-03-16 11:30:18</td>
+      <td>本科</td>
+      <td>20k-35k</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2020-03-16 10:58:48</td>
+      <td>本科</td>
+      <td>20k-40k</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2020-03-16 10:46:39</td>
+      <td>不限</td>
+      <td>20k-35k</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2020-03-16 10:45:44</td>
+      <td>本科</td>
+      <td>13k-20k</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2020-03-16 10:20:41</td>
+      <td>本科</td>
+      <td>10k-20k</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.info()</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 135 entries, 0 to 134
+Data columns (total 3 columns):
+ #   Column      Non-Null Count  Dtype         
+---  ------      --------------  -----         
+ 0   createTime  135 non-null    datetime64[ns]
+ 1   education   135 non-null    object        
+ 2   salary      135 non-null    object        
+dtypes: datetime64[ns](1), object(2)
+memory usage: 3.3+ KB
+</code></pre>
+<h1 id="将salary列数据转换为最大值于最小值的平均值"><a class="markdownIt-Anchor" href="#将salary列数据转换为最大值于最小值的平均值"></a> 将salary列数据转换为最大值于最小值的平均值</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># data 的apply方法</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">func</span>(<span class="params">series</span>):</span><br><span class="line">    <span class="comment"># print(seires)</span></span><br><span class="line">    lst = series[<span class="string">&#x27;salary&#x27;</span>].split(<span class="string">&#x27;-&#x27;</span>)</span><br><span class="line">    smin = <span class="built_in">int</span>(lst[<span class="number">0</span>].strip(<span class="string">&#x27;k&#x27;</span>))</span><br><span class="line">    smax = <span class="built_in">int</span>(lst[<span class="number">1</span>].strip(<span class="string">&#x27;k&#x27;</span>))</span><br><span class="line">    avg_salary = <span class="built_in">int</span>((smin+smax)/<span class="number">2</span> * <span class="number">1000</span>)</span><br><span class="line">    <span class="keyword">return</span> avg_salary</span><br><span class="line">df[<span class="string">&#x27;new_salary&#x27;</span>] = df.apply(func,axis = <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.head()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>createTime</th>
+      <th>education</th>
+      <th>salary</th>
+      <th>new_salary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2020-03-16 11:30:18</td>
+      <td>本科</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2020-03-16 10:58:48</td>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2020-03-16 10:46:39</td>
+      <td>不限</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2020-03-16 10:45:44</td>
+      <td>本科</td>
+      <td>13k-20k</td>
+      <td>16500</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2020-03-16 10:20:41</td>
+      <td>本科</td>
+      <td>10k-20k</td>
+      <td>15000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h1 id="将数据根据学历进行分组并计算平均薪资"><a class="markdownIt-Anchor" href="#将数据根据学历进行分组并计算平均薪资"></a> 将数据根据学历进行分组并计算平均薪资</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(df.groupby(<span class="string">&#x27;education&#x27;</span>).mean(numeric_only=<span class="literal">True</span>))</span><br></pre></td></tr></table></figure>
+<pre><code>             new_salary
+education              
+不限         19600.000000
+大专         10000.000000
+本科         19361.344538
+硕士         20642.857143
+</code></pre>
+<h1 id="查看数值型列的汇总统计"><a class="markdownIt-Anchor" href="#查看数值型列的汇总统计"></a> 查看数值型列的汇总统计</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.describe()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>new_salary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>135.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>19159.259259</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>8661.686922</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>3500.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>14000.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>17500.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>25000.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>45000.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h1 id="新增一列根据salary将数据分为三组"><a class="markdownIt-Anchor" href="#新增一列根据salary将数据分为三组"></a> 新增一列根据salary将数据分为三组</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># cut 方法</span></span><br><span class="line">bins = [<span class="number">0</span>,<span class="number">5000</span>,<span class="number">20000</span>,<span class="number">50000</span>]</span><br><span class="line">group_names = [<span class="string">&#x27;低&#x27;</span>,<span class="string">&#x27;中&#x27;</span>,<span class="string">&#x27;高&#x27;</span>]</span><br><span class="line">df[<span class="string">&#x27;categories&#x27;</span>] = pd.cut(df[<span class="string">&#x27;new_salary&#x27;</span>],bins,labels=group_names)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>createTime</th>
+      <th>education</th>
+      <th>salary</th>
+      <th>new_salary</th>
+      <th>categories</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2020-03-16 11:30:18</td>
+      <td>本科</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2020-03-16 10:58:48</td>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2020-03-16 10:46:39</td>
+      <td>不限</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2020-03-16 10:45:44</td>
+      <td>本科</td>
+      <td>13k-20k</td>
+      <td>16500</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2020-03-16 10:20:41</td>
+      <td>本科</td>
+      <td>10k-20k</td>
+      <td>15000</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>130</th>
+      <td>2020-03-16 11:36:07</td>
+      <td>本科</td>
+      <td>10k-18k</td>
+      <td>14000</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <th>131</th>
+      <td>2020-03-16 09:54:47</td>
+      <td>硕士</td>
+      <td>25k-50k</td>
+      <td>37500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>132</th>
+      <td>2020-03-16 10:48:32</td>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>133</th>
+      <td>2020-03-16 10:46:31</td>
+      <td>本科</td>
+      <td>15k-23k</td>
+      <td>19000</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <th>134</th>
+      <td>2020-03-16 11:19:38</td>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+    </tr>
+  </tbody>
+</table>
+<p>135 rows × 5 columns</p>
+</div>
+<h1 id="按照salary列对数据进行降序排列"><a class="markdownIt-Anchor" href="#按照salary列对数据进行降序排列"></a> 按照salary列对数据进行降序排列</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.sort_values(<span class="string">&#x27;new_salary&#x27;</span>,ascending=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>createTime</th>
+      <th>education</th>
+      <th>salary</th>
+      <th>new_salary</th>
+      <th>categories</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>53</th>
+      <td>2020-03-16 11:30:17</td>
+      <td>本科</td>
+      <td>30k-60k</td>
+      <td>45000</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>2020-03-16 11:04:00</td>
+      <td>本科</td>
+      <td>30k-50k</td>
+      <td>40000</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>101</th>
+      <td>2020-03-16 11:01:39</td>
+      <td>本科</td>
+      <td>30k-45k</td>
+      <td>37500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>2020-03-16 10:36:57</td>
+      <td>本科</td>
+      <td>25k-50k</td>
+      <td>37500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>131</th>
+      <td>2020-03-16 09:54:47</td>
+      <td>硕士</td>
+      <td>25k-50k</td>
+      <td>37500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>123</th>
+      <td>2020-03-16 11:20:44</td>
+      <td>本科</td>
+      <td>3k-6k</td>
+      <td>4500</td>
+      <td>低</td>
+    </tr>
+    <tr>
+      <th>126</th>
+      <td>2020-03-16 11:12:04</td>
+      <td>本科</td>
+      <td>3k-5k</td>
+      <td>4000</td>
+      <td>低</td>
+    </tr>
+    <tr>
+      <th>110</th>
+      <td>2020-03-16 11:12:04</td>
+      <td>本科</td>
+      <td>3k-5k</td>
+      <td>4000</td>
+      <td>低</td>
+    </tr>
+    <tr>
+      <th>96</th>
+      <td>2020-03-16 10:44:23</td>
+      <td>不限</td>
+      <td>3k-4k</td>
+      <td>3500</td>
+      <td>低</td>
+    </tr>
+    <tr>
+      <th>113</th>
+      <td>2020-03-16 10:48:43</td>
+      <td>本科</td>
+      <td>3k-4k</td>
+      <td>3500</td>
+      <td>低</td>
+    </tr>
+  </tbody>
+</table>
+<p>135 rows × 5 columns</p>
+</div>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>createTime</th>
+      <th>education</th>
+      <th>salary</th>
+      <th>new_salary</th>
+      <th>categories</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2020-03-16 11:30:18</td>
+      <td>本科</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2020-03-16 10:58:48</td>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2020-03-16 10:46:39</td>
+      <td>不限</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2020-03-16 10:45:44</td>
+      <td>本科</td>
+      <td>13k-20k</td>
+      <td>16500</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2020-03-16 10:20:41</td>
+      <td>本科</td>
+      <td>10k-20k</td>
+      <td>15000</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>130</th>
+      <td>2020-03-16 11:36:07</td>
+      <td>本科</td>
+      <td>10k-18k</td>
+      <td>14000</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <th>131</th>
+      <td>2020-03-16 09:54:47</td>
+      <td>硕士</td>
+      <td>25k-50k</td>
+      <td>37500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>132</th>
+      <td>2020-03-16 10:48:32</td>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>133</th>
+      <td>2020-03-16 10:46:31</td>
+      <td>本科</td>
+      <td>15k-23k</td>
+      <td>19000</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <th>134</th>
+      <td>2020-03-16 11:19:38</td>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+    </tr>
+  </tbody>
+</table>
+<p>135 rows × 5 columns</p>
+</div>
+<h1 id="取出第33行的数据"><a class="markdownIt-Anchor" href="#取出第33行的数据"></a> 取出第33行的数据</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.loc[<span class="number">32</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>createTime    2020-03-16 10:07:25
+education                      硕士
+salary                    15k-30k
+new_salary                  22500
+categories                      高
+Name: 32, dtype: object
+</code></pre>
+<h1 id="删除列-createtime"><a class="markdownIt-Anchor" href="#删除列-createtime"></a> 删除列 createTime</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.drop(columns=[<span class="string">&#x27;createTime&#x27;</span>],inplace=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.head()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>education</th>
+      <th>salary</th>
+      <th>new_salary</th>
+      <th>categories</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>本科</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>不限</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>本科</td>
+      <td>13k-20k</td>
+      <td>16500</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>本科</td>
+      <td>10k-20k</td>
+      <td>15000</td>
+      <td>中</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h1 id="将-education列与salary列合并为新的一列"><a class="markdownIt-Anchor" href="#将-education列与salary列合并为新的一列"></a> 将 education列与salary列合并为新的一列</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df[<span class="string">&quot;new_c&quot;</span>] = df[<span class="string">&quot;new_salary&quot;</span>].astype(<span class="built_in">str</span>) + df[<span class="string">&#x27;education&#x27;</span>]</span><br><span class="line">df</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>education</th>
+      <th>salary</th>
+      <th>new_salary</th>
+      <th>categories</th>
+      <th>new_c</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>本科</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+      <td>高</td>
+      <td>27500本科</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+      <td>30000本科</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>不限</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+      <td>高</td>
+      <td>27500不限</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>本科</td>
+      <td>13k-20k</td>
+      <td>16500</td>
+      <td>中</td>
+      <td>16500本科</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>本科</td>
+      <td>10k-20k</td>
+      <td>15000</td>
+      <td>中</td>
+      <td>15000本科</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>130</th>
+      <td>本科</td>
+      <td>10k-18k</td>
+      <td>14000</td>
+      <td>中</td>
+      <td>14000本科</td>
+    </tr>
+    <tr>
+      <th>131</th>
+      <td>硕士</td>
+      <td>25k-50k</td>
+      <td>37500</td>
+      <td>高</td>
+      <td>37500硕士</td>
+    </tr>
+    <tr>
+      <th>132</th>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+      <td>30000本科</td>
+    </tr>
+    <tr>
+      <th>133</th>
+      <td>本科</td>
+      <td>15k-23k</td>
+      <td>19000</td>
+      <td>中</td>
+      <td>19000本科</td>
+    </tr>
+    <tr>
+      <th>134</th>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+      <td>30000本科</td>
+    </tr>
+  </tbody>
+</table>
+<p>135 rows × 5 columns</p>
+</div>
+<h1 id="将第一行与最后一行进行拼接"><a class="markdownIt-Anchor" href="#将第一行与最后一行进行拼接"></a> 将第一行与最后一行进行拼接</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pd.concat([df[:<span class="number">1</span>],df[-<span class="number">1</span>:]])</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>education</th>
+      <th>salary</th>
+      <th>new_salary</th>
+      <th>categories</th>
+      <th>new_c</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>本科</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+      <td>高</td>
+      <td>27500本科</td>
+    </tr>
+    <tr>
+      <th>134</th>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+      <td>30000本科</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h1 id="查看每列的数据类型"><a class="markdownIt-Anchor" href="#查看每列的数据类型"></a> 查看每列的数据类型</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.dtypes</span><br></pre></td></tr></table></figure>
+<pre><code>education       object
+salary          object
+new_salary       int64
+categories    category
+new_c           object
+dtype: object
+</code></pre>
+<h1 id="检查数据中是否有缺失值及其数量"><a class="markdownIt-Anchor" href="#检查数据中是否有缺失值及其数量"></a> 检查数据中是否有缺失值及其数量</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.isnull().<span class="built_in">any</span>()</span><br></pre></td></tr></table></figure>
+<pre><code>education     False
+salary        False
+new_salary    False
+categories    False
+new_c         False
+dtype: bool
+</code></pre>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.isnull().<span class="built_in">sum</span>()</span><br></pre></td></tr></table></figure>
+<pre><code>education     0
+salary        0
+new_salary    0
+categories    0
+new_c         0
+dtype: int64
+</code></pre>
+<h1 id="将-new_salary-列类型转换为浮点数"><a class="markdownIt-Anchor" href="#将-new_salary-列类型转换为浮点数"></a> 将 new_salary 列类型转换为浮点数</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df[<span class="string">&#x27;new_salary&#x27;</span>].astype(<span class="built_in">float</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>0      27500.0
+1      30000.0
+2      27500.0
+3      16500.0
+4      15000.0
+        ...   
+130    14000.0
+131    37500.0
+132    30000.0
+133    19000.0
+134    30000.0
+Name: new_salary, Length: 135, dtype: float64
+</code></pre>
+<h1 id="计算salary列大于10000的数量"><a class="markdownIt-Anchor" href="#计算salary列大于10000的数量"></a> 计算salary列大于10000的数量</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">len</span>(df[df[<span class="string">&#x27;new_salary&#x27;</span>] &gt; <span class="number">10000</span>])</span><br></pre></td></tr></table></figure>
+<pre><code>119
+</code></pre>
+<h1 id="查看每种学历出现的次数"><a class="markdownIt-Anchor" href="#查看每种学历出现的次数"></a> 查看每种学历出现的次数</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df[<span class="string">&#x27;education&#x27;</span>].value_counts()</span><br></pre></td></tr></table></figure>
+<pre><code>本科    119
+硕士      7
+不限      5
+大专      4
+Name: education, dtype: int64
+</code></pre>
+<h1 id="查看共有几种学历"><a class="markdownIt-Anchor" href="#查看共有几种学历"></a> 查看共有几种学历</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df[<span class="string">&#x27;education&#x27;</span>].nunique()</span><br></pre></td></tr></table></figure>
+<pre><code>4
+</code></pre>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df[<span class="string">&#x27;education&#x27;</span>].unique()</span><br></pre></td></tr></table></figure>
+<pre><code>array(['本科', '不限', '硕士', '大专'], dtype=object)
+</code></pre>
 ]]></content>
       <categories>
         <category>数据分析</category>
@@ -2796,6 +3675,45 @@ dtype: int64
       </tags>
   </entry>
   <entry>
+    <title>素数判别</title>
+    <url>/posts/178aa3d4/</url>
+    <content><![CDATA[<h1 id="素数判断法"><a class="markdownIt-Anchor" href="#素数判断法"></a> 素数判断法</h1>
+<h2 id="质数判断法"><a class="markdownIt-Anchor" href="#质数判断法"></a> 质数判断法</h2>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">is_prime</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">if</span> x &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,<span class="built_in">int</span>(math.sqrt(x)) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> x % i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">is_prime(<span class="number">17</span>)  <span class="comment"># True</span></span><br><span class="line">is_prime(<span class="number">23</span>)  <span class="comment"># True</span></span><br><span class="line">is_prime(<span class="number">56</span>)  <span class="comment"># False</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: black;"><strong>说明</strong></span> : 在此方法中我们从 <code>2</code> 开始遍历到 <code>x</code> 的平方根 (使用math.sqrt()获取 <code>x</code>  的平方根的整数部分 + 1),判断是否存在能整除 <code>x</code> 的数, 如果存在 <code>x</code> 不是素数;反之,则为素数.</p>
+</blockquote>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">时</mi><mi mathvariant="normal">间</mi><mi mathvariant="normal">复</mi><mi mathvariant="normal">杂</mi><mi mathvariant="normal">度</mi><mi mathvariant="normal">为</mi><mo>:</mo><mi>O</mi><mo stretchy="false">(</mo><mi>s</mi><mi>q</mi><mi>r</mi><mi>t</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">时间复杂度为: O(sqrt(x))
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord cjk_fallback">时</span><span class="mord cjk_fallback">间</span><span class="mord cjk_fallback">复</span><span class="mord cjk_fallback">杂</span><span class="mord cjk_fallback">度</span><span class="mord cjk_fallback">为</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">t</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span></p>
+<p>**相关执行过程如下 : **</p>
+<iframe width="800" height="500" frameborder="0" src="https://pythontutor.com/iframe-embed.html#code=import%20math%0A%0Adef%20is_prime%28x%29%3A%0A%20%20%20%20if%20x%20%3C%3D%201%3A%0A%20%20%20%20%20%20%20%20return%20False%0A%20%20%20%20%0A%20%20%20%20for%20i%20in%20range%282,int%28math.sqrt%28x%29%29%20%2B%201%29%3A%0A%20%20%20%20%20%20%20%20if%20x%20%25%20i%20%3D%3D%200%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20return%20False%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20return%20True%0Ais_prime%2817%29%20%20%23%20True%0Ais_prime%2823%29%20%20%23%20True%0Ais_prime%2856%29%20%20%23%20False&codeDivHeight=400&codeDivWidth=350&cumulative=true&curInstr=14&heapPrimitives=true&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false"> </iframe>
+<hr />
+<h2 id="埃氏筛-埃拉托斯特尼筛法"><a class="markdownIt-Anchor" href="#埃氏筛-埃拉托斯特尼筛法"></a> 埃氏筛 (埃拉托斯特尼筛法)</h2>
+<p>相关链接: <a href="https://zh.wikipedia.org/wiki/%E5%9F%83%E6%8B%89%E6%89%98%E6%96%AF%E7%89%B9%E5%B0%BC%E7%AD%9B%E6%B3%95#Python_3.6-3.10">埃拉托斯特尼筛法  (wikipedia.org)</a></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sieve_of_eratosthenes</span>(<span class="params">n</span>):</span><br><span class="line">    is_prime = [<span class="literal">True</span>] * (n + <span class="number">1</span>)</span><br><span class="line">    is_prime[<span class="number">0</span>] = is_prime[<span class="number">1</span>] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="built_in">int</span>(n ** <span class="number">0.5</span>) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> is_prime[i]:</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i * i, n + <span class="number">1</span>, i):</span><br><span class="line">                is_prime[j] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    primes = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, n + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> is_prime[i]:</span><br><span class="line">            primes.append(i)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> primes</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sieve_of_eratosthenes(<span class="number">20</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># [2, 3, 5, 7, 11, 13, 17, 19]</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: black;"><strong>说明</strong></span> : 起初 , 创建一个布尔数组 <code>is_prime</code> , 全部初始化为 <code>True</code> ,将索引 <code>0</code> 和 <code>1</code> 赋值为 <code>False</code> , 从 <code>2</code>  开始遍历到 <code>n</code> 的平方根(平方根取整+1) , 如果当前数字 <code>i</code> 是素数（即 <code>is_prime[i]</code> 为 <code>True</code>），则将其倍数 <code>i*i</code>、<code>i*(i+1)</code>、<code>i*(i+2)</code>… 标记为非素数（将对应的 <code>is_prime[j]</code> 置为 <code>False</code>）。最后，我们遍历从 2 到 n 的所有数字，将 <code>is_prime</code> 中值为 <code>True</code> 的索引添加到素数列表 <code>primes</code> 中。</p>
+</blockquote>
+<p>**相关执行过程如下 : **</p>
+<iframe width="800" height="500" frameborder="0" src="https://pythontutor.com/iframe-embed.html#code=def%20sieve_of_eratosthenes%28n%29%3A%0A%20%20%20%20is_prime%20%3D%20%5BTrue%5D%20*%20%28n%20%2B%201%29%0A%20%20%20%20is_prime%5B0%5D%20%3D%20is_prime%5B1%5D%20%3D%20False%0A%0A%20%20%20%20for%20i%20in%20range%282,%20int%28n%20**%200.5%29%20%2B%201%29%3A%0A%20%20%20%20%20%20%20%20if%20is_prime%5Bi%5D%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20for%20j%20in%20range%28i%20*%20i,%20n%20%2B%201,%20i%29%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20is_prime%5Bj%5D%20%3D%20False%0A%0A%20%20%20%20primes%20%3D%20%5B%5D%0A%20%20%20%20for%20i%20in%20range%282,%20n%20%2B%201%29%3A%0A%20%20%20%20%20%20%20%20if%20is_prime%5Bi%5D%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20primes.append%28i%29%0A%0A%20%20%20%20return%20primes%0A%0Aprint%28sieve_of_eratosthenes%2820%29%29&codeDivHeight=400&codeDivWidth=350&cumulative=true&curInstr=90&heapPrimitives=true&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false"> </iframe>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">时</mi><mi mathvariant="normal">间</mi><mi mathvariant="normal">复</mi><mi mathvariant="normal">杂</mi><mi mathvariant="normal">度</mi><mi mathvariant="normal">为</mi><mo>:</mo><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">时间复杂度为:O(n log log n)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord cjk_fallback">时</span><span class="mord cjk_fallback">间</span><span class="mord cjk_fallback">复</span><span class="mord cjk_fallback">杂</span><span class="mord cjk_fallback">度</span><span class="mord cjk_fallback">为</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></span></p>
+<hr />
+<h1 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h1>
+<p>以上是关于质数判断法和埃拉托斯特尼筛法的 Python 示例代码和相关说明.</p>
+<p><code>质数判断法</code> 更适用于判断单个素数</p>
+<p><code>埃拉托斯特尼筛法</code> 比较适合取得一定范围内的素数序列</p>
+<p>根据具体需求选择相应算法</p>
+<hr />
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>素数</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>缺失值处理</title>
     <url>/posts/93bcec7e/</url>
     <content><![CDATA[<h3 id="缺失值的处理"><a class="markdownIt-Anchor" href="#缺失值的处理"></a> 缺失值的处理</h3>
@@ -3026,45 +3944,6 @@ dtype: int64
       </categories>
       <tags>
         <tag>pandas, 数据分析</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>素数判别</title>
-    <url>/posts/178aa3d4/</url>
-    <content><![CDATA[<h1 id="素数判断法"><a class="markdownIt-Anchor" href="#素数判断法"></a> 素数判断法</h1>
-<h2 id="质数判断法"><a class="markdownIt-Anchor" href="#质数判断法"></a> 质数判断法</h2>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">is_prime</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">if</span> x &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,<span class="built_in">int</span>(math.sqrt(x)) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> x % i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">is_prime(<span class="number">17</span>)  <span class="comment"># True</span></span><br><span class="line">is_prime(<span class="number">23</span>)  <span class="comment"># True</span></span><br><span class="line">is_prime(<span class="number">56</span>)  <span class="comment"># False</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: black;"><strong>说明</strong></span> : 在此方法中我们从 <code>2</code> 开始遍历到 <code>x</code> 的平方根 (使用math.sqrt()获取 <code>x</code>  的平方根的整数部分 + 1),判断是否存在能整除 <code>x</code> 的数, 如果存在 <code>x</code> 不是素数;反之,则为素数.</p>
-</blockquote>
-<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">时</mi><mi mathvariant="normal">间</mi><mi mathvariant="normal">复</mi><mi mathvariant="normal">杂</mi><mi mathvariant="normal">度</mi><mi mathvariant="normal">为</mi><mo>:</mo><mi>O</mi><mo stretchy="false">(</mo><mi>s</mi><mi>q</mi><mi>r</mi><mi>t</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">时间复杂度为: O(sqrt(x))
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord cjk_fallback">时</span><span class="mord cjk_fallback">间</span><span class="mord cjk_fallback">复</span><span class="mord cjk_fallback">杂</span><span class="mord cjk_fallback">度</span><span class="mord cjk_fallback">为</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">t</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span></p>
-<p>**相关执行过程如下 : **</p>
-<iframe width="800" height="500" frameborder="0" src="https://pythontutor.com/iframe-embed.html#code=import%20math%0A%0Adef%20is_prime%28x%29%3A%0A%20%20%20%20if%20x%20%3C%3D%201%3A%0A%20%20%20%20%20%20%20%20return%20False%0A%20%20%20%20%0A%20%20%20%20for%20i%20in%20range%282,int%28math.sqrt%28x%29%29%20%2B%201%29%3A%0A%20%20%20%20%20%20%20%20if%20x%20%25%20i%20%3D%3D%200%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20return%20False%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20return%20True%0Ais_prime%2817%29%20%20%23%20True%0Ais_prime%2823%29%20%20%23%20True%0Ais_prime%2856%29%20%20%23%20False&codeDivHeight=400&codeDivWidth=350&cumulative=true&curInstr=14&heapPrimitives=true&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false"> </iframe>
-<hr />
-<h2 id="埃氏筛-埃拉托斯特尼筛法"><a class="markdownIt-Anchor" href="#埃氏筛-埃拉托斯特尼筛法"></a> 埃氏筛 (埃拉托斯特尼筛法)</h2>
-<p>相关链接: <a href="https://zh.wikipedia.org/wiki/%E5%9F%83%E6%8B%89%E6%89%98%E6%96%AF%E7%89%B9%E5%B0%BC%E7%AD%9B%E6%B3%95#Python_3.6-3.10">埃拉托斯特尼筛法  (wikipedia.org)</a></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sieve_of_eratosthenes</span>(<span class="params">n</span>):</span><br><span class="line">    is_prime = [<span class="literal">True</span>] * (n + <span class="number">1</span>)</span><br><span class="line">    is_prime[<span class="number">0</span>] = is_prime[<span class="number">1</span>] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="built_in">int</span>(n ** <span class="number">0.5</span>) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> is_prime[i]:</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i * i, n + <span class="number">1</span>, i):</span><br><span class="line">                is_prime[j] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    primes = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, n + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> is_prime[i]:</span><br><span class="line">            primes.append(i)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> primes</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sieve_of_eratosthenes(<span class="number">20</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># [2, 3, 5, 7, 11, 13, 17, 19]</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: black;"><strong>说明</strong></span> : 起初 , 创建一个布尔数组 <code>is_prime</code> , 全部初始化为 <code>True</code> ,将索引 <code>0</code> 和 <code>1</code> 赋值为 <code>False</code> , 从 <code>2</code>  开始遍历到 <code>n</code> 的平方根(平方根取整+1) , 如果当前数字 <code>i</code> 是素数（即 <code>is_prime[i]</code> 为 <code>True</code>），则将其倍数 <code>i*i</code>、<code>i*(i+1)</code>、<code>i*(i+2)</code>… 标记为非素数（将对应的 <code>is_prime[j]</code> 置为 <code>False</code>）。最后，我们遍历从 2 到 n 的所有数字，将 <code>is_prime</code> 中值为 <code>True</code> 的索引添加到素数列表 <code>primes</code> 中。</p>
-</blockquote>
-<p>**相关执行过程如下 : **</p>
-<iframe width="800" height="500" frameborder="0" src="https://pythontutor.com/iframe-embed.html#code=def%20sieve_of_eratosthenes%28n%29%3A%0A%20%20%20%20is_prime%20%3D%20%5BTrue%5D%20*%20%28n%20%2B%201%29%0A%20%20%20%20is_prime%5B0%5D%20%3D%20is_prime%5B1%5D%20%3D%20False%0A%0A%20%20%20%20for%20i%20in%20range%282,%20int%28n%20**%200.5%29%20%2B%201%29%3A%0A%20%20%20%20%20%20%20%20if%20is_prime%5Bi%5D%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20for%20j%20in%20range%28i%20*%20i,%20n%20%2B%201,%20i%29%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20is_prime%5Bj%5D%20%3D%20False%0A%0A%20%20%20%20primes%20%3D%20%5B%5D%0A%20%20%20%20for%20i%20in%20range%282,%20n%20%2B%201%29%3A%0A%20%20%20%20%20%20%20%20if%20is_prime%5Bi%5D%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20primes.append%28i%29%0A%0A%20%20%20%20return%20primes%0A%0Aprint%28sieve_of_eratosthenes%2820%29%29&codeDivHeight=400&codeDivWidth=350&cumulative=true&curInstr=90&heapPrimitives=true&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false"> </iframe>
-<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">时</mi><mi mathvariant="normal">间</mi><mi mathvariant="normal">复</mi><mi mathvariant="normal">杂</mi><mi mathvariant="normal">度</mi><mi mathvariant="normal">为</mi><mo>:</mo><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">时间复杂度为:O(n log log n)
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord cjk_fallback">时</span><span class="mord cjk_fallback">间</span><span class="mord cjk_fallback">复</span><span class="mord cjk_fallback">杂</span><span class="mord cjk_fallback">度</span><span class="mord cjk_fallback">为</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></span></p>
-<hr />
-<h1 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h1>
-<p>以上是关于质数判断法和埃拉托斯特尼筛法的 Python 示例代码和相关说明.</p>
-<p><code>质数判断法</code> 更适用于判断单个素数</p>
-<p><code>埃拉托斯特尼筛法</code> 比较适合取得一定范围内的素数序列</p>
-<p>根据具体需求选择相应算法</p>
-<hr />
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>素数</tag>
       </tags>
   </entry>
 </search>
