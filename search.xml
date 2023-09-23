@@ -2185,6 +2185,84 @@ Name: education, dtype: int64
       </tags>
   </entry>
   <entry>
+    <title>数据的连接和映射</title>
+    <url>/posts/951018cf/</url>
+    <content><![CDATA[<h2 id="数据的连接"><a class="markdownIt-Anchor" href="#数据的连接"></a> 数据的连接</h2>
+<p><strong>数据的连接</strong>是在数据处理和分析中常见的一个操作。当我们需要将多个数据集合并起来，以便</p>
+<p>进行更全面、综合的分析时，就可以使用数据连接操作。</p>
+<h3 id="concat函数连接"><a class="markdownIt-Anchor" href="#concat函数连接"></a> concat函数(连接)</h3>
+<p>concat函数是在pandas底下的方法，可以将数据根据不同的轴作简单的融合</p>
+<p>提供行方向和列方向进行内联或外联的拼接操作</p>
+<h4 id="concat连接示例"><a class="markdownIt-Anchor" href="#concat连接示例"></a> concat连接示例</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df1 = pd.DataFrame(&#123;<span class="string">&#x27;A&#x27;</span>: [<span class="string">&#x27;A0&#x27;</span>, <span class="string">&#x27;A1&#x27;</span>, <span class="string">&#x27;A2&#x27;</span>, <span class="string">&#x27;A3&#x27;</span>],</span><br><span class="line">                     <span class="string">&#x27;B&#x27;</span>: [<span class="string">&#x27;B0&#x27;</span>, <span class="string">&#x27;B1&#x27;</span>, <span class="string">&#x27;B2&#x27;</span>, <span class="string">&#x27;B3&#x27;</span>],</span><br><span class="line">                       <span class="string">&#x27;C&#x27;</span>: [<span class="string">&#x27;C0&#x27;</span>, <span class="string">&#x27;C1&#x27;</span>, <span class="string">&#x27;C2&#x27;</span>, <span class="string">&#x27;C3&#x27;</span>],</span><br><span class="line">                       <span class="string">&#x27;D&#x27;</span>: [<span class="string">&#x27;D0&#x27;</span>, <span class="string">&#x27;D1&#x27;</span>, <span class="string">&#x27;D2&#x27;</span>, <span class="string">&#x27;D3&#x27;</span>]&#125;,</span><br><span class="line">                       index=[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]) </span><br><span class="line"> </span><br><span class="line">df2 = pd.DataFrame(&#123;<span class="string">&#x27;A&#x27;</span>: [<span class="string">&#x27;A4&#x27;</span>, <span class="string">&#x27;A5&#x27;</span>, <span class="string">&#x27;A6&#x27;</span>, <span class="string">&#x27;A7&#x27;</span>],</span><br><span class="line">                      <span class="string">&#x27;B&#x27;</span>: [<span class="string">&#x27;B4&#x27;</span>, <span class="string">&#x27;B5&#x27;</span>, <span class="string">&#x27;B6&#x27;</span>, <span class="string">&#x27;B7&#x27;</span>],</span><br><span class="line">                      <span class="string">&#x27;C&#x27;</span>: [<span class="string">&#x27;C4&#x27;</span>, <span class="string">&#x27;C5&#x27;</span>, <span class="string">&#x27;C6&#x27;</span>, <span class="string">&#x27;C7&#x27;</span>],</span><br><span class="line">                      <span class="string">&#x27;D&#x27;</span>: [<span class="string">&#x27;D4&#x27;</span>, <span class="string">&#x27;D5&#x27;</span>, <span class="string">&#x27;D6&#x27;</span>, <span class="string">&#x27;D7&#x27;</span>]&#125;,</span><br><span class="line">                       index=[<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 参数axis默认是 0  行上拼接    </span></span><br><span class="line">result = pd.concat([df1, df2])</span><br><span class="line"><span class="comment"># 注意 此时和drop是一样的 axis = 1  是列拼接 </span></span><br><span class="line"> result = pd.concat([df1, df2],axis  = <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 要在相接的时候在加上一个层次的key来识别数据源自于哪张表，可以增加key参数</span></span><br><span class="line">result = pd.concat([df1, df2], keys=[<span class="string">&#x27;x&#x27;</span>, <span class="string">&#x27;y&#x27;</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df3 = pd.DataFrame(&#123;<span class="string">&#x27;B&#x27;</span>: [<span class="string">&#x27;B2&#x27;</span>, <span class="string">&#x27;B3&#x27;</span>, <span class="string">&#x27;B6&#x27;</span>, <span class="string">&#x27;B7&#x27;</span>],</span><br><span class="line">                   <span class="string">&#x27;D&#x27;</span>: [<span class="string">&#x27;D2&#x27;</span>, <span class="string">&#x27;D3&#x27;</span>, <span class="string">&#x27;D6&#x27;</span>, <span class="string">&#x27;D7&#x27;</span>],</span><br><span class="line">                   <span class="string">&#x27;F&#x27;</span>: [<span class="string">&#x27;F2&#x27;</span>, <span class="string">&#x27;F3&#x27;</span>, <span class="string">&#x27;F6&#x27;</span>, <span class="string">&#x27;F7&#x27;</span>]&#125; ,</span><br><span class="line">                   index=[<span class="number">2</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">7</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 当axis = 1的时候，列拼接 ,然后将不同列名称的两张表合并</span></span><br><span class="line">result = pd.concat([df1, df3], axis=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加上join参数的属性，如果为’inner’得到的是两表的交集，如果是outer，得到的是两表的并集。默认是 outer</span></span><br><span class="line">result = pd.concat([df1, df3], axis=<span class="number">1</span>, join=<span class="string">&#x27;inner&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># ignore_index参数</span></span><br><span class="line">pd.concat([df1,df3],ignore_index= <span class="literal">True</span>)  <span class="comment"># 和重置索引差不多 </span></span><br><span class="line">pd.concat([df1,df3]).reset_index(drop= <span class="literal">True</span>) </span><br></pre></td></tr></table></figure>
+<h3 id="merge函数"><a class="markdownIt-Anchor" href="#merge函数"></a> merge函数</h3>
+<p>提供类似于SQL数据库中的join<strong>连接功能</strong>，支持左联、右联、内联和外联等全部四种SQL连接操作类型</p>
+<p>类似于关系型数据库的连接方式，可以根据一个或多个键将<strong>两张不同的DatFrame连接起来</strong>，由于默认how=‘inner’，故合并表仅保留key重名的行，不重名的行将被丢弃。（ <strong>备注： merge()，若有三个及以上表，需不断两两合并来实现</strong>）<br />
+该函数的典型应用场景： <strong>两张表有相同内容的某一列（类似SQL中的主键</strong>）也就是说两张表是有关系的，欲根据主键将两张表进行列拼接整合到一张表中</p>
+<h4 id="merge函数参数的理解"><a class="markdownIt-Anchor" href="#merge函数参数的理解"></a> merge函数参数的理解</h4>
+<ul>
+<li>merge与concat的区别在于，merge需要依据某一共同列来进行合并</li>
+<li>使用pd.merge()合并时，会自动根据两者相同column名称的那一列，作为key来进行合并。</li>
+<li>merge只能完成两张表的连接.concat是拼接,可以有多个表</li>
+</ul>
+<h4 id="how参数"><a class="markdownIt-Anchor" href="#how参数"></a> how参数</h4>
+<p>可选值有{'left’, ‘right’, ‘outer’, ‘inner’}, 默认‘inner’。这四种连接方式分别类似于SQL中的{左联，右联，外联，内联}。  注意和concat的默认参数不一样</p>
+<p><strong>默认是how= 'inner’</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df1 = pd.DataFrame(&#123;<span class="string">&#x27;name&#x27;</span>:[<span class="string">&#x27;Bobs&#x27;</span>,<span class="string">&#x27;Linda&#x27;</span>,<span class="string">&#x27;Bill&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;group&#x27;</span>:[<span class="string">&#x27;Accounting&#x27;</span>,<span class="string">&#x27;Product&#x27;</span>,<span class="string">&#x27;Marketing&#x27;</span>],</span><br><span class="line">               <span class="string">&#x27;hire_date&#x27;</span>:[<span class="number">1998</span>,<span class="number">2017</span>,<span class="number">2018</span>]&#125;)</span><br><span class="line"></span><br><span class="line">df2 = pd.DataFrame(&#123;<span class="string">&#x27;name&#x27;</span>:[<span class="string">&#x27;james&#x27;</span>,<span class="string">&#x27;Bobs&#x27;</span>,<span class="string">&#x27;Bill&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;hire_dates&#x27;</span>:[<span class="number">1998</span>,<span class="number">2016</span>,<span class="number">2007</span>]&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 默认是inner连接 </span></span><br><span class="line">pd.merge(df1,df2)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># how = &#x27; outer &#x27;</span></span><br><span class="line">pd.merge(df1,df2,how= <span class="string">&#x27;outer&#x27;</span>)  <span class="comment"># NaN值补全  </span></span><br><span class="line"></span><br><span class="line">pd.merge(df1,df2,how= <span class="string">&#x27;left&#x27;</span>)  <span class="comment">#  以左表为基础,左表的所有都要,右表没有的 进行NaN值补充 </span></span><br></pre></td></tr></table></figure>
+<h4 id="一对一合并"><a class="markdownIt-Anchor" href="#一对一合并"></a> 一对一合并</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df1 = pd.DataFrame(&#123;<span class="string">&#x27;employee&#x27;</span>:[<span class="string">&#x27;Bob&#x27;</span>,<span class="string">&#x27;Jake&#x27;</span>,<span class="string">&#x27;Lisa&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;group&#x27;</span>:[<span class="string">&#x27;Accounting&#x27;</span>,<span class="string">&#x27;Engineering&#x27;</span>,<span class="string">&#x27;Engineering&#x27;</span>],</span><br><span class="line">                &#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df2 = pd.DataFrame(&#123;<span class="string">&#x27;employee&#x27;</span>:[<span class="string">&#x27;Lisa&#x27;</span>,<span class="string">&#x27;Bob&#x27;</span>,<span class="string">&#x27;Jake&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;hire_date&#x27;</span>:[<span class="number">2004</span>,<span class="number">2008</span>,<span class="number">2012</span>],</span><br><span class="line">                &#125;)</span><br><span class="line">df2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 一对一合并</span></span><br><span class="line">pd.merge(df1,df2,on=<span class="string">&#x27;employee&#x27;</span>)   <span class="comment"># on如果不写，默认情况下使用两表中公有的列作为合并条件</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df1 = pd.DataFrame(&#123;<span class="string">&#x27;employee&#x27;</span>:[<span class="string">&#x27;Bob&#x27;</span>,<span class="string">&#x27;Jake&#x27;</span>,<span class="string">&#x27;Lisa&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;group&#x27;</span>:[<span class="number">2004</span>,<span class="number">3003</span>,<span class="number">4004</span>],</span><br><span class="line">                &#125;)</span><br><span class="line"></span><br><span class="line">df2 = pd.DataFrame(&#123;<span class="string">&#x27;employee&#x27;</span>:[<span class="string">&#x27;Lisa&#x27;</span>,<span class="string">&#x27;Bob&#x27;</span>,<span class="string">&#x27;Jake&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;group&#x27;</span>:[<span class="number">2004</span>,<span class="number">2008</span>,<span class="number">2012</span>],</span><br><span class="line">                &#125;)</span><br><span class="line"></span><br><span class="line">pd.merge(df1,df2,on = <span class="string">&#x27;group&#x27;</span>)  </span><br></pre></td></tr></table></figure>
+<h4 id="一对多合并"><a class="markdownIt-Anchor" href="#一对多合并"></a> 一对多合并</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">df3 = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;employee&#x27;</span>:[<span class="string">&#x27;Lisa&#x27;</span>,<span class="string">&#x27;Jake&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;group&#x27;</span>:[<span class="string">&#x27;Accounting&#x27;</span>,<span class="string">&#x27;Engineering&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;hire_date&#x27;</span>:[<span class="number">2004</span>,<span class="number">2016</span>]&#125;)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">df4 = pd.DataFrame(&#123;<span class="string">&#x27;group&#x27;</span>:[<span class="string">&#x27;Accounting&#x27;</span>,<span class="string">&#x27;Engineering&#x27;</span>,<span class="string">&#x27;Engineering&#x27;</span>],</span><br><span class="line">                       <span class="string">&#x27;supervisor&#x27;</span>:[<span class="string">&#x27;Carly&#x27;</span>,<span class="string">&#x27;Guido&#x27;</span>,<span class="string">&#x27;Steve&#x27;</span>]</span><br><span class="line">                &#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pd.merge(df3,df4)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="多对多合并"><a class="markdownIt-Anchor" href="#多对多合并"></a> 多对多合并</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df1 = pd.DataFrame(&#123;<span class="string">&#x27;employee&#x27;</span>:[<span class="string">&#x27;Bob&#x27;</span>,<span class="string">&#x27;Jake&#x27;</span>,<span class="string">&#x27;Lisa&#x27;</span>],</span><br><span class="line">                 <span class="string">&#x27;group&#x27;</span>:[<span class="string">&#x27;Accounting&#x27;</span>,<span class="string">&#x27;Engineering&#x27;</span>,<span class="string">&#x27;Engineering&#x27;</span>]&#125;)</span><br><span class="line"></span><br><span class="line">df5 = pd.DataFrame(&#123;<span class="string">&#x27;group&#x27;</span>:[<span class="string">&#x27;Engineering&#x27;</span>,<span class="string">&#x27;Engineering&#x27;</span>,<span class="string">&#x27;HR&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;supervisor&#x27;</span>:[<span class="string">&#x27;Carly&#x27;</span>,<span class="string">&#x27;Guido&#x27;</span>,<span class="string">&#x27;Steve&#x27;</span>]</span><br><span class="line">                &#125;)</span><br><span class="line"></span><br><span class="line">pd.merge(df1,df5,how=<span class="string">&#x27;right&#x27;</span>)  <span class="comment"># 以右表为主 </span></span><br></pre></td></tr></table></figure>
+<h5 id="left_on参数"><a class="markdownIt-Anchor" href="#left_on参数"></a> left_on参数</h5>
+<p>这是两张表都有一个相同的列名</p>
+<p>那么如果没有相同的列名呢 ?(但是内容一样)</p>
+<ul>
+<li>当两张表没有可进行连接的列时，可使用left_on和right_on手动指定merge中左右两边的哪一列列作为连接的列</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df1 = pd.DataFrame(&#123;<span class="string">&#x27;employee&#x27;</span>:[<span class="string">&#x27;Bobs&#x27;</span>,<span class="string">&#x27;Linda&#x27;</span>,<span class="string">&#x27;Bill&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;group&#x27;</span>:[<span class="string">&#x27;Accounting&#x27;</span>,<span class="string">&#x27;Product&#x27;</span>,<span class="string">&#x27;Marketing&#x27;</span>],</span><br><span class="line">               <span class="string">&#x27;hire_date&#x27;</span>:[<span class="number">1998</span>,<span class="number">2017</span>,<span class="number">2018</span>]&#125;)</span><br><span class="line"></span><br><span class="line">df5 = pd.DataFrame(&#123;<span class="string">&#x27;name&#x27;</span>:[<span class="string">&#x27;Lisa&#x27;</span>,<span class="string">&#x27;Bobs&#x27;</span>,<span class="string">&#x27;Bill&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;hire_dates&#x27;</span>:[<span class="number">1998</span>,<span class="number">2016</span>,<span class="number">2007</span>]&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pd.merge(df1,df5,left_on=<span class="string">&#x27;employee&#x27;</span>,right_on=<span class="string">&#x27;name&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<h5 id="on参数"><a class="markdownIt-Anchor" href="#on参数"></a> on参数</h5>
+<p>如果出现两个表中有两个及其两个以上的列名呢 ?</p>
+<p>on为进行合并的参照列名，数据类型为字符串或字符串列表，<em><strong>该列名必须在两个表中都有才行并且是两个以上</strong></em>。如果什么都不写 ,方法会自动匹配两张表中相同的列名</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df1 = pd.DataFrame(&#123;<span class="string">&#x27;name&#x27;</span>:[<span class="string">&#x27;Bob&#x27;</span>,<span class="string">&#x27;Lisa&#x27;</span>,<span class="string">&#x27;Bill&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;group&#x27;</span>:[<span class="string">&#x27;Accounting&#x27;</span>,<span class="string">&#x27;Product&#x27;</span>,<span class="string">&#x27;Marketing&#x27;</span>],</span><br><span class="line">               <span class="string">&#x27;hire_date&#x27;</span>:[<span class="number">1998</span>,<span class="number">2004</span>,<span class="number">2018</span>]&#125;)</span><br><span class="line"></span><br><span class="line">df2 = pd.DataFrame(&#123;<span class="string">&#x27;name&#x27;</span>:[<span class="string">&#x27;Lisa&#x27;</span>,<span class="string">&#x27;Bob&#x27;</span>,<span class="string">&#x27;Jake&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;hire_date&#x27;</span>:[<span class="number">2004</span>,<span class="number">2008</span>,<span class="number">2012</span>],</span><br><span class="line">                &#125;)</span><br><span class="line"></span><br><span class="line">pd.merge(df1,df2)  <span class="comment"># how默认inner join</span></span><br><span class="line">pd.merge(df1,df2,on = <span class="string">&#x27;name&#x27;</span>)  <span class="comment"># how默认inner join</span></span><br><span class="line">pd.merge(df1,df2,on = <span class="string">&#x27;hire_date&#x27;</span>)  <span class="comment"># how默认inner join</span></span><br></pre></td></tr></table></figure>
+<h3 id="join函数"><a class="markdownIt-Anchor" href="#join函数"></a> join函数</h3>
+<h4 id="join函数参数的理解"><a class="markdownIt-Anchor" href="#join函数参数的理解"></a> join函数参数的理解</h4>
+<p>该函数的典型应用场景：<strong>无重复列名的两个表df1和df2 基于行索引进行列拼接</strong>，直接使用df1.join(df2)即可,无需添加任何参数，合并表的行数与left表相同1，列数为left表+right表的列数之和，结果仅保留left表和right表中行索引相同的行，对列不做任何处理。如果两个表有重复的列名，需指定lsuffix, rsuffix参数。</p>
+<p>参数的意义与<code>merge</code>方法基本相同，只是join方法<strong>默认为左外连接how=’left’</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#样集1</span></span><br><span class="line">df1=pd.DataFrame(np.random.randint(<span class="number">1</span>,<span class="number">100</span>,size = (<span class="number">3</span>,<span class="number">4</span>)),columns=[<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;B&#x27;</span>,<span class="string">&#x27;C&#x27;</span>,<span class="string">&#x27;D&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment">#样集2</span></span><br><span class="line">df2=pd.DataFrame(&#123;<span class="string">&#x27;b&#x27;</span>:[<span class="number">15</span>,<span class="number">6</span>],<span class="string">&#x27;d&#x27;</span>:[<span class="number">1</span>,<span class="number">11</span>],<span class="string">&#x27;a&#x27;</span>:[<span class="number">0</span>,<span class="number">6</span>]&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">#默认是列拼接 ,注意写法 </span></span><br><span class="line">df1.join(df2)   </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#样集1</span></span><br><span class="line">df1=pd.DataFrame(np.random.randint(<span class="number">1</span>,<span class="number">100</span>,size = (<span class="number">3</span>,<span class="number">4</span>))columns=[<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;b&#x27;</span>,<span class="string">&#x27;c&#x27;</span>,<span class="string">&#x27;d&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment">#样集2</span></span><br><span class="line">df2=pd.DataFrame(&#123;<span class="string">&#x27;b&#x27;</span>:[<span class="number">15</span>,<span class="number">6</span>],<span class="string">&#x27;d&#x27;</span>:[<span class="number">1</span>,<span class="number">11</span>],<span class="string">&#x27;a&#x27;</span>:[<span class="number">0</span>,<span class="number">6</span>]&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">#用join合并表df1和表df2,需指定lsuffix, rsuffix参数,标识两个表的重复列名</span></span><br><span class="line">df1.join(df2, lsuffix=<span class="string">&#x27;_l&#x27;</span>, rsuffix=<span class="string">&#x27;_r&#x27;</span>) </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="append函数"><a class="markdownIt-Anchor" href="#append函数"></a> append函数</h3>
+<p>提供行方向的拼接操作</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df1 = pd.DataFrame(data=np.random.randint(<span class="number">0</span>,<span class="number">100</span>,size=(<span class="number">5</span>,<span class="number">3</span>)),columns=[<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;B&#x27;</span>,<span class="string">&#x27;C&#x27;</span>])</span><br><span class="line">df2 = pd.DataFrame(data=np.random.randint(<span class="number">0</span>,<span class="number">100</span>,size=(<span class="number">5</span>,<span class="number">3</span>)),columns=[<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;D&#x27;</span>,<span class="string">&#x27;C&#x27;</span>])</span><br><span class="line"></span><br><span class="line">df1.append(df2,ignore_index= <span class="literal">True</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="三者区别"><a class="markdownIt-Anchor" href="#三者区别"></a> 三者区别 :</h3>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.tucang.cc/api/image/show/fa135b0341adb2981c489d132ae4fed3" alt="" /></p>
+<h2 id="map和apply"><a class="markdownIt-Anchor" href="#map和apply"></a> map和apply</h2>
+<h3 id="理解函数"><a class="markdownIt-Anchor" href="#理解函数"></a> 理解函数</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">function</span>():</span><br><span class="line">	<span class="keyword">pass</span></span><br><span class="line">	</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">my_sq</span>(<span class="params">x</span>):</span><br><span class="line">	<span class="keyword">return</span> x**<span class="number">2</span> </span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">avg_2</span>(<span class="params">x,y</span>):</span><br><span class="line">	<span class="keyword">return</span> (x+y)/<span class="number">2</span> </span><br><span class="line">	</span><br><span class="line"><span class="comment"># 回顾一下 函数的使用</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = pd.read_csv(<span class="string">&#x27;./map_nan_nv.csv&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#  有个要求 : 女变成0  男变成1  怎么做 ?</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#如果需要把数据集中gender列的男替换为1，女替换为0，怎么做呢？绝对不是用for循环实现，使用Series.map()可以很容易做到，最少仅需一行代码。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#①使用字典进行映射</span></span><br><span class="line">data[<span class="string">&quot;gender&quot;</span>] = data[<span class="string">&quot;gender&quot;</span>].<span class="built_in">map</span>(&#123;<span class="string">&quot;男&quot;</span>:<span class="number">1</span>, <span class="string">&quot;女&quot;</span>:<span class="number">0</span>&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># pandas 如何使用函数的呢 ?</span></span><br><span class="line"><span class="comment">#②使用函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">gender_map</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">if</span> x == <span class="string">&quot;男&quot;</span> :</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span> </span><br><span class="line">    <span class="keyword">else</span> :</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span> </span><br><span class="line"><span class="comment">#注意这里传入的是函数名，不带括号</span></span><br><span class="line">data[<span class="string">&quot;gender&quot;</span>] = data[<span class="string">&quot;gender&quot;</span>].<span class="built_in">map</span>(gender_map)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 不论是利用字典还是函数进行映射，map方法都是把对应的数据逐个当作参数传入到字典或函数中，得到映射后的值。</span></span><br></pre></td></tr></table></figure>
+<h3 id="映射操作"><a class="markdownIt-Anchor" href="#映射操作"></a> 映射操作</h3>
+<ul>
+<li>概念：创建一个映射关系列表，把values元素和一个特定的标签或者字符串绑定（给一个元素值提供不同的表现形式）</li>
+<li>注意 : map是Series的方法，只能被Series调用</li>
+</ul>
+<h4 id="series的apply方法"><a class="markdownIt-Anchor" href="#series的apply方法"></a> series的apply方法</h4>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.tucang.cc/api/image/show/73f1f26511781c16a2c4f99f7a3cb71c" alt="" /></p>
+<p>同时Series对象还有<code>apply</code>方法，<code>apply</code>方法的作用原理和<code>map</code>方法类似，区别在于<code>apply</code>能够传入功能更为复杂的函数。怎么理解呢？一起看看下面的例子。</p>
+<p>假设在数据统计的过程中，年龄<code>age</code>列有较大误差，需要对其进行调整（加上或减去一个值），由于这个加上或减去的值<strong>未知</strong>，故在定义函数时，需要加多一个参数<code>bias</code>，此时用<code>map</code>方法是操作不了的（传入<code>map</code>的函数只能接收一个参数），<code>apply</code>方法则可以解决这个问题。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">apply_age</span>(<span class="params">x,bias</span>):</span><br><span class="line">    <span class="keyword">return</span> x+bias</span><br><span class="line"></span><br><span class="line">data[<span class="string">&quot;age&quot;</span>] = data[<span class="string">&quot;age&quot;</span>].apply(apply_age,bias = <span class="number">3</span> ) </span><br><span class="line"></span><br><span class="line"><span class="comment"># 可以看到age列都加了3，当然，这里只是简单举了个例子，当需要进行复杂处理时，更能体现apply的作用。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 总而言之，对于Series而言，map可以解决绝大多数的数据处理需求，但如果需要使用较为复杂的函数，则需要用到apply方法。</span></span><br></pre></td></tr></table></figure>
+<p>​</p>
+<h4 id="dataframe的apply方法"><a class="markdownIt-Anchor" href="#dataframe的apply方法"></a> Dataframe的apply方法</h4>
+<p>Dataframe通常两个维度,因此当Dataframe应用一个函数的时候,首先需要指定该函数的轴是哪里,? 逐行还是逐列?</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 沿着0轴列进行求和</span></span><br><span class="line">data[[<span class="string">&quot;height&quot;</span>,<span class="string">&quot;weight&quot;</span>,<span class="string">&quot;age&quot;</span>]].apply(np.<span class="built_in">sum</span>, axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#那如果在实际使用中需要按行进行操作（axis=1）,那整个过程又是怎么实现的呢？</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">BMI</span>(<span class="params">series</span>):</span><br><span class="line">    <span class="built_in">print</span>(series)</span><br><span class="line">    weight = series[<span class="string">&quot;weight&quot;</span>]</span><br><span class="line">    height = series[<span class="string">&quot;height&quot;</span>]</span><br><span class="line">    BMI = weight/height</span><br><span class="line">    <span class="keyword">return</span> BMI</span><br><span class="line"></span><br><span class="line">data[<span class="string">&quot;BMI&quot;</span>] = data.apply(BMI,axis=<span class="number">1</span>)  <span class="comment">#  传进去的都是axis = 1 行数据</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>数据分析</category>
+      </categories>
+      <tags>
+        <tag>pandas, 数据分析</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>数据的读取与分组</title>
     <url>/posts/3288bd1/</url>
     <content><![CDATA[<h1 id="数据的读取"><a class="markdownIt-Anchor" href="#数据的读取"></a> 数据的读取</h1>
@@ -3597,81 +3675,380 @@ dtype: int64
       </tags>
   </entry>
   <entry>
-    <title>数据的连接和映射</title>
-    <url>/posts/951018cf/</url>
-    <content><![CDATA[<h2 id="数据的连接"><a class="markdownIt-Anchor" href="#数据的连接"></a> 数据的连接</h2>
-<p><strong>数据的连接</strong>是在数据处理和分析中常见的一个操作。当我们需要将多个数据集合并起来，以便</p>
-<p>进行更全面、综合的分析时，就可以使用数据连接操作。</p>
-<h3 id="concat函数连接"><a class="markdownIt-Anchor" href="#concat函数连接"></a> concat函数(连接)</h3>
-<p>concat函数是在pandas底下的方法，可以将数据根据不同的轴作简单的融合</p>
-<p>提供行方向和列方向进行内联或外联的拼接操作</p>
-<h4 id="concat连接示例"><a class="markdownIt-Anchor" href="#concat连接示例"></a> concat连接示例</h4>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df1 = pd.DataFrame(&#123;<span class="string">&#x27;A&#x27;</span>: [<span class="string">&#x27;A0&#x27;</span>, <span class="string">&#x27;A1&#x27;</span>, <span class="string">&#x27;A2&#x27;</span>, <span class="string">&#x27;A3&#x27;</span>],</span><br><span class="line">                     <span class="string">&#x27;B&#x27;</span>: [<span class="string">&#x27;B0&#x27;</span>, <span class="string">&#x27;B1&#x27;</span>, <span class="string">&#x27;B2&#x27;</span>, <span class="string">&#x27;B3&#x27;</span>],</span><br><span class="line">                       <span class="string">&#x27;C&#x27;</span>: [<span class="string">&#x27;C0&#x27;</span>, <span class="string">&#x27;C1&#x27;</span>, <span class="string">&#x27;C2&#x27;</span>, <span class="string">&#x27;C3&#x27;</span>],</span><br><span class="line">                       <span class="string">&#x27;D&#x27;</span>: [<span class="string">&#x27;D0&#x27;</span>, <span class="string">&#x27;D1&#x27;</span>, <span class="string">&#x27;D2&#x27;</span>, <span class="string">&#x27;D3&#x27;</span>]&#125;,</span><br><span class="line">                       index=[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]) </span><br><span class="line"> </span><br><span class="line">df2 = pd.DataFrame(&#123;<span class="string">&#x27;A&#x27;</span>: [<span class="string">&#x27;A4&#x27;</span>, <span class="string">&#x27;A5&#x27;</span>, <span class="string">&#x27;A6&#x27;</span>, <span class="string">&#x27;A7&#x27;</span>],</span><br><span class="line">                      <span class="string">&#x27;B&#x27;</span>: [<span class="string">&#x27;B4&#x27;</span>, <span class="string">&#x27;B5&#x27;</span>, <span class="string">&#x27;B6&#x27;</span>, <span class="string">&#x27;B7&#x27;</span>],</span><br><span class="line">                      <span class="string">&#x27;C&#x27;</span>: [<span class="string">&#x27;C4&#x27;</span>, <span class="string">&#x27;C5&#x27;</span>, <span class="string">&#x27;C6&#x27;</span>, <span class="string">&#x27;C7&#x27;</span>],</span><br><span class="line">                      <span class="string">&#x27;D&#x27;</span>: [<span class="string">&#x27;D4&#x27;</span>, <span class="string">&#x27;D5&#x27;</span>, <span class="string">&#x27;D6&#x27;</span>, <span class="string">&#x27;D7&#x27;</span>]&#125;,</span><br><span class="line">                       index=[<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 参数axis默认是 0  行上拼接    </span></span><br><span class="line">result = pd.concat([df1, df2])</span><br><span class="line"><span class="comment"># 注意 此时和drop是一样的 axis = 1  是列拼接 </span></span><br><span class="line"> result = pd.concat([df1, df2],axis  = <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 要在相接的时候在加上一个层次的key来识别数据源自于哪张表，可以增加key参数</span></span><br><span class="line">result = pd.concat([df1, df2], keys=[<span class="string">&#x27;x&#x27;</span>, <span class="string">&#x27;y&#x27;</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df3 = pd.DataFrame(&#123;<span class="string">&#x27;B&#x27;</span>: [<span class="string">&#x27;B2&#x27;</span>, <span class="string">&#x27;B3&#x27;</span>, <span class="string">&#x27;B6&#x27;</span>, <span class="string">&#x27;B7&#x27;</span>],</span><br><span class="line">                   <span class="string">&#x27;D&#x27;</span>: [<span class="string">&#x27;D2&#x27;</span>, <span class="string">&#x27;D3&#x27;</span>, <span class="string">&#x27;D6&#x27;</span>, <span class="string">&#x27;D7&#x27;</span>],</span><br><span class="line">                   <span class="string">&#x27;F&#x27;</span>: [<span class="string">&#x27;F2&#x27;</span>, <span class="string">&#x27;F3&#x27;</span>, <span class="string">&#x27;F6&#x27;</span>, <span class="string">&#x27;F7&#x27;</span>]&#125; ,</span><br><span class="line">                   index=[<span class="number">2</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">7</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 当axis = 1的时候，列拼接 ,然后将不同列名称的两张表合并</span></span><br><span class="line">result = pd.concat([df1, df3], axis=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加上join参数的属性，如果为’inner’得到的是两表的交集，如果是outer，得到的是两表的并集。默认是 outer</span></span><br><span class="line">result = pd.concat([df1, df3], axis=<span class="number">1</span>, join=<span class="string">&#x27;inner&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># ignore_index参数</span></span><br><span class="line">pd.concat([df1,df3],ignore_index= <span class="literal">True</span>)  <span class="comment"># 和重置索引差不多 </span></span><br><span class="line">pd.concat([df1,df3]).reset_index(drop= <span class="literal">True</span>) </span><br></pre></td></tr></table></figure>
-<h3 id="merge函数"><a class="markdownIt-Anchor" href="#merge函数"></a> merge函数</h3>
-<p>提供类似于SQL数据库中的join<strong>连接功能</strong>，支持左联、右联、内联和外联等全部四种SQL连接操作类型</p>
-<p>类似于关系型数据库的连接方式，可以根据一个或多个键将<strong>两张不同的DatFrame连接起来</strong>，由于默认how=‘inner’，故合并表仅保留key重名的行，不重名的行将被丢弃。（ <strong>备注： merge()，若有三个及以上表，需不断两两合并来实现</strong>）<br />
-该函数的典型应用场景： <strong>两张表有相同内容的某一列（类似SQL中的主键</strong>）也就是说两张表是有关系的，欲根据主键将两张表进行列拼接整合到一张表中</p>
-<h4 id="merge函数参数的理解"><a class="markdownIt-Anchor" href="#merge函数参数的理解"></a> merge函数参数的理解</h4>
+    <title>爬虫案例-豆瓣Top250</title>
+    <url>/posts/f8e9693d/</url>
+    <content><![CDATA[<h1 id="数据获取"><a class="markdownIt-Anchor" href="#数据获取"></a> 数据获取</h1>
 <ul>
-<li>merge与concat的区别在于，merge需要依据某一共同列来进行合并</li>
-<li>使用pd.merge()合并时，会自动根据两者相同column名称的那一列，作为key来进行合并。</li>
-<li>merge只能完成两张表的连接.concat是拼接,可以有多个表</li>
+<li><strong>网址</strong> : <a href="https://movie.douban.com/top250?start=">https://movie.douban.com/top250?start=</a></li>
+<li><strong>相关库</strong> : <code>requests</code> <code>bs4解析</code> <code>re正则表达式</code></li>
+<li><strong>数据分析及可视化</strong>: <code>pandas</code> <code>matplotylib</code> <code>wordcloud</code></li>
+<li><strong>存储</strong> : <code>csv</code></li>
 </ul>
-<h4 id="how参数"><a class="markdownIt-Anchor" href="#how参数"></a> how参数</h4>
-<p>可选值有{'left’, ‘right’, ‘outer’, ‘inner’}, 默认‘inner’。这四种连接方式分别类似于SQL中的{左联，右联，外联，内联}。  注意和concat的默认参数不一样</p>
-<p><strong>默认是how= 'inner’</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df1 = pd.DataFrame(&#123;<span class="string">&#x27;name&#x27;</span>:[<span class="string">&#x27;Bobs&#x27;</span>,<span class="string">&#x27;Linda&#x27;</span>,<span class="string">&#x27;Bill&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;group&#x27;</span>:[<span class="string">&#x27;Accounting&#x27;</span>,<span class="string">&#x27;Product&#x27;</span>,<span class="string">&#x27;Marketing&#x27;</span>],</span><br><span class="line">               <span class="string">&#x27;hire_date&#x27;</span>:[<span class="number">1998</span>,<span class="number">2017</span>,<span class="number">2018</span>]&#125;)</span><br><span class="line"></span><br><span class="line">df2 = pd.DataFrame(&#123;<span class="string">&#x27;name&#x27;</span>:[<span class="string">&#x27;james&#x27;</span>,<span class="string">&#x27;Bobs&#x27;</span>,<span class="string">&#x27;Bill&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;hire_dates&#x27;</span>:[<span class="number">1998</span>,<span class="number">2016</span>,<span class="number">2007</span>]&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 默认是inner连接 </span></span><br><span class="line">pd.merge(df1,df2)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># how = &#x27; outer &#x27;</span></span><br><span class="line">pd.merge(df1,df2,how= <span class="string">&#x27;outer&#x27;</span>)  <span class="comment"># NaN值补全  </span></span><br><span class="line"></span><br><span class="line">pd.merge(df1,df2,how= <span class="string">&#x27;left&#x27;</span>)  <span class="comment">#  以左表为基础,左表的所有都要,右表没有的 进行NaN值补充 </span></span><br></pre></td></tr></table></figure>
-<h4 id="一对一合并"><a class="markdownIt-Anchor" href="#一对一合并"></a> 一对一合并</h4>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df1 = pd.DataFrame(&#123;<span class="string">&#x27;employee&#x27;</span>:[<span class="string">&#x27;Bob&#x27;</span>,<span class="string">&#x27;Jake&#x27;</span>,<span class="string">&#x27;Lisa&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;group&#x27;</span>:[<span class="string">&#x27;Accounting&#x27;</span>,<span class="string">&#x27;Engineering&#x27;</span>,<span class="string">&#x27;Engineering&#x27;</span>],</span><br><span class="line">                &#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df2 = pd.DataFrame(&#123;<span class="string">&#x27;employee&#x27;</span>:[<span class="string">&#x27;Lisa&#x27;</span>,<span class="string">&#x27;Bob&#x27;</span>,<span class="string">&#x27;Jake&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;hire_date&#x27;</span>:[<span class="number">2004</span>,<span class="number">2008</span>,<span class="number">2012</span>],</span><br><span class="line">                &#125;)</span><br><span class="line">df2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 一对一合并</span></span><br><span class="line">pd.merge(df1,df2,on=<span class="string">&#x27;employee&#x27;</span>)   <span class="comment"># on如果不写，默认情况下使用两表中公有的列作为合并条件</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df1 = pd.DataFrame(&#123;<span class="string">&#x27;employee&#x27;</span>:[<span class="string">&#x27;Bob&#x27;</span>,<span class="string">&#x27;Jake&#x27;</span>,<span class="string">&#x27;Lisa&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;group&#x27;</span>:[<span class="number">2004</span>,<span class="number">3003</span>,<span class="number">4004</span>],</span><br><span class="line">                &#125;)</span><br><span class="line"></span><br><span class="line">df2 = pd.DataFrame(&#123;<span class="string">&#x27;employee&#x27;</span>:[<span class="string">&#x27;Lisa&#x27;</span>,<span class="string">&#x27;Bob&#x27;</span>,<span class="string">&#x27;Jake&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;group&#x27;</span>:[<span class="number">2004</span>,<span class="number">2008</span>,<span class="number">2012</span>],</span><br><span class="line">                &#125;)</span><br><span class="line"></span><br><span class="line">pd.merge(df1,df2,on = <span class="string">&#x27;group&#x27;</span>)  </span><br></pre></td></tr></table></figure>
-<h4 id="一对多合并"><a class="markdownIt-Anchor" href="#一对多合并"></a> 一对多合并</h4>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">df3 = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;employee&#x27;</span>:[<span class="string">&#x27;Lisa&#x27;</span>,<span class="string">&#x27;Jake&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;group&#x27;</span>:[<span class="string">&#x27;Accounting&#x27;</span>,<span class="string">&#x27;Engineering&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;hire_date&#x27;</span>:[<span class="number">2004</span>,<span class="number">2016</span>]&#125;)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">df4 = pd.DataFrame(&#123;<span class="string">&#x27;group&#x27;</span>:[<span class="string">&#x27;Accounting&#x27;</span>,<span class="string">&#x27;Engineering&#x27;</span>,<span class="string">&#x27;Engineering&#x27;</span>],</span><br><span class="line">                       <span class="string">&#x27;supervisor&#x27;</span>:[<span class="string">&#x27;Carly&#x27;</span>,<span class="string">&#x27;Guido&#x27;</span>,<span class="string">&#x27;Steve&#x27;</span>]</span><br><span class="line">                &#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pd.merge(df3,df4)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="多对多合并"><a class="markdownIt-Anchor" href="#多对多合并"></a> 多对多合并</h4>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df1 = pd.DataFrame(&#123;<span class="string">&#x27;employee&#x27;</span>:[<span class="string">&#x27;Bob&#x27;</span>,<span class="string">&#x27;Jake&#x27;</span>,<span class="string">&#x27;Lisa&#x27;</span>],</span><br><span class="line">                 <span class="string">&#x27;group&#x27;</span>:[<span class="string">&#x27;Accounting&#x27;</span>,<span class="string">&#x27;Engineering&#x27;</span>,<span class="string">&#x27;Engineering&#x27;</span>]&#125;)</span><br><span class="line"></span><br><span class="line">df5 = pd.DataFrame(&#123;<span class="string">&#x27;group&#x27;</span>:[<span class="string">&#x27;Engineering&#x27;</span>,<span class="string">&#x27;Engineering&#x27;</span>,<span class="string">&#x27;HR&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;supervisor&#x27;</span>:[<span class="string">&#x27;Carly&#x27;</span>,<span class="string">&#x27;Guido&#x27;</span>,<span class="string">&#x27;Steve&#x27;</span>]</span><br><span class="line">                &#125;)</span><br><span class="line"></span><br><span class="line">pd.merge(df1,df5,how=<span class="string">&#x27;right&#x27;</span>)  <span class="comment"># 以右表为主 </span></span><br></pre></td></tr></table></figure>
-<h5 id="left_on参数"><a class="markdownIt-Anchor" href="#left_on参数"></a> left_on参数</h5>
-<p>这是两张表都有一个相同的列名</p>
-<p>那么如果没有相同的列名呢 ?(但是内容一样)</p>
-<ul>
-<li>当两张表没有可进行连接的列时，可使用left_on和right_on手动指定merge中左右两边的哪一列列作为连接的列</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df1 = pd.DataFrame(&#123;<span class="string">&#x27;employee&#x27;</span>:[<span class="string">&#x27;Bobs&#x27;</span>,<span class="string">&#x27;Linda&#x27;</span>,<span class="string">&#x27;Bill&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;group&#x27;</span>:[<span class="string">&#x27;Accounting&#x27;</span>,<span class="string">&#x27;Product&#x27;</span>,<span class="string">&#x27;Marketing&#x27;</span>],</span><br><span class="line">               <span class="string">&#x27;hire_date&#x27;</span>:[<span class="number">1998</span>,<span class="number">2017</span>,<span class="number">2018</span>]&#125;)</span><br><span class="line"></span><br><span class="line">df5 = pd.DataFrame(&#123;<span class="string">&#x27;name&#x27;</span>:[<span class="string">&#x27;Lisa&#x27;</span>,<span class="string">&#x27;Bobs&#x27;</span>,<span class="string">&#x27;Bill&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;hire_dates&#x27;</span>:[<span class="number">1998</span>,<span class="number">2016</span>,<span class="number">2007</span>]&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pd.merge(df1,df5,left_on=<span class="string">&#x27;employee&#x27;</span>,right_on=<span class="string">&#x27;name&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<h5 id="on参数"><a class="markdownIt-Anchor" href="#on参数"></a> on参数</h5>
-<p>如果出现两个表中有两个及其两个以上的列名呢 ?</p>
-<p>on为进行合并的参照列名，数据类型为字符串或字符串列表，<em><strong>该列名必须在两个表中都有才行并且是两个以上</strong></em>。如果什么都不写 ,方法会自动匹配两张表中相同的列名</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df1 = pd.DataFrame(&#123;<span class="string">&#x27;name&#x27;</span>:[<span class="string">&#x27;Bob&#x27;</span>,<span class="string">&#x27;Lisa&#x27;</span>,<span class="string">&#x27;Bill&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;group&#x27;</span>:[<span class="string">&#x27;Accounting&#x27;</span>,<span class="string">&#x27;Product&#x27;</span>,<span class="string">&#x27;Marketing&#x27;</span>],</span><br><span class="line">               <span class="string">&#x27;hire_date&#x27;</span>:[<span class="number">1998</span>,<span class="number">2004</span>,<span class="number">2018</span>]&#125;)</span><br><span class="line"></span><br><span class="line">df2 = pd.DataFrame(&#123;<span class="string">&#x27;name&#x27;</span>:[<span class="string">&#x27;Lisa&#x27;</span>,<span class="string">&#x27;Bob&#x27;</span>,<span class="string">&#x27;Jake&#x27;</span>],</span><br><span class="line">                <span class="string">&#x27;hire_date&#x27;</span>:[<span class="number">2004</span>,<span class="number">2008</span>,<span class="number">2012</span>],</span><br><span class="line">                &#125;)</span><br><span class="line"></span><br><span class="line">pd.merge(df1,df2)  <span class="comment"># how默认inner join</span></span><br><span class="line">pd.merge(df1,df2,on = <span class="string">&#x27;name&#x27;</span>)  <span class="comment"># how默认inner join</span></span><br><span class="line">pd.merge(df1,df2,on = <span class="string">&#x27;hire_date&#x27;</span>)  <span class="comment"># how默认inner join</span></span><br></pre></td></tr></table></figure>
-<h3 id="join函数"><a class="markdownIt-Anchor" href="#join函数"></a> join函数</h3>
-<h4 id="join函数参数的理解"><a class="markdownIt-Anchor" href="#join函数参数的理解"></a> join函数参数的理解</h4>
-<p>该函数的典型应用场景：<strong>无重复列名的两个表df1和df2 基于行索引进行列拼接</strong>，直接使用df1.join(df2)即可,无需添加任何参数，合并表的行数与left表相同1，列数为left表+right表的列数之和，结果仅保留left表和right表中行索引相同的行，对列不做任何处理。如果两个表有重复的列名，需指定lsuffix, rsuffix参数。</p>
-<p>参数的意义与<code>merge</code>方法基本相同，只是join方法<strong>默认为左外连接how=’left’</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#样集1</span></span><br><span class="line">df1=pd.DataFrame(np.random.randint(<span class="number">1</span>,<span class="number">100</span>,size = (<span class="number">3</span>,<span class="number">4</span>)),columns=[<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;B&#x27;</span>,<span class="string">&#x27;C&#x27;</span>,<span class="string">&#x27;D&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment">#样集2</span></span><br><span class="line">df2=pd.DataFrame(&#123;<span class="string">&#x27;b&#x27;</span>:[<span class="number">15</span>,<span class="number">6</span>],<span class="string">&#x27;d&#x27;</span>:[<span class="number">1</span>,<span class="number">11</span>],<span class="string">&#x27;a&#x27;</span>:[<span class="number">0</span>,<span class="number">6</span>]&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">#默认是列拼接 ,注意写法 </span></span><br><span class="line">df1.join(df2)   </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#样集1</span></span><br><span class="line">df1=pd.DataFrame(np.random.randint(<span class="number">1</span>,<span class="number">100</span>,size = (<span class="number">3</span>,<span class="number">4</span>))columns=[<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;b&#x27;</span>,<span class="string">&#x27;c&#x27;</span>,<span class="string">&#x27;d&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment">#样集2</span></span><br><span class="line">df2=pd.DataFrame(&#123;<span class="string">&#x27;b&#x27;</span>:[<span class="number">15</span>,<span class="number">6</span>],<span class="string">&#x27;d&#x27;</span>:[<span class="number">1</span>,<span class="number">11</span>],<span class="string">&#x27;a&#x27;</span>:[<span class="number">0</span>,<span class="number">6</span>]&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">#用join合并表df1和表df2,需指定lsuffix, rsuffix参数,标识两个表的重复列名</span></span><br><span class="line">df1.join(df2, lsuffix=<span class="string">&#x27;_l&#x27;</span>, rsuffix=<span class="string">&#x27;_r&#x27;</span>) </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="append函数"><a class="markdownIt-Anchor" href="#append函数"></a> append函数</h3>
-<p>提供行方向的拼接操作</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df1 = pd.DataFrame(data=np.random.randint(<span class="number">0</span>,<span class="number">100</span>,size=(<span class="number">5</span>,<span class="number">3</span>)),columns=[<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;B&#x27;</span>,<span class="string">&#x27;C&#x27;</span>])</span><br><span class="line">df2 = pd.DataFrame(data=np.random.randint(<span class="number">0</span>,<span class="number">100</span>,size=(<span class="number">5</span>,<span class="number">3</span>)),columns=[<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;D&#x27;</span>,<span class="string">&#x27;C&#x27;</span>])</span><br><span class="line"></span><br><span class="line">df1.append(df2,ignore_index= <span class="literal">True</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="三者区别"><a class="markdownIt-Anchor" href="#三者区别"></a> 三者区别 :</h3>
-<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.tucang.cc/api/image/show/fa135b0341adb2981c489d132ae4fed3" alt="" /></p>
-<h2 id="map和apply"><a class="markdownIt-Anchor" href="#map和apply"></a> map和apply</h2>
-<h3 id="理解函数"><a class="markdownIt-Anchor" href="#理解函数"></a> 理解函数</h3>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">function</span>():</span><br><span class="line">	<span class="keyword">pass</span></span><br><span class="line">	</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">my_sq</span>(<span class="params">x</span>):</span><br><span class="line">	<span class="keyword">return</span> x**<span class="number">2</span> </span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">avg_2</span>(<span class="params">x,y</span>):</span><br><span class="line">	<span class="keyword">return</span> (x+y)/<span class="number">2</span> </span><br><span class="line">	</span><br><span class="line"><span class="comment"># 回顾一下 函数的使用</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = pd.read_csv(<span class="string">&#x27;./map_nan_nv.csv&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#  有个要求 : 女变成0  男变成1  怎么做 ?</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#如果需要把数据集中gender列的男替换为1，女替换为0，怎么做呢？绝对不是用for循环实现，使用Series.map()可以很容易做到，最少仅需一行代码。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#①使用字典进行映射</span></span><br><span class="line">data[<span class="string">&quot;gender&quot;</span>] = data[<span class="string">&quot;gender&quot;</span>].<span class="built_in">map</span>(&#123;<span class="string">&quot;男&quot;</span>:<span class="number">1</span>, <span class="string">&quot;女&quot;</span>:<span class="number">0</span>&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># pandas 如何使用函数的呢 ?</span></span><br><span class="line"><span class="comment">#②使用函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">gender_map</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">if</span> x == <span class="string">&quot;男&quot;</span> :</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span> </span><br><span class="line">    <span class="keyword">else</span> :</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span> </span><br><span class="line"><span class="comment">#注意这里传入的是函数名，不带括号</span></span><br><span class="line">data[<span class="string">&quot;gender&quot;</span>] = data[<span class="string">&quot;gender&quot;</span>].<span class="built_in">map</span>(gender_map)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 不论是利用字典还是函数进行映射，map方法都是把对应的数据逐个当作参数传入到字典或函数中，得到映射后的值。</span></span><br></pre></td></tr></table></figure>
-<h3 id="映射操作"><a class="markdownIt-Anchor" href="#映射操作"></a> 映射操作</h3>
-<ul>
-<li>概念：创建一个映射关系列表，把values元素和一个特定的标签或者字符串绑定（给一个元素值提供不同的表现形式）</li>
-<li>注意 : map是Series的方法，只能被Series调用</li>
-</ul>
-<h4 id="series的apply方法"><a class="markdownIt-Anchor" href="#series的apply方法"></a> series的apply方法</h4>
-<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.tucang.cc/api/image/show/73f1f26511781c16a2c4f99f7a3cb71c" alt="" /></p>
-<p>同时Series对象还有<code>apply</code>方法，<code>apply</code>方法的作用原理和<code>map</code>方法类似，区别在于<code>apply</code>能够传入功能更为复杂的函数。怎么理解呢？一起看看下面的例子。</p>
-<p>假设在数据统计的过程中，年龄<code>age</code>列有较大误差，需要对其进行调整（加上或减去一个值），由于这个加上或减去的值<strong>未知</strong>，故在定义函数时，需要加多一个参数<code>bias</code>，此时用<code>map</code>方法是操作不了的（传入<code>map</code>的函数只能接收一个参数），<code>apply</code>方法则可以解决这个问题。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">apply_age</span>(<span class="params">x,bias</span>):</span><br><span class="line">    <span class="keyword">return</span> x+bias</span><br><span class="line"></span><br><span class="line">data[<span class="string">&quot;age&quot;</span>] = data[<span class="string">&quot;age&quot;</span>].apply(apply_age,bias = <span class="number">3</span> ) </span><br><span class="line"></span><br><span class="line"><span class="comment"># 可以看到age列都加了3，当然，这里只是简单举了个例子，当需要进行复杂处理时，更能体现apply的作用。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 总而言之，对于Series而言，map可以解决绝大多数的数据处理需求，但如果需要使用较为复杂的函数，则需要用到apply方法。</span></span><br></pre></td></tr></table></figure>
-<p>​</p>
-<h4 id="dataframe的apply方法"><a class="markdownIt-Anchor" href="#dataframe的apply方法"></a> Dataframe的apply方法</h4>
-<p>Dataframe通常两个维度,因此当Dataframe应用一个函数的时候,首先需要指定该函数的轴是哪里,? 逐行还是逐列?</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 沿着0轴列进行求和</span></span><br><span class="line">data[[<span class="string">&quot;height&quot;</span>,<span class="string">&quot;weight&quot;</span>,<span class="string">&quot;age&quot;</span>]].apply(np.<span class="built_in">sum</span>, axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#那如果在实际使用中需要按行进行操作（axis=1）,那整个过程又是怎么实现的呢？</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">BMI</span>(<span class="params">series</span>):</span><br><span class="line">    <span class="built_in">print</span>(series)</span><br><span class="line">    weight = series[<span class="string">&quot;weight&quot;</span>]</span><br><span class="line">    height = series[<span class="string">&quot;height&quot;</span>]</span><br><span class="line">    BMI = weight/height</span><br><span class="line">    <span class="keyword">return</span> BMI</span><br><span class="line"></span><br><span class="line">data[<span class="string">&quot;BMI&quot;</span>] = data.apply(BMI,axis=<span class="number">1</span>)  <span class="comment">#  传进去的都是axis = 1 行数据</span></span><br></pre></td></tr></table></figure>
+<hr />
+<h2 id="request获取网页内容"><a class="markdownIt-Anchor" href="#request获取网页内容"></a> request获取网页内容</h2>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">&#x27;https://movie.douban.com/top250?start=&#x27;</span></span><br><span class="line">response = requests.get(url)</span><br><span class="line"><span class="built_in">print</span>(response)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>&lt;Response [<span class="number">418</span>]&gt;</span><br><span class="line"><span class="comment"># 响应状态码418表示访问的网站有反爬虫机制，而解决方法就是带请求头header(user-agent)访问。</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>1.信息响应 (100–199)</strong></p>
+<p><strong>2.成功响应(200–299)</strong></p>
+<p><strong>3.重定向消息(300–399)</strong></p>
+<p><strong>4.客户端错误响应 (400–499)</strong></p>
+<p><strong>5.服务端错误响应(500–599)</strong></p>
+</blockquote>
+<p>如何获取 <code>user-agent</code> :</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.tucang.cc/api/image/show/93d8136f2d4c79db4d6b45aebca768df" alt="" /></p>
+<p>在网页中，按 <code>F12</code> 打开开发者模式，选网络，按F5刷新页面，点击标头，即可查到 <code>User-Agent</code></p>
+<p>通过设置合理的 User-Agent 来模拟真实用户的请求，从而降低被网站封禁或识别为爬虫的风险，合理即可，网上有很多。</p>
+<p>设置好 <code>User-Agent</code> 后：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置请求头</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) &quot;</span></span><br><span class="line">                  <span class="string">&quot;Chrome/117.0.0.0 Mobile Safari/537.36 Edg/117.0.2045.31&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">response = requests.get(url, headers=headers)</span><br><span class="line"><span class="built_in">print</span>(response)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(requests.get(url)))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>&lt;Response [<span class="number">200</span>]&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>&lt;<span class="keyword">class</span> <span class="string">&#x27;requests.models.Response&#x27;</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>响应状态码200表示服务器已成功处理了请求.</p>
+<p><strong>requests库的相关函数</strong> :</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>requests.get()</code></td>
+<td>发送 GET 请求，获取指定 URL 的内容</td>
+</tr>
+<tr>
+<td><code>requests.post()</code></td>
+<td>发送 POST 请求，向指定 URL 提交数据</td>
+</tr>
+<tr>
+<td><code>requests.put()</code></td>
+<td>发送 PUT 请求，更新指定 URL 的内容</td>
+</tr>
+<tr>
+<td><code>requests.delete()</code></td>
+<td>发送 DELETE 请求，删除指定 URL 的资源</td>
+</tr>
+<tr>
+<td><code>requests.head()</code></td>
+<td>发送 HEAD 请求，获取指定 URL 的响应头信息</td>
+</tr>
+<tr>
+<td><code>requests.options()</code></td>
+<td>发送 OPTIONS 请求，获取指定 URL 支持的请求方法和头部信息</td>
+</tr>
+<tr>
+<td><code>requests.request()</code></td>
+<td>通用接口，发送自定义请求方法（GET/POST/PUT/DELETE 等）</td>
+</tr>
+<tr>
+<td><code>requests.session()</code></td>
+<td>创建一个 Session 对象，用于发送多个请求并保持会话状态</td>
+</tr>
+<tr>
+<td><code>response.text</code></td>
+<td>获取响应内容（以文本形式返回）</td>
+</tr>
+<tr>
+<td><code>response.json()</code></td>
+<td>获取响应内容，并将 JSON 字符串转换为 Python 字典或列表</td>
+</tr>
+<tr>
+<td><code>response.status_code</code></td>
+<td>获取响应的状态码</td>
+</tr>
+<tr>
+<td><code>response.headers</code></td>
+<td>获取响应的头部信息</td>
+</tr>
+<tr>
+<td><code>response.cookies</code></td>
+<td>获取响应的 Cookie 信息</td>
+</tr>
+<tr>
+<td><code>response.raise_for_status()</code></td>
+<td>如果响应状态码不是 200，抛出异常</td>
+</tr>
+<tr>
+<td><code>response.content</code></td>
+<td>获取响应内容的原始字节流</td>
+</tr>
+<tr>
+<td><code>response.url</code></td>
+<td>获取响应的 URL</td>
+</tr>
+<tr>
+<td><code>response.request</code></td>
+<td>获取与响应相关的请求对象</td>
+</tr>
+</tbody>
+</table>
+<h2 id="电影相关信息的定位和获取"><a class="markdownIt-Anchor" href="#电影相关信息的定位和获取"></a> 电影相关信息的定位和获取</h2>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.tucang.cc/api/image/show/cc16abdff60840bd6efa4c992ed49055" alt="" /></p>
+<p>如图所示，我们接下来要定位的是 <strong><code>电影名称</code></strong>、 <strong><code>导演</code></strong> 、<strong><code>主演</code></strong>、 <strong><code>上映年份</code></strong>、 <strong><code>制片国家</code></strong>、 <strong><code>类型</code></strong>、 <strong><code>评分</code></strong>、 <strong><code>影评</code></strong>.</p>
+<p>F12，查看网页源代码可以发现，每部电影的信息全部在 **<div class="info"> </div>**里</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.tucang.cc/api/image/show/097ac8367b9fbdb5d415eba5515829df" alt="" /></p>
+<h3 id="定位相关信息位置"><a class="markdownIt-Anchor" href="#定位相关信息位置"></a> 定位相关信息位置</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line">soup.find_all(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&#x27;info&#x27;</span>)  <span class="comment"># 获取全部标签为div class属性为info的所有元素，为一个列表</span></span><br><span class="line"><span class="built_in">type</span>(soup.find_all(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&#x27;info&#x27;</span>)) </span><br><span class="line"><span class="built_in">len</span>(<span class="built_in">type</span>(soup.find_all(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&#x27;info&#x27;</span>)))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>bs4.element.ResultSet</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">25</span></span><br></pre></td></tr></table></figure>
+<h3 id="定位电影名称评分数据影评"><a class="markdownIt-Anchor" href="#定位电影名称评分数据影评"></a> 定位电影名称，评分数据，影评</h3>
+<p>由上述 <code>soup.find_all('div', class_='info')</code> 返回一个列表，for 循环迭代即可：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> soup.find_all(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&#x27;info&#x27;</span>):</span><br><span class="line">    <span class="comment"># 获取电影名称</span></span><br><span class="line">    name = item.find(<span class="string">&#x27;span&#x27;</span>, class_=<span class="string">&#x27;title&#x27;</span>).text.strip()  </span><br><span class="line">    <span class="comment"># 获取评分</span></span><br><span class="line">    rating = item.find(<span class="string">&#x27;span&#x27;</span>, class_=<span class="string">&#x27;rating_num&#x27;</span>).text.strip()</span><br><span class="line">    <span class="comment"># 获取影评</span></span><br><span class="line">    inq = item.find(<span class="string">&#x27;span&#x27;</span>, class_=<span class="string">&#x27;inq&#x27;</span>).text.strip() <span class="keyword">if</span> item.find(<span class="string">&#x27;span&#x27;</span>, class_=<span class="string">&#x27;inq&#x27;</span>) <span class="keyword">else</span> <span class="string">&quot;无&quot;</span></span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+<div class="tabs" id="test1"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="test1-1">电影名称</button><button type="button" class="tab " data-href="test1-2">评分</button><button type="button" class="tab " data-href="test1-3">影评</button></ul><div class="tab-contents"><div class="tab-item-content active" id="test1-1"><blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&gt;out[]:</span><br><span class="line">&gt;<span class="comment"># 肖申克的救赎 霸王别姬 阿甘正传 泰坦尼克号 这个杀手不太冷 </span></span><br><span class="line">&gt;<span class="comment"># 千与千寻 美丽人生 星际穿越 辛德勒的名单 盗梦空间 </span></span><br><span class="line">&gt;<span class="comment"># 楚门的世界 忠犬八公的故事 海上钢琴师 三傻大闹宝莱坞 放牛班的春天 </span></span><br><span class="line">&gt;<span class="comment"># 机器人总动员 疯狂动物城 无间道 控方证人 大话西游之大圣娶亲 </span></span><br><span class="line">&gt;<span class="comment"># 熔炉 教父 触不可及 当幸福来敲门 末代皇帝 </span></span><br></pre></td></tr></table></figure>
+</blockquote></div><div class="tab-item-content" id="test1-2"><blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&gt;out[]:</span><br><span class="line">&gt;<span class="comment"># 9.7 9.6 9.5 9.5 9.4 </span></span><br><span class="line">&gt;<span class="comment"># 9.4 9.6 9.4 9.6 9.4 </span></span><br><span class="line">&gt;<span class="comment"># 9.4 9.4 9.3 9.2 9.3 </span></span><br><span class="line">&gt;<span class="comment"># 9.3 9.2 9.3 9.6 9.2 </span></span><br><span class="line">&gt;<span class="comment"># 9.4 9.3 9.3 9.2 9.3 </span></span><br></pre></td></tr></table></figure>
+</blockquote></div><div class="tab-item-content" id="test1-3"><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.tucang.cc/api/image/show/dd3102a7126f7955a929f97cc2208405" alt="" /></p></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div>
+<p>已经成功获取到电影名称，评分数据，影评.</p>
+<hr />
+<h3 id="获取导演主演上映年份制片国家类型"><a class="markdownIt-Anchor" href="#获取导演主演上映年份制片国家类型"></a> 获取导演，主演，上映年份，制片国家，类型</h3>
+<p>由于这些信息，在一个标签下，虽然依旧可以用bs4，不过我在这里用正则表达式来定位具体信息。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.tucang.cc/api/image/show/8b1788445d0dda4f925c836002f46cbf" alt="" /></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 正则表达式</span></span><br><span class="line">pattern1 = <span class="string">r&#x27;导演: (.*?)\s&#x27;</span>  <span class="comment"># 用于匹配 导演</span></span><br><span class="line">pattern2 = <span class="string">r&#x27;主演: (.*?)\.\.\.&#x27;</span>  <span class="comment"># 用于匹配 演员</span></span><br><span class="line">pattern3 = <span class="string">r&#x27;(\d+)&#x27;</span>  <span class="comment"># 用于匹配 上映年份</span></span><br><span class="line">pattern4 = <span class="string">r&#x27;/\s*([\u4e00-\u9fa5\s]+)\s*/&#x27;</span>  <span class="comment"># 用于匹配 制片国家</span></span><br><span class="line">pattern5 = <span class="string">r&#x27;/(?P&lt;genre&gt;[^/\n]+)&#x27;</span>  <span class="comment"># 用于匹配 类型</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> soup.find_all(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&#x27;info&#x27;</span>):</span><br><span class="line">    item_o = item.p.text <span class="comment"># 获取相关信息文本</span></span><br><span class="line">    <span class="comment"># 获取导演</span></span><br><span class="line">    director_match = re.search(pattern1, item_o)</span><br><span class="line">    director = director_match.group(<span class="number">1</span>) <span class="keyword">if</span> director_match <span class="keyword">else</span> <span class="string">&#x27;无&#x27;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 获取主演</span></span><br><span class="line">    actor_match = re.search(pattern2, item_o)</span><br><span class="line">    actor = actor_match.group(<span class="number">1</span>) <span class="keyword">if</span> actor_match <span class="keyword">else</span> <span class="string">&#x27;无&#x27;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 获取年份</span></span><br><span class="line">    year_match = re.search(pattern3, item_o)</span><br><span class="line">    year = year_match.group(<span class="number">1</span>) <span class="keyword">if</span> year_match <span class="keyword">else</span> <span class="string">&#x27;无&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 获取制片国家</span></span><br><span class="line">    country_match = re.search(pattern4, item_o)</span><br><span class="line">    country = country_match.group(<span class="number">1</span>) <span class="keyword">if</span> country_match <span class="keyword">else</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 获取类型</span></span><br><span class="line">    genres_match = re.findall(pattern5, item_o)</span><br><span class="line">    genre = genres_match[-<span class="number">1</span>].replace(<span class="string">&quot;&amp;nbsp;&quot;</span>, <span class="string">&quot;&quot;</span>) <span class="keyword">if</span> genres_match <span class="keyword">else</span> <span class="string">&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+<h2 id="获取所有页电影信息"><a class="markdownIt-Anchor" href="#获取所有页电影信息"></a> 获取所有页电影信息</h2>
+<p>至此，我们现在已经获取到了所有与电影相关的信息，不过是其中一页的。</p>
+<p>我们来分析一下 url</p>
+<blockquote>
+<p>第一页：<a href="https://movie.douban.com/top250?start=0&amp;filter=">https://movie.douban.com/top250?start=0&amp;filter=</a></p>
+<p>第二页：<a href="https://movie.douban.com/top250?start=25&amp;filter=">https://movie.douban.com/top250?start=25&amp;filter=</a></p>
+<p>第三页：<a href="https://movie.douban.com/top250?start=50&amp;filter=">https://movie.douban.com/top250?start=50&amp;filter=</a></p>
+</blockquote>
+<p>可以看到，网页在只在 <code>start=</code> 有变化，我们只需要写一个循环，来更迭<code>url</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> start <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">250</span> + <span class="number">1</span>, <span class="number">25</span>):</span><br><span class="line">    url = <span class="string">f&quot;https://movie.douban.com/top250?start=<span class="subst">&#123;start&#125;</span>&amp;filter=&quot;</span></span><br><span class="line">    response = requests.get(url, headers=headers)</span><br><span class="line">    html = response.text</span><br></pre></td></tr></table></figure>
+<p>好了，再将之前代码跟在后边，就能获取所有的电影数据</p>
+<h1 id="数据存储"><a class="markdownIt-Anchor" href="#数据存储"></a> 数据存储</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> start <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">250</span> + <span class="number">1</span>, <span class="number">25</span>):</span><br><span class="line">    url = <span class="string">f&quot;https://movie.douban.com/top250?start=<span class="subst">&#123;start&#125;</span>&amp;filter=&quot;</span></span><br><span class="line">    response = requests.get(url, headers=headers)</span><br><span class="line">    html = response.text</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    相关代码</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    movie = &#123;<span class="string">&#x27;rank&#x27;</span>: start + i + <span class="number">1</span>, <span class="string">&#x27;name&#x27;</span>: name, <span class="string">&#x27;director&#x27;</span>: director, <span class="string">&#x27;actor&#x27;</span>: actor, <span class="string">&#x27;year&#x27;</span>: year,</span><br><span class="line">             <span class="string">&#x27;country&#x27;</span>: country, <span class="string">&#x27;genre&#x27;</span>: genre, <span class="string">&#x27;rating&#x27;</span>: rating, <span class="string">&#x27;inq&#x27;</span>: inq&#125;</span><br><span class="line"></span><br><span class="line">    movies.append(movie)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;movies.csv&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, newline=<span class="string">&#x27;&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">    fieldnames = [<span class="string">&#x27;Top&#x27;</span>, <span class="string">&#x27;电影名称&#x27;</span>, <span class="string">&#x27;导演&#x27;</span>, <span class="string">&#x27;主演&#x27;</span>, <span class="string">&#x27;上映年份&#x27;</span>, <span class="string">&#x27;制片国家&#x27;</span>, <span class="string">&#x27;类型&#x27;</span>, <span class="string">&#x27;评分&#x27;</span>, <span class="string">&#x27;影评&#x27;</span>]</span><br><span class="line">    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)</span><br><span class="line"></span><br><span class="line">    writer.writeheader()</span><br><span class="line">    <span class="keyword">for</span> movie <span class="keyword">in</span> movies:</span><br><span class="line">        writer.writerow(</span><br><span class="line">            &#123;<span class="string">&#x27;Top&#x27;</span>: movie[<span class="string">&#x27;rank&#x27;</span>], <span class="string">&#x27;电影名称&#x27;</span>: movie[<span class="string">&#x27;name&#x27;</span>], <span class="string">&#x27;导演&#x27;</span>: movie[<span class="string">&#x27;director&#x27;</span>],<span class="string">&#x27;主演&#x27;</span>: movie[<span class="string">&#x27;actor&#x27;</span>],</span><br><span class="line">             <span class="string">&#x27;上映年份&#x27;</span>: movie[<span class="string">&#x27;year&#x27;</span>], <span class="string">&#x27;制片国家&#x27;</span>: movie[<span class="string">&#x27;country&#x27;</span>].strip(), <span class="string">&#x27;类型&#x27;</span>: movie[<span class="string">&#x27;genre&#x27;</span>].strip(),</span><br><span class="line">             <span class="string">&#x27;评分&#x27;</span>: movie[<span class="string">&#x27;rating&#x27;</span>],</span><br><span class="line">             <span class="string">&#x27;影评&#x27;</span>: movie[<span class="string">&#x27;inq&#x27;</span>]&#125;)</span><br></pre></td></tr></table></figure>
+<p><code>movie.csv</code> 文件格式如：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.tucang.cc/api/image/show/ee452a4da4791bd965000d62c7f0f672" alt="" /></p>
+<p>至此，我们已经成功爬取到豆瓣Top250的电影数据</p>
+<hr />
+<h1 id="数据分析及可视化"><a class="markdownIt-Anchor" href="#数据分析及可视化"></a> 数据分析及可视化</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取电影信息数据</span></span><br><span class="line">data = pd.read_csv(<span class="string">&#x27;movies.csv&#x27;</span>)</span><br><span class="line">data.head()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Top</th>
+      <th>电影名称</th>
+      <th>导演</th>
+      <th>主演</th>
+      <th>上映年份</th>
+      <th>制片国家</th>
+      <th>类型</th>
+      <th>评分</th>
+      <th>影评</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>肖申克的救赎</td>
+      <td>弗兰克·德拉邦特</td>
+      <td>蒂姆·罗宾斯 Tim Robbins /</td>
+      <td>1994</td>
+      <td>美国</td>
+      <td>犯罪 剧情</td>
+      <td>9.7</td>
+      <td>希望让人自由。</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>霸王别姬</td>
+      <td>陈凯歌</td>
+      <td>张国荣 Leslie Cheung / 张丰毅 Fengyi Zha</td>
+      <td>1993</td>
+      <td>中国大陆 中国香港</td>
+      <td>剧情 爱情 同性</td>
+      <td>9.6</td>
+      <td>风华绝代。</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>阿甘正传</td>
+      <td>罗伯特·泽米吉斯</td>
+      <td>汤姆·汉克斯 Tom Hanks /</td>
+      <td>1994</td>
+      <td>美国</td>
+      <td>剧情 爱情</td>
+      <td>9.5</td>
+      <td>一部美国近现代史。</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>泰坦尼克号</td>
+      <td>詹姆斯·卡梅隆</td>
+      <td>莱昂纳多·迪卡普里奥 Leonardo</td>
+      <td>1997</td>
+      <td>美国 墨西哥</td>
+      <td>剧情 爱情 灾难</td>
+      <td>9.5</td>
+      <td>失去的才是永恒的。</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>这个杀手不太冷</td>
+      <td>吕克·贝松</td>
+      <td>让·雷诺 Jean Reno / 娜塔莉·波特曼</td>
+      <td>1994</td>
+      <td>法国 美国</td>
+      <td>剧情 动作 犯罪</td>
+      <td>9.4</td>
+      <td>怪蜀黍和小萝莉不得不说的故事。</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 获取数据的基本信息</span></span><br><span class="line">data.info()</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 250 entries, 0 to 249
+Data columns (total 9 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   Top     250 non-null    int64  
+ 1   电影名称    250 non-null    object 
+ 2   导演      250 non-null    object 
+ 3   主演      248 non-null    object 
+ 4   上映年份    250 non-null    int64  
+ 5   制片国家    250 non-null    object 
+ 6   类型      250 non-null    object 
+ 7   评分      250 non-null    float64
+ 8   影评      250 non-null    object 
+dtypes: float64(1), int64(2), object(6)
+memory usage: 17.7+ KB
+</code></pre>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 统计数值列的统计信息</span></span><br><span class="line">data.describe().<span class="built_in">round</span>(<span class="number">2</span>).T</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Top</th>
+      <td>250.0</td>
+      <td>125.50</td>
+      <td>72.31</td>
+      <td>1.0</td>
+      <td>63.25</td>
+      <td>125.5</td>
+      <td>187.75</td>
+      <td>250.0</td>
+    </tr>
+    <tr>
+      <th>上映年份</th>
+      <td>250.0</td>
+      <td>2000.53</td>
+      <td>15.76</td>
+      <td>1931.0</td>
+      <td>1994.00</td>
+      <td>2004.0</td>
+      <td>2011.00</td>
+      <td>2021.0</td>
+    </tr>
+    <tr>
+      <th>评分</th>
+      <td>250.0</td>
+      <td>8.93</td>
+      <td>0.27</td>
+      <td>8.4</td>
+      <td>8.70</td>
+      <td>8.9</td>
+      <td>9.10</td>
+      <td>9.7</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 计算评分的平均值</span></span><br><span class="line">avg_rating = data[<span class="string">&#x27;评分&#x27;</span>].mean()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;平均评分：&quot;</span>, avg_rating)</span><br></pre></td></tr></table></figure>
+<pre><code>平均评分： 8.932799999999999
+</code></pre>
+<p>接下来分析：</p>
+<blockquote>
+<ol>
+<li>分析出电影中出现次数最多的导演（前5个）；</li>
+<li>分析出电影中出现次数最多的主演（以首个主演为准，前5个）；</li>
+<li>分析出电影中上映年份出现过的年份；</li>
+<li>分析出电影中出现次数最多的制片国家（前5个）；</li>
+<li>分析出电影中出现次数最多的电影类型（前5个）；</li>
+<li>查找评分最高的5部电影，并获取它们的影评。</li>
+</ol>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取电影数据</span></span><br><span class="line">df = pd.read_csv(<span class="string">&#x27;movies.csv&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 填充NaN值为&#x27;&#x27;</span></span><br><span class="line">df[<span class="string">&#x27;主演&#x27;</span>].fillna(<span class="string">&#x27;&#x27;</span>, inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 过滤掉主演为&quot;无&quot;的电影</span></span><br><span class="line">df = df[df[<span class="string">&#x27;主演&#x27;</span>] != <span class="string">&#x27;无&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分析导演和主演</span></span><br><span class="line">directors = df[<span class="string">&#x27;导演&#x27;</span>].value_counts().index.tolist()[:<span class="number">5</span>]</span><br><span class="line">actors = df[<span class="string">&#x27;主演&#x27;</span>].apply(<span class="keyword">lambda</span> x: x.split(<span class="string">&#x27; &#x27;</span>)[<span class="number">0</span>]).value_counts().index.tolist()[:<span class="number">5</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分析上映年份和制片国家</span></span><br><span class="line">years = df[<span class="string">&#x27;上映年份&#x27;</span>].value_counts().index.tolist()</span><br><span class="line">countries = df[<span class="string">&#x27;制片国家&#x27;</span>].value_counts().index.tolist()[:<span class="number">5</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分析电影类型</span></span><br><span class="line">genres = []</span><br><span class="line"><span class="keyword">for</span> genres_str <span class="keyword">in</span> df[<span class="string">&#x27;类型&#x27;</span>]:</span><br><span class="line">    genres.extend(genres_str.split(<span class="string">&#x27; &#x27;</span>))</span><br><span class="line">genres = pd.Series(genres).value_counts().index.tolist()[:<span class="number">5</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分析评分和影评</span></span><br><span class="line">top_ratings = df.sort_values(by=<span class="string">&#x27;评分&#x27;</span>, ascending=<span class="literal">False</span>).head(<span class="number">5</span>)</span><br><span class="line">reviews = top_ratings[<span class="string">&#x27;影评&#x27;</span>].tolist()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印分析结果</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;导演：&#x27;</span>,directors)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;主演：&#x27;</span>, actors)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;上映年份：&#x27;</span>, years)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;制片国家：&#x27;</span>, countries)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;电影类型：&#x27;</span>, genres)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;影评：&#x27;</span>, reviews)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>导演： ['宫崎骏', '克里斯托弗·诺兰', '史蒂文·斯皮尔伯格', '李安', '王家卫']
+主演： ['丹尼尔·雷德克里夫', '周星驰', '马特·达蒙', '汤姆·汉克斯', '莱昂纳多·迪卡普里奥']
+上映年份： [2004, 2010, 1994, 2013, 2014, 2008, 2009, 2003, 2016, 2001, 1997, 1993, 2015, 1995, 2002, 2011, 2006, 2018, 2012, 2000, 1991, 2017, 1999, 2005, 1987, 2007, 1998, 1990, 1988, 1984, 2019, 1992, 1989, 1986, 1957, 1974, 1954, 1940, 2021, 1950, 1966, 1931, 2020, 1968, 1952, 1960, 1982, 1961, 1979, 1972, 1996, 1939, 1953, 1936, 1975, 1965, 1971]
+制片国家： ['美国', '日本', '中国香港', '英国 美国', '韩国']
+电影类型： ['剧情', '爱情', '喜剧', '冒险', '犯罪']
+影评： ['希望让人自由。', '最美的谎言。', '比利·怀德满分作品。', '风华绝代。', '拯救一个人，就是拯救整个世界。']
+</code></pre>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> wordcloud <span class="keyword">import</span> WordCloud</span><br><span class="line"></span><br><span class="line">plt.rcParams[<span class="string">&#x27;font.sans-serif&#x27;</span>] = [<span class="string">&#x27;SimHei&#x27;</span>]   <span class="comment"># 防止中文乱码</span></span><br><span class="line">plt.rcParams[<span class="string">&#x27;axes.unicode_minus&#x27;</span>] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取电影数据</span></span><br><span class="line">df = pd.read_csv(<span class="string">&#x27;movies.csv&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 填充NaN值为&#x27;&#x27;</span></span><br><span class="line">df[<span class="string">&#x27;主演&#x27;</span>].fillna(<span class="string">&#x27;&#x27;</span>, inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 过滤掉主演为&quot;无&quot;的电影</span></span><br><span class="line">df = df[df[<span class="string">&#x27;主演&#x27;</span>] != <span class="string">&#x27;无&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分析导演和主演</span></span><br><span class="line">directors = df[<span class="string">&#x27;导演&#x27;</span>].value_counts().head(<span class="number">5</span>)</span><br><span class="line">actors = df[<span class="string">&#x27;主演&#x27;</span>].apply(<span class="keyword">lambda</span> x: x.split(<span class="string">&#x27; &#x27;</span>)[<span class="number">0</span>]).value_counts().head(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分析评分和影评</span></span><br><span class="line">top_ratings = df.sort_values(by=<span class="string">&#x27;评分&#x27;</span>, ascending=<span class="literal">False</span>).head(<span class="number">25</span>)</span><br><span class="line">reviews = <span class="string">&#x27; &#x27;</span>.join(top_ratings[<span class="string">&#x27;影评&#x27;</span>].tolist())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定颜色和图例标签</span></span><br><span class="line">colors = [<span class="string">&#x27;steelblue&#x27;</span>, <span class="string">&#x27;darkorange&#x27;</span>, <span class="string">&#x27;forestgreen&#x27;</span>, <span class="string">&#x27;purple&#x27;</span>, <span class="string">&#x27;red&#x27;</span>]</span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>, <span class="number">5</span>))</span><br><span class="line">directors.plot(kind=<span class="string">&#x27;barh&#x27;</span>, color=colors)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;电影数量&#x27;</span>, fontsize=<span class="number">12</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;导演&#x27;</span>, fontsize=<span class="number">12</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;前5位导演的频率分布&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">plt.grid(axis=<span class="string">&#x27;x&#x27;</span>, linestyle=<span class="string">&#x27;--&#x27;</span>)</span><br><span class="line"></span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.tucang.cc/api/image/show/bb29bde020f18fbd253520bd41f9a547" alt="" /></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 绘制主演频率分布的饼图</span></span><br><span class="line">plt.figure(figsize=(<span class="number">6</span>, <span class="number">6</span>))</span><br><span class="line">actors_plot = actors.plot(kind=<span class="string">&#x27;pie&#x27;</span>, autopct=<span class="string">&#x27;%1.1f%%&#x27;</span>, colors=[<span class="string">&#x27;skyblue&#x27;</span>, <span class="string">&#x27;orange&#x27;</span>, <span class="string">&#x27;limegreen&#x27;</span>, <span class="string">&#x27;gold&#x27;</span>, <span class="string">&#x27;red&#x27;</span>])</span><br><span class="line"></span><br><span class="line">plt.title(<span class="string">&#x27;前5位主演的频率分布&#x27;</span>, fontsize=<span class="number">14</span>)</span><br><span class="line">plt.axis(<span class="string">&#x27;equal&#x27;</span>)  <span class="comment"># 使饼图为正圆形</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 调整图例的位置和大小，不覆盖图片</span></span><br><span class="line">actors_legend = actors_plot.legend(fontsize=<span class="number">10</span>, loc=<span class="string">&#x27;center left&#x27;</span>, bbox_to_anchor=(<span class="number">1</span>, <span class="number">0.5</span>))</span><br><span class="line"></span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.tucang.cc/api/image/show/32e4f2014220d373f91785009e8c56f7" alt="" /></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">wordcloud = WordCloud(width=<span class="number">800</span>, height=<span class="number">400</span>,</span><br><span class="line">                      background_color=<span class="string">&#x27;white&#x27;</span>,</span><br><span class="line">                      colormap=<span class="string">&#x27;viridis&#x27;</span>,</span><br><span class="line">                      font_path=<span class="string">&quot;D:\\主题\\经典宋体.ttf&quot;</span>,</span><br><span class="line">                      max_font_size=<span class="number">150</span>,</span><br><span class="line">                      max_words=<span class="number">200</span>).generate(reviews)</span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>, <span class="number">5</span>))</span><br><span class="line">plt.imshow(wordcloud, interpolation=<span class="string">&#x27;bilinear&#x27;</span>)</span><br><span class="line">plt.axis(<span class="string">&#x27;off&#x27;</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;影评关键词词云图&#x27;</span>, fontsize=<span class="number">16</span>)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.tucang.cc/api/image/show/11258c3ea03e88daa6aab8263437eb21" alt="" /></p>
+<h1 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h1>
+<p>以上就是爬取豆瓣Top250的介绍，和数据分析以及可视化。</p>
+<p><strong>相关文件</strong></p>
+<p>[<a href="https://gist.github.com/xiryg/0cbfb159e4f82bb499f358a56aa51b31">爬虫源码</a>] 做了修改和优化，这里就不再讲解了。</p>
+<p>[<a href="https://gist.github.com/xiryg/994a6d9fc7b3c0f3e5828f1e2dbf6347">movies.csv</a>]  爬取数据的csv文件</p>
+<p>[<a href="https://gist.github.com/xiryg/01741125494660dcc6e7179af1eaf417#file-bean_data_analytics_section-ipynb"><strong>Bean_Data_Analytics_section.ipynb</strong></a>]  数据分析及可视化部分</p>
+<p>有问题的话，可以在评论区评论，也可以联系我。</p>
+<p><strong>备注：</strong></p>
+<blockquote>
+<p>本文仅供学习交流，对于爬虫浅尝辄止，以免对服务器造成负担</p>
+</blockquote>
+<hr />
+<p>🆗，今天的分享就到这里啦！！！</p>
 ]]></content>
       <categories>
-        <category>数据分析</category>
+        <category>爬虫</category>
       </categories>
       <tags>
-        <tag>pandas, 数据分析</tag>
+        <tag>爬虫</tag>
       </tags>
   </entry>
   <entry>
