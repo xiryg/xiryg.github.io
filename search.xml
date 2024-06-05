@@ -194,6 +194,56 @@
       </tags>
   </entry>
   <entry>
+    <title>作为参数的函数</title>
+    <url>/posts/e5fa646/</url>
+    <content><![CDATA[<h1 id="作为参数的函数"><a class="markdownIt-Anchor" href="#作为参数的函数"></a> 作为参数的函数</h1>
+<div style="background-color: #ffffe0; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+<details>
+<summary><strong>INFO</strong></summary>
+<p>引自：<a href="http://www.composingprograms.com/pages/16-higher-order-functions.html">1.6 Higher-Order Functions</a></p>
+<p>对应：Disc 01、Disc 02、HW 02、Lab 02、Hog</p>
+</details>
+</div>
+<p>我们已经认识到，函数是一种抽象手段，用于描述与其参数的具体数值无关的复合操作。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">def</span> <span class="title function_">square</span>(<span class="params">x</span>):</span><br><span class="line">    	<span class="keyword">return</span> x * x</span><br></pre></td></tr></table></figure>
+<p>也就是说，在 <span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: pink;"><strong>square</strong></span> 中我们并不是单纯的讨论一个特定的数字的平方，而是在描述一种普适的获取任意数字平方的方法。当然，我们也可以在不定义这个函数的情况下，用下面的方式取得数字的平方，从而不用表现出 <span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: pink;"><strong>square</strong></span> 的使用。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">3</span> * <span class="number">3</span></span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">5</span> * <span class="number">5</span></span><br><span class="line"><span class="number">25</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<p>这种做法对于诸如 <span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: pink;"><strong>square</strong></span> 之类的简单计算是足够的，但对于诸如 <span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: pink;"><strong>abs</strong></span> 或 <span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: pink;"><strong>fib</strong></span> 之类的更复杂的样例就会变得很麻烦。一般来说，缺少函数定义会对我们非常不利，它会迫使我们总是工作在特定的原始操作级别（本例中为乘法），而不是更高的操作级别。我们的程序将能够计算平方，但缺少表达平方的概念的能力。</p>
+<p>我们对强大的编程语言提出的要求之一就是能够通过将名称分配给通用模板（general patterns）来构建抽象，然后直接使用该名称进行工作。函数提供了这种能力。正如我们将在下面的示例中看到的那样，代码中重复出现了一些常见的编程模板，但它们可以与许多不同的函数一起使用。这些模板也可以通过给它们命名来进行抽象。</p>
+<p>为了将某些通用模板表达为具名概念（named concepts），我们需要构造一种“可以接收其他函数作为参数”或“可以把函数当作返回值”的函数。这种可以操作函数的函数就叫做高阶函数（higher-order functions）。本节将会展示：高阶函数可以作为一种强大的抽象机制，来极大地提高我们语言的表达能力。</p>
+<h2 id="作为参数的函数-2"><a class="markdownIt-Anchor" href="#作为参数的函数-2"></a> 作为参数的函数</h2>
+<p>考虑以下三个函数，它们都计算总和。</p>
+<p>第一个是 <code>sum_naturals</code>，计算<code>n</code>以内的自然数之和：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">def</span> <span class="title function_">sum_naturals</span>(<span class="params">n</span>):</span><br><span class="line">        total, k = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> k &lt;= n:</span><br><span class="line">            total, k = total + k, k + <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> total</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>sum_naturals(<span class="number">100</span>)</span><br><span class="line"><span class="number">5050</span></span><br></pre></td></tr></table></figure>
+<p>第二个<code>sum_cubes</code>计算<code>n</code>以内的自然数的立方和。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">def</span> <span class="title function_">sum_cubes</span>(<span class="params">n</span>):</span><br><span class="line">        total, k = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> k &lt;= n:</span><br><span class="line">            total, k = total + k*k*k, k + <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> total</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>sum_cubes(<span class="number">100</span>)</span><br><span class="line"><span class="number">25502500</span></span><br></pre></td></tr></table></figure>
+<p>第三个<code>pi_sum</code> 会计算下列各项的和，它的值会非常缓慢地收敛（converge）到<em>π</em></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://www.composingprograms.com/img/pi_sum.png" alt="p-1" style="zoom:150%;" />
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">def</span> <span class="title function_">pi_sum</span>(<span class="params">n</span>):</span><br><span class="line">        total, k = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> k &lt;= n:</span><br><span class="line">            total, k = total + <span class="number">8</span> / ((<span class="number">4</span>*k-<span class="number">3</span>) * (<span class="number">4</span>*k-<span class="number">1</span>)), k + <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> total</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>pi_sum(<span class="number">100</span>)</span><br><span class="line"><span class="number">3.1365926848388144</span></span><br></pre></td></tr></table></figure>
+<p>这三个函数显然具有共同的基本模式。它们大部分是相同的，仅在名称和用于计算要添加的项的<code>k</code>的函数上有所不同。我们可以通过填充同一模板中的槽来生成每个函数：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> &lt;name&gt;(n):</span><br><span class="line">    total, k = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> k &lt;= n:</span><br><span class="line">        total, k = total + &lt;term&gt;(k), k + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> total</span><br></pre></td></tr></table></figure>
+<p>这种通用模板的存在是一个强有力的证据 → 表明了有一个实用的抽象手段正在“浮出水面”。这些函数都是用于求出各项的总和。作为程序设计者，我们希望我们的语言足够强大，以便我们可以编写一个表达“求和”概念的函数，而不仅仅是一个计算特定和的函数。在 Python 中，我们可以很轻易地做到这一点，方法就是使用上面展示的通用模板，并将“槽位”转换为形式参数：</p>
+<p>在下面的示例中，<code>summation</code> 函数将上界 <code>n</code> 和计算第 <code>k</code> 项的函数 <code>term</code> 作为其两个参数。我们可以像使用任何函数一样使用 <code>summation</code> ，它简洁地表达了求和。花点时间单步调试（step through）走完这个示例，注意函数如何将 <code>cube</code> 绑定到局部名称 <code>term</code> 上以确保</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>∗</mo><mn>1</mn><mo>∗</mo><mn>1</mn><mo>+</mo><mn>2</mn><mo>∗</mo><mn>2</mn><mo>∗</mo><mn>2</mn><mo>+</mo><mn>3</mn><mo>∗</mo><mn>3</mn><mo>∗</mo><mn>3</mn><mo>=</mo><mn>36</mn></mrow><annotation encoding="application/x-tex">1 * 1*1+2*2*2+3*3*3=36
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord">6</span></span></span></span></span></p>
+<p>正确。</p>
+<iframe width="800" height="500" frameborder="0" src="https://pythontutor.com/iframe-embed.html#code=def%20summation%28n,%20term%29%3A%0A%20%20%20%20total,%20k%20%3D%200,%201%0A%20%20%20%20while%20k%20%3C%3D%20n%3A%0A%20%20%20%20%20%20%20%20total,%20k%20%3D%20total%20%2B%20term%28k%29,%20k%20%2B%201%0A%20%20%20%20return%20total%0A%0Adef%20cube%28x%29%3A%0A%20%20%20%20return%20x*x*x%0A%0Adef%20sum_cubes%28n%29%3A%0A%20%20%20%20return%20summation%28n,%20cube%29%0A%0Aresult%20%3D%20sum_cubes%283%29&codeDivHeight=400&codeDivWidth=350&cumulative=true&curInstr=0&heapPrimitives=true&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false"> </iframe>
+<p>使用会返回其参数的 <code>identity</code> 函数，我们还可以使用完全相同的 <code>summation</code> 函数对自然数求和。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">def</span> <span class="title function_">summation</span>(<span class="params">n, term</span>):</span><br><span class="line">        total, k = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> k &lt;= n:</span><br><span class="line">            total, k = total + term(k), k + <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> total</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">def</span> <span class="title function_">identity</span>(<span class="params">x</span>):</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">def</span> <span class="title function_">sum_naturals</span>(<span class="params">n</span>):</span><br><span class="line">        <span class="keyword">return</span> summation(n, identity)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>sum_naturals(<span class="number">10</span>)</span><br><span class="line"><span class="number">55</span></span><br></pre></td></tr></table></figure>
+<p><code>summation</code> 函数也可以直接调用，而无需为特定的数列去定义另一个函数。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>summation(<span class="number">10</span>, square)</span><br><span class="line"><span class="number">385</span></span><br></pre></td></tr></table></figure>
+<p>我们可以通过定义函数 <code>pi_term</code> 来计算每一项，从而使用求和抽象来定义<code>pi_sum</code>。我们传递参数 <code>1e6</code>（1 * 10^6 = 1000000 的简写）来生成 <code>π</code>的近似值。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">def</span> <span class="title function_">pi_term</span>(<span class="params">x</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="number">8</span> / ((<span class="number">4</span>*x-<span class="number">3</span>) * (<span class="number">4</span>*x-<span class="number">1</span>))</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">def</span> <span class="title function_">pi_sum</span>(<span class="params">n</span>):</span><br><span class="line">        <span class="keyword">return</span> summation(n, pi_term)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>pi_sum(<span class="number">1e6</span>)</span><br><span class="line"><span class="number">3.141592153589902</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>cs61a</category>
+      </categories>
+      <tags>
+        <tag>高阶函数</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>pandas基础Series</title>
     <url>/posts/a288cc11/</url>
     <content><![CDATA[<h2 id="pandas基础之series"><a class="markdownIt-Anchor" href="#pandas基础之series"></a> <strong>pandas基础之series</strong></h2>
@@ -395,155 +445,882 @@
       </tags>
   </entry>
   <entry>
-    <title>作为参数的函数</title>
-    <url>/posts/e5fa646/</url>
-    <content><![CDATA[<h1 id="作为参数的函数"><a class="markdownIt-Anchor" href="#作为参数的函数"></a> 作为参数的函数</h1>
-<div style="background-color: #ffffe0; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
-<details>
-<summary><strong>INFO</strong></summary>
-<p>引自：<a href="http://www.composingprograms.com/pages/16-higher-order-functions.html">1.6 Higher-Order Functions</a></p>
-<p>对应：Disc 01、Disc 02、HW 02、Lab 02、Hog</p>
-</details>
+    <title>pandas基础复习2</title>
+    <url>/posts/1207525a/</url>
+    <content><![CDATA[<h1 id="pandas数据处理"><a class="markdownIt-Anchor" href="#pandas数据处理"></a> Pandas数据处理</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">df = pd.read_excel(<span class="string">&#x27;https://raw.githubusercontent.com/xiryg/blog_picture/main/resource/pandas120.xlsx&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.head()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>createTime</th>
+      <th>education</th>
+      <th>salary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2020-03-16 11:30:18</td>
+      <td>本科</td>
+      <td>20k-35k</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2020-03-16 10:58:48</td>
+      <td>本科</td>
+      <td>20k-40k</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2020-03-16 10:46:39</td>
+      <td>不限</td>
+      <td>20k-35k</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2020-03-16 10:45:44</td>
+      <td>本科</td>
+      <td>13k-20k</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2020-03-16 10:20:41</td>
+      <td>本科</td>
+      <td>10k-20k</td>
+    </tr>
+  </tbody>
+</table>
 </div>
-<p>我们已经认识到，函数是一种抽象手段，用于描述与其参数的具体数值无关的复合操作。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">def</span> <span class="title function_">square</span>(<span class="params">x</span>):</span><br><span class="line">    	<span class="keyword">return</span> x * x</span><br></pre></td></tr></table></figure>
-<p>也就是说，在 <span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: pink;"><strong>square</strong></span> 中我们并不是单纯的讨论一个特定的数字的平方，而是在描述一种普适的获取任意数字平方的方法。当然，我们也可以在不定义这个函数的情况下，用下面的方式取得数字的平方，从而不用表现出 <span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: pink;"><strong>square</strong></span> 的使用。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">3</span> * <span class="number">3</span></span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">5</span> * <span class="number">5</span></span><br><span class="line"><span class="number">25</span></span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<p>这种做法对于诸如 <span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: pink;"><strong>square</strong></span> 之类的简单计算是足够的，但对于诸如 <span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: pink;"><strong>abs</strong></span> 或 <span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: pink;"><strong>fib</strong></span> 之类的更复杂的样例就会变得很麻烦。一般来说，缺少函数定义会对我们非常不利，它会迫使我们总是工作在特定的原始操作级别（本例中为乘法），而不是更高的操作级别。我们的程序将能够计算平方，但缺少表达平方的概念的能力。</p>
-<p>我们对强大的编程语言提出的要求之一就是能够通过将名称分配给通用模板（general patterns）来构建抽象，然后直接使用该名称进行工作。函数提供了这种能力。正如我们将在下面的示例中看到的那样，代码中重复出现了一些常见的编程模板，但它们可以与许多不同的函数一起使用。这些模板也可以通过给它们命名来进行抽象。</p>
-<p>为了将某些通用模板表达为具名概念（named concepts），我们需要构造一种“可以接收其他函数作为参数”或“可以把函数当作返回值”的函数。这种可以操作函数的函数就叫做高阶函数（higher-order functions）。本节将会展示：高阶函数可以作为一种强大的抽象机制，来极大地提高我们语言的表达能力。</p>
-<h2 id="作为参数的函数-2"><a class="markdownIt-Anchor" href="#作为参数的函数-2"></a> 作为参数的函数</h2>
-<p>考虑以下三个函数，它们都计算总和。</p>
-<p>第一个是 <code>sum_naturals</code>，计算<code>n</code>以内的自然数之和：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">def</span> <span class="title function_">sum_naturals</span>(<span class="params">n</span>):</span><br><span class="line">        total, k = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> k &lt;= n:</span><br><span class="line">            total, k = total + k, k + <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> total</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>sum_naturals(<span class="number">100</span>)</span><br><span class="line"><span class="number">5050</span></span><br></pre></td></tr></table></figure>
-<p>第二个<code>sum_cubes</code>计算<code>n</code>以内的自然数的立方和。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">def</span> <span class="title function_">sum_cubes</span>(<span class="params">n</span>):</span><br><span class="line">        total, k = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> k &lt;= n:</span><br><span class="line">            total, k = total + k*k*k, k + <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> total</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>sum_cubes(<span class="number">100</span>)</span><br><span class="line"><span class="number">25502500</span></span><br></pre></td></tr></table></figure>
-<p>第三个<code>pi_sum</code> 会计算下列各项的和，它的值会非常缓慢地收敛（converge）到<em>π</em></p>
-<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://www.composingprograms.com/img/pi_sum.png" alt="p-1" style="zoom:150%;" />
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">def</span> <span class="title function_">pi_sum</span>(<span class="params">n</span>):</span><br><span class="line">        total, k = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> k &lt;= n:</span><br><span class="line">            total, k = total + <span class="number">8</span> / ((<span class="number">4</span>*k-<span class="number">3</span>) * (<span class="number">4</span>*k-<span class="number">1</span>)), k + <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> total</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>pi_sum(<span class="number">100</span>)</span><br><span class="line"><span class="number">3.1365926848388144</span></span><br></pre></td></tr></table></figure>
-<p>这三个函数显然具有共同的基本模式。它们大部分是相同的，仅在名称和用于计算要添加的项的<code>k</code>的函数上有所不同。我们可以通过填充同一模板中的槽来生成每个函数：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> &lt;name&gt;(n):</span><br><span class="line">    total, k = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> k &lt;= n:</span><br><span class="line">        total, k = total + &lt;term&gt;(k), k + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> total</span><br></pre></td></tr></table></figure>
-<p>这种通用模板的存在是一个强有力的证据 → 表明了有一个实用的抽象手段正在“浮出水面”。这些函数都是用于求出各项的总和。作为程序设计者，我们希望我们的语言足够强大，以便我们可以编写一个表达“求和”概念的函数，而不仅仅是一个计算特定和的函数。在 Python 中，我们可以很轻易地做到这一点，方法就是使用上面展示的通用模板，并将“槽位”转换为形式参数：</p>
-<p>在下面的示例中，<code>summation</code> 函数将上界 <code>n</code> 和计算第 <code>k</code> 项的函数 <code>term</code> 作为其两个参数。我们可以像使用任何函数一样使用 <code>summation</code> ，它简洁地表达了求和。花点时间单步调试（step through）走完这个示例，注意函数如何将 <code>cube</code> 绑定到局部名称 <code>term</code> 上以确保</p>
-<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>∗</mo><mn>1</mn><mo>∗</mo><mn>1</mn><mo>+</mo><mn>2</mn><mo>∗</mo><mn>2</mn><mo>∗</mo><mn>2</mn><mo>+</mo><mn>3</mn><mo>∗</mo><mn>3</mn><mo>∗</mo><mn>3</mn><mo>=</mo><mn>36</mn></mrow><annotation encoding="application/x-tex">1 * 1*1+2*2*2+3*3*3=36
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord">6</span></span></span></span></span></p>
-<p>正确。</p>
-<iframe width="800" height="500" frameborder="0" src="https://pythontutor.com/iframe-embed.html#code=def%20summation%28n,%20term%29%3A%0A%20%20%20%20total,%20k%20%3D%200,%201%0A%20%20%20%20while%20k%20%3C%3D%20n%3A%0A%20%20%20%20%20%20%20%20total,%20k%20%3D%20total%20%2B%20term%28k%29,%20k%20%2B%201%0A%20%20%20%20return%20total%0A%0Adef%20cube%28x%29%3A%0A%20%20%20%20return%20x*x*x%0A%0Adef%20sum_cubes%28n%29%3A%0A%20%20%20%20return%20summation%28n,%20cube%29%0A%0Aresult%20%3D%20sum_cubes%283%29&codeDivHeight=400&codeDivWidth=350&cumulative=true&curInstr=0&heapPrimitives=true&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false"> </iframe>
-<p>使用会返回其参数的 <code>identity</code> 函数，我们还可以使用完全相同的 <code>summation</code> 函数对自然数求和。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">def</span> <span class="title function_">summation</span>(<span class="params">n, term</span>):</span><br><span class="line">        total, k = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> k &lt;= n:</span><br><span class="line">            total, k = total + term(k), k + <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> total</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">def</span> <span class="title function_">identity</span>(<span class="params">x</span>):</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">def</span> <span class="title function_">sum_naturals</span>(<span class="params">n</span>):</span><br><span class="line">        <span class="keyword">return</span> summation(n, identity)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>sum_naturals(<span class="number">10</span>)</span><br><span class="line"><span class="number">55</span></span><br></pre></td></tr></table></figure>
-<p><code>summation</code> 函数也可以直接调用，而无需为特定的数列去定义另一个函数。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>summation(<span class="number">10</span>, square)</span><br><span class="line"><span class="number">385</span></span><br></pre></td></tr></table></figure>
-<p>我们可以通过定义函数 <code>pi_term</code> 来计算每一项，从而使用求和抽象来定义<code>pi_sum</code>。我们传递参数 <code>1e6</code>（1 * 10^6 = 1000000 的简写）来生成 <code>π</code>的近似值。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">def</span> <span class="title function_">pi_term</span>(<span class="params">x</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="number">8</span> / ((<span class="number">4</span>*x-<span class="number">3</span>) * (<span class="number">4</span>*x-<span class="number">1</span>))</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">def</span> <span class="title function_">pi_sum</span>(<span class="params">n</span>):</span><br><span class="line">        <span class="keyword">return</span> summation(n, pi_term)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>pi_sum(<span class="number">1e6</span>)</span><br><span class="line"><span class="number">3.141592153589902</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.info()</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 135 entries, 0 to 134
+Data columns (total 3 columns):
+ #   Column      Non-Null Count  Dtype         
+---  ------      --------------  -----         
+ 0   createTime  135 non-null    datetime64[ns]
+ 1   education   135 non-null    object        
+ 2   salary      135 non-null    object        
+dtypes: datetime64[ns](1), object(2)
+memory usage: 3.3+ KB
+</code></pre>
+<h1 id="将salary列数据转换为最大值于最小值的平均值"><a class="markdownIt-Anchor" href="#将salary列数据转换为最大值于最小值的平均值"></a> 将salary列数据转换为最大值于最小值的平均值</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># data 的apply方法</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">func</span>(<span class="params">series</span>):</span><br><span class="line">    <span class="comment"># print(seires)</span></span><br><span class="line">    lst = series[<span class="string">&#x27;salary&#x27;</span>].split(<span class="string">&#x27;-&#x27;</span>)</span><br><span class="line">    smin = <span class="built_in">int</span>(lst[<span class="number">0</span>].strip(<span class="string">&#x27;k&#x27;</span>))</span><br><span class="line">    smax = <span class="built_in">int</span>(lst[<span class="number">1</span>].strip(<span class="string">&#x27;k&#x27;</span>))</span><br><span class="line">    avg_salary = <span class="built_in">int</span>((smin+smax)/<span class="number">2</span> * <span class="number">1000</span>)</span><br><span class="line">    <span class="keyword">return</span> avg_salary</span><br><span class="line">df[<span class="string">&#x27;new_salary&#x27;</span>] = df.apply(func,axis = <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.head()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>createTime</th>
+      <th>education</th>
+      <th>salary</th>
+      <th>new_salary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2020-03-16 11:30:18</td>
+      <td>本科</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2020-03-16 10:58:48</td>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2020-03-16 10:46:39</td>
+      <td>不限</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2020-03-16 10:45:44</td>
+      <td>本科</td>
+      <td>13k-20k</td>
+      <td>16500</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2020-03-16 10:20:41</td>
+      <td>本科</td>
+      <td>10k-20k</td>
+      <td>15000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h1 id="将数据根据学历进行分组并计算平均薪资"><a class="markdownIt-Anchor" href="#将数据根据学历进行分组并计算平均薪资"></a> 将数据根据学历进行分组并计算平均薪资</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(df.groupby(<span class="string">&#x27;education&#x27;</span>).mean(numeric_only=<span class="literal">True</span>))</span><br></pre></td></tr></table></figure>
+<pre><code>             new_salary
+education              
+不限         19600.000000
+大专         10000.000000
+本科         19361.344538
+硕士         20642.857143
+</code></pre>
+<h1 id="查看数值型列的汇总统计"><a class="markdownIt-Anchor" href="#查看数值型列的汇总统计"></a> 查看数值型列的汇总统计</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.describe()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>new_salary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>135.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>19159.259259</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>8661.686922</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>3500.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>14000.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>17500.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>25000.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>45000.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h1 id="新增一列根据salary将数据分为三组"><a class="markdownIt-Anchor" href="#新增一列根据salary将数据分为三组"></a> 新增一列根据salary将数据分为三组</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># cut 方法</span></span><br><span class="line">bins = [<span class="number">0</span>,<span class="number">5000</span>,<span class="number">20000</span>,<span class="number">50000</span>]</span><br><span class="line">group_names = [<span class="string">&#x27;低&#x27;</span>,<span class="string">&#x27;中&#x27;</span>,<span class="string">&#x27;高&#x27;</span>]</span><br><span class="line">df[<span class="string">&#x27;categories&#x27;</span>] = pd.cut(df[<span class="string">&#x27;new_salary&#x27;</span>],bins,labels=group_names)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>createTime</th>
+      <th>education</th>
+      <th>salary</th>
+      <th>new_salary</th>
+      <th>categories</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2020-03-16 11:30:18</td>
+      <td>本科</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2020-03-16 10:58:48</td>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2020-03-16 10:46:39</td>
+      <td>不限</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2020-03-16 10:45:44</td>
+      <td>本科</td>
+      <td>13k-20k</td>
+      <td>16500</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2020-03-16 10:20:41</td>
+      <td>本科</td>
+      <td>10k-20k</td>
+      <td>15000</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>130</th>
+      <td>2020-03-16 11:36:07</td>
+      <td>本科</td>
+      <td>10k-18k</td>
+      <td>14000</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <th>131</th>
+      <td>2020-03-16 09:54:47</td>
+      <td>硕士</td>
+      <td>25k-50k</td>
+      <td>37500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>132</th>
+      <td>2020-03-16 10:48:32</td>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>133</th>
+      <td>2020-03-16 10:46:31</td>
+      <td>本科</td>
+      <td>15k-23k</td>
+      <td>19000</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <th>134</th>
+      <td>2020-03-16 11:19:38</td>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+    </tr>
+  </tbody>
+</table>
+<p>135 rows × 5 columns</p>
+</div>
+<h1 id="按照salary列对数据进行降序排列"><a class="markdownIt-Anchor" href="#按照salary列对数据进行降序排列"></a> 按照salary列对数据进行降序排列</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.sort_values(<span class="string">&#x27;new_salary&#x27;</span>,ascending=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>createTime</th>
+      <th>education</th>
+      <th>salary</th>
+      <th>new_salary</th>
+      <th>categories</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>53</th>
+      <td>2020-03-16 11:30:17</td>
+      <td>本科</td>
+      <td>30k-60k</td>
+      <td>45000</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>2020-03-16 11:04:00</td>
+      <td>本科</td>
+      <td>30k-50k</td>
+      <td>40000</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>101</th>
+      <td>2020-03-16 11:01:39</td>
+      <td>本科</td>
+      <td>30k-45k</td>
+      <td>37500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>2020-03-16 10:36:57</td>
+      <td>本科</td>
+      <td>25k-50k</td>
+      <td>37500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>131</th>
+      <td>2020-03-16 09:54:47</td>
+      <td>硕士</td>
+      <td>25k-50k</td>
+      <td>37500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>123</th>
+      <td>2020-03-16 11:20:44</td>
+      <td>本科</td>
+      <td>3k-6k</td>
+      <td>4500</td>
+      <td>低</td>
+    </tr>
+    <tr>
+      <th>126</th>
+      <td>2020-03-16 11:12:04</td>
+      <td>本科</td>
+      <td>3k-5k</td>
+      <td>4000</td>
+      <td>低</td>
+    </tr>
+    <tr>
+      <th>110</th>
+      <td>2020-03-16 11:12:04</td>
+      <td>本科</td>
+      <td>3k-5k</td>
+      <td>4000</td>
+      <td>低</td>
+    </tr>
+    <tr>
+      <th>96</th>
+      <td>2020-03-16 10:44:23</td>
+      <td>不限</td>
+      <td>3k-4k</td>
+      <td>3500</td>
+      <td>低</td>
+    </tr>
+    <tr>
+      <th>113</th>
+      <td>2020-03-16 10:48:43</td>
+      <td>本科</td>
+      <td>3k-4k</td>
+      <td>3500</td>
+      <td>低</td>
+    </tr>
+  </tbody>
+</table>
+<p>135 rows × 5 columns</p>
+</div>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>createTime</th>
+      <th>education</th>
+      <th>salary</th>
+      <th>new_salary</th>
+      <th>categories</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2020-03-16 11:30:18</td>
+      <td>本科</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2020-03-16 10:58:48</td>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2020-03-16 10:46:39</td>
+      <td>不限</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2020-03-16 10:45:44</td>
+      <td>本科</td>
+      <td>13k-20k</td>
+      <td>16500</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2020-03-16 10:20:41</td>
+      <td>本科</td>
+      <td>10k-20k</td>
+      <td>15000</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>130</th>
+      <td>2020-03-16 11:36:07</td>
+      <td>本科</td>
+      <td>10k-18k</td>
+      <td>14000</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <th>131</th>
+      <td>2020-03-16 09:54:47</td>
+      <td>硕士</td>
+      <td>25k-50k</td>
+      <td>37500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>132</th>
+      <td>2020-03-16 10:48:32</td>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>133</th>
+      <td>2020-03-16 10:46:31</td>
+      <td>本科</td>
+      <td>15k-23k</td>
+      <td>19000</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <th>134</th>
+      <td>2020-03-16 11:19:38</td>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+    </tr>
+  </tbody>
+</table>
+<p>135 rows × 5 columns</p>
+</div>
+<h1 id="取出第33行的数据"><a class="markdownIt-Anchor" href="#取出第33行的数据"></a> 取出第33行的数据</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.loc[<span class="number">32</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>createTime    2020-03-16 10:07:25
+education                      硕士
+salary                    15k-30k
+new_salary                  22500
+categories                      高
+Name: 32, dtype: object
+</code></pre>
+<h1 id="删除列-createtime"><a class="markdownIt-Anchor" href="#删除列-createtime"></a> 删除列 createTime</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.drop(columns=[<span class="string">&#x27;createTime&#x27;</span>],inplace=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.head()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>education</th>
+      <th>salary</th>
+      <th>new_salary</th>
+      <th>categories</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>本科</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>不限</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>本科</td>
+      <td>13k-20k</td>
+      <td>16500</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>本科</td>
+      <td>10k-20k</td>
+      <td>15000</td>
+      <td>中</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h1 id="将-education列与salary列合并为新的一列"><a class="markdownIt-Anchor" href="#将-education列与salary列合并为新的一列"></a> 将 education列与salary列合并为新的一列</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df[<span class="string">&quot;new_c&quot;</span>] = df[<span class="string">&quot;new_salary&quot;</span>].astype(<span class="built_in">str</span>) + df[<span class="string">&#x27;education&#x27;</span>]</span><br><span class="line">df</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>education</th>
+      <th>salary</th>
+      <th>new_salary</th>
+      <th>categories</th>
+      <th>new_c</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>本科</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+      <td>高</td>
+      <td>27500本科</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+      <td>30000本科</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>不限</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+      <td>高</td>
+      <td>27500不限</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>本科</td>
+      <td>13k-20k</td>
+      <td>16500</td>
+      <td>中</td>
+      <td>16500本科</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>本科</td>
+      <td>10k-20k</td>
+      <td>15000</td>
+      <td>中</td>
+      <td>15000本科</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>130</th>
+      <td>本科</td>
+      <td>10k-18k</td>
+      <td>14000</td>
+      <td>中</td>
+      <td>14000本科</td>
+    </tr>
+    <tr>
+      <th>131</th>
+      <td>硕士</td>
+      <td>25k-50k</td>
+      <td>37500</td>
+      <td>高</td>
+      <td>37500硕士</td>
+    </tr>
+    <tr>
+      <th>132</th>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+      <td>30000本科</td>
+    </tr>
+    <tr>
+      <th>133</th>
+      <td>本科</td>
+      <td>15k-23k</td>
+      <td>19000</td>
+      <td>中</td>
+      <td>19000本科</td>
+    </tr>
+    <tr>
+      <th>134</th>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+      <td>30000本科</td>
+    </tr>
+  </tbody>
+</table>
+<p>135 rows × 5 columns</p>
+</div>
+<h1 id="将第一行与最后一行进行拼接"><a class="markdownIt-Anchor" href="#将第一行与最后一行进行拼接"></a> 将第一行与最后一行进行拼接</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pd.concat([df[:<span class="number">1</span>],df[-<span class="number">1</span>:]])</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>education</th>
+      <th>salary</th>
+      <th>new_salary</th>
+      <th>categories</th>
+      <th>new_c</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>本科</td>
+      <td>20k-35k</td>
+      <td>27500</td>
+      <td>高</td>
+      <td>27500本科</td>
+    </tr>
+    <tr>
+      <th>134</th>
+      <td>本科</td>
+      <td>20k-40k</td>
+      <td>30000</td>
+      <td>高</td>
+      <td>30000本科</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h1 id="查看每列的数据类型"><a class="markdownIt-Anchor" href="#查看每列的数据类型"></a> 查看每列的数据类型</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.dtypes</span><br></pre></td></tr></table></figure>
+<pre><code>education       object
+salary          object
+new_salary       int64
+categories    category
+new_c           object
+dtype: object
+</code></pre>
+<h1 id="检查数据中是否有缺失值及其数量"><a class="markdownIt-Anchor" href="#检查数据中是否有缺失值及其数量"></a> 检查数据中是否有缺失值及其数量</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.isnull().<span class="built_in">any</span>()</span><br></pre></td></tr></table></figure>
+<pre><code>education     False
+salary        False
+new_salary    False
+categories    False
+new_c         False
+dtype: bool
+</code></pre>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.isnull().<span class="built_in">sum</span>()</span><br></pre></td></tr></table></figure>
+<pre><code>education     0
+salary        0
+new_salary    0
+categories    0
+new_c         0
+dtype: int64
+</code></pre>
+<h1 id="将-new_salary-列类型转换为浮点数"><a class="markdownIt-Anchor" href="#将-new_salary-列类型转换为浮点数"></a> 将 new_salary 列类型转换为浮点数</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df[<span class="string">&#x27;new_salary&#x27;</span>].astype(<span class="built_in">float</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>0      27500.0
+1      30000.0
+2      27500.0
+3      16500.0
+4      15000.0
+        ...   
+130    14000.0
+131    37500.0
+132    30000.0
+133    19000.0
+134    30000.0
+Name: new_salary, Length: 135, dtype: float64
+</code></pre>
+<h1 id="计算salary列大于10000的数量"><a class="markdownIt-Anchor" href="#计算salary列大于10000的数量"></a> 计算salary列大于10000的数量</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">len</span>(df[df[<span class="string">&#x27;new_salary&#x27;</span>] &gt; <span class="number">10000</span>])</span><br></pre></td></tr></table></figure>
+<pre><code>119
+</code></pre>
+<h1 id="查看每种学历出现的次数"><a class="markdownIt-Anchor" href="#查看每种学历出现的次数"></a> 查看每种学历出现的次数</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df[<span class="string">&#x27;education&#x27;</span>].value_counts()</span><br></pre></td></tr></table></figure>
+<pre><code>本科    119
+硕士      7
+不限      5
+大专      4
+Name: education, dtype: int64
+</code></pre>
+<h1 id="查看共有几种学历"><a class="markdownIt-Anchor" href="#查看共有几种学历"></a> 查看共有几种学历</h1>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df[<span class="string">&#x27;education&#x27;</span>].nunique()</span><br></pre></td></tr></table></figure>
+<pre><code>4
+</code></pre>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df[<span class="string">&#x27;education&#x27;</span>].unique()</span><br></pre></td></tr></table></figure>
+<pre><code>array(['本科', '不限', '硕士', '大专'], dtype=object)
+</code></pre>
 ]]></content>
       <categories>
-        <category>cs61a</category>
+        <category>数据分析</category>
       </categories>
       <tags>
-        <tag>高阶函数</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python四大数据类型</title>
-    <url>/posts/56639862/</url>
-    <content><![CDATA[<h1 id="列表list"><a class="markdownIt-Anchor" href="#列表list"></a> 列表（List）</h1>
-<p>列表是一个有序的元素集合。可以将它看作一个容器，里边可以放置各种数据类型的元素，也可以随时添加、修改和删除元素。</p>
-<h2 id="创建列表"><a class="markdownIt-Anchor" href="#创建列表"></a> 创建列表</h2>
-<p>创建一个列表非常简单，只需要将数据项放在<code>[]</code> 中，并以逗号 <code>,</code> 分隔开就好。</p>
-<ol>
-<li>
-<p>使用方括号 <code>[]</code> 创建一个空列表或包含元素的列表：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建一个空列表</span></span><br><span class="line">my_list = []</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个包含元素的列表</span></span><br><span class="line">my_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>使用 <code>list()</code> 函数将其他可迭代对象（如字符串、元组、集合等）转换为列表：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 将字符串转换为列表</span></span><br><span class="line">my_list = <span class="built_in">list</span>(<span class="string">&quot;Hello&quot;</span>)</span><br><span class="line"><span class="comment"># 结果：[&#x27;H&#x27;, &#x27;e&#x27;, &#x27;l&#x27;, &#x27;l&#x27;, &#x27;o&#x27;]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将元组转换为列表</span></span><br><span class="line">my_list = <span class="built_in">list</span>((<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>))</span><br><span class="line"><span class="comment"># 结果：[1, 2, 3, 4]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将集合转换为列表</span></span><br><span class="line">my_list = <span class="built_in">list</span>(&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;)</span><br><span class="line"><span class="comment"># 结果：[1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="访问列表元素"><a class="markdownIt-Anchor" href="#访问列表元素"></a> 访问列表元素</h2>
-<p>与字符串的索引一样，列表的索引从 <code>0</code> 开始，以此类推。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">words_list = [<span class="string">&#x27;liberal&#x27;</span>, <span class="string">&#x27;rational&#x27;</span>, <span class="string">&#x27;moral&#x27;</span>, <span class="string">&#x27;canal&#x27;</span>, <span class="string">&#x27;fatal&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问第一个元素</span></span><br><span class="line">first_element = words_list[<span class="number">0</span>]</span><br><span class="line"><span class="comment"># 结果: liberal</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问第三个元素</span></span><br><span class="line">third_element = words_list[<span class="number">2</span>]</span><br><span class="line"><span class="comment"># 结果: moral</span></span><br></pre></td></tr></table></figure>
-<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.tucang.cc/api/image/show/53162c03e091a456e396acd1b56e8b73" alt="" /></p>
-<p>元素也可以反向索引，最后一个元素索引<code>-1</code> ，往前一位则为 <code>-2</code> ，以此类推。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">words_list = [<span class="string">&#x27;liberal&#x27;</span>, <span class="string">&#x27;rational&#x27;</span>, <span class="string">&#x27;moral&#x27;</span>, <span class="string">&#x27;canal&#x27;</span>, <span class="string">&#x27;fatal&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问最后一个元素</span></span><br><span class="line">last_element = words_list[-<span class="number">1</span>]</span><br><span class="line"><span class="comment"># 结果: fatal</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问倒数第三元素</span></span><br><span class="line">third_last_element = words_list[-<span class="number">3</span>]</span><br><span class="line"><span class="comment"># 结果: moral</span></span><br></pre></td></tr></table></figure>
-<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.58duihuan.com/2600548844924928" alt="" /></p>
-<p><strong>注意：</strong> 如果使用的索引超出了列表的长度，将引发 <code>IndexError</code> 异常。</p>
-<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://telegraph-a3p.pages.dev/file/4aec5d6a15bad0dc6e5cc.png" alt="" /></p>
-<h2 id="修改列表元素"><a class="markdownIt-Anchor" href="#修改列表元素"></a> 修改列表元素</h2>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改第二个元素</span></span><br><span class="line">my_list[<span class="number">1</span>] = <span class="number">5</span></span><br><span class="line"><span class="comment"># 现在 my_list 的值为 [1, 5, 3, 4]</span></span><br></pre></td></tr></table></figure>
-<p>这种赋值也适用于切片</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 修改前三个元素</span></span><br><span class="line">my_list[:<span class="number">3</span>] = [<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>]</span><br><span class="line"><span class="comment"># 现在 my_list 的值为 [6, 7, 8, 4, 5]</span></span><br></pre></td></tr></table></figure>
-<h2 id="添加和删除元素"><a class="markdownIt-Anchor" href="#添加和删除元素"></a> 添加和删除元素</h2>
-<h3 id="1-append向列表末尾添加一个元素"><a class="markdownIt-Anchor" href="#1-append向列表末尾添加一个元素"></a> 1. <code>append()</code>：向列表末尾添加一个元素</h3>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">my_list.append(<span class="number">4</span>)</span><br><span class="line"><span class="comment"># 现在 my_list 的值为 [1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure>
-<h3 id="2-extend向列表末尾添加另一个列表的所有元素"><a class="markdownIt-Anchor" href="#2-extend向列表末尾添加另一个列表的所有元素"></a> 2. <code>extend()</code>：向列表末尾添加另一个列表的所有元素</h3>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">my_list.extend([<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])</span><br><span class="line"><span class="comment"># 现在 my_list 的值为 [1, 2, 3, 4, 5, 6]</span></span><br></pre></td></tr></table></figure>
-<h3 id="3-insert在指定位置插入一个元素"><a class="markdownIt-Anchor" href="#3-insert在指定位置插入一个元素"></a> 3. <code>insert()</code>：在指定位置插入一个元素</h3>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">my_list.insert(<span class="number">1</span>, <span class="number">4</span>)</span><br><span class="line"><span class="comment"># 现在 my_list 的值为 [1, 4, 2, 3]</span></span><br></pre></td></tr></table></figure>
-<h3 id="4-remove删除指定值的第一个元素"><a class="markdownIt-Anchor" href="#4-remove删除指定值的第一个元素"></a> 4. <code>remove()</code>：删除指定值的第一个元素</h3>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">my_list.remove(<span class="number">3</span>)</span><br><span class="line"><span class="comment"># 现在 my_list 的值为 [1, 2, 4, 5]</span></span><br></pre></td></tr></table></figure>
-<h3 id="5-pop删除指定位置上的元素并返回它的值"><a class="markdownIt-Anchor" href="#5-pop删除指定位置上的元素并返回它的值"></a> 5. <code>pop()</code>：删除指定位置上的元素并返回它的值</h3>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">popped_element = my_list.pop(<span class="number">2</span>) <span class="comment"># 删除索引为2的元素（即第三个元素）</span></span><br><span class="line"><span class="comment"># 现在 my_list 的值为 [1, 2, 4, 5]，popped_element 的值为 3</span></span><br></pre></td></tr></table></figure>
-<h2 id="列表推导式"><a class="markdownIt-Anchor" href="#列表推导式"></a> 列表推导式</h2>
-<p>循环来生成列表：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">values = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">squares = []</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> values:</span><br><span class="line">    squares.append(x ** <span class="number">2</span>)</span><br><span class="line">squares</span><br><span class="line"><span class="comment"># [1, 4, 9, 16]</span></span><br></pre></td></tr></table></figure>
-<p>列表推导式：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">values = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">squares = [i ** <span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> values]</span><br><span class="line">squares</span><br><span class="line"><span class="comment"># [1, 4, 9, 16]</span></span><br></pre></td></tr></table></figure>
-<p>增加条件，保留平方小于10的：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">values = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">squares = [i ** <span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> values <span class="keyword">if</span> i ** <span class="number">2</span> &lt;<span class="number">10</span>]</span><br><span class="line">squares</span><br><span class="line"><span class="comment"># [1, 4, 9]</span></span><br></pre></td></tr></table></figure>
-<h1 id="字典dictionary"><a class="markdownIt-Anchor" href="#字典dictionary"></a> 字典（Dictionary）</h1>
-<p>用于存储键-值对。它是可变的、无序的，并且可以容纳任意类型的对象作为值。字典的键(不可变类型) 必须唯一，而值可以重复。</p>
-<h2 id="创建字典"><a class="markdownIt-Anchor" href="#创建字典"></a> 创建字典</h2>
-<p>可以使用花括号 <code>&#123;&#125;</code> 或 <code>dict()</code> 函数来创建一个空字典，或者使用大括号括起来的键-值对来初始化字典。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_dict = &#123;&#125;  <span class="comment"># 创建一个空字典</span></span><br><span class="line">my_dict = <span class="built_in">dict</span>()  <span class="comment"># 也可以使用 dict() 函数创建一个空字典</span></span><br><span class="line"></span><br><span class="line">my_dict = &#123;<span class="string">&quot;key1&quot;</span>: <span class="string">&quot;value1&quot;</span>, <span class="string">&quot;key2&quot;</span>: <span class="string">&quot;value2&quot;</span>&#125;  <span class="comment"># 初始化具有键-值对的字典</span></span><br></pre></td></tr></table></figure>
-<h2 id="访问字典元素"><a class="markdownIt-Anchor" href="#访问字典元素"></a> 访问字典元素</h2>
-<p>可以通过键来获取对应的元素</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_dict = &#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;xiryg&quot;</span>, <span class="string">&quot;age&quot;</span>: <span class="number">18</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(my_dict[<span class="string">&quot;name&quot;</span>])  <span class="comment"># 输出 &quot;xiryg&quot;</span></span><br></pre></td></tr></table></figure>
-<h2 id="添加或修改键-值对"><a class="markdownIt-Anchor" href="#添加或修改键-值对"></a> 添加或修改键-值对</h2>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_dict = &#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;xiryg&quot;</span>, <span class="string">&quot;age&quot;</span>: <span class="number">18</span>&#125;</span><br><span class="line">my_dict[<span class="string">&quot;gender&quot;</span>] = <span class="string">&quot;male&quot;</span>  <span class="comment"># 添加新的键-值对</span></span><br><span class="line">my_dict[<span class="string">&quot;age&quot;</span>] = <span class="number">19</span>  <span class="comment"># 修改已有的键-值对</span></span><br></pre></td></tr></table></figure>
-<h2 id="删除键-值对"><a class="markdownIt-Anchor" href="#删除键-值对"></a> 删除键-值对</h2>
-<p>可以使用 <code>del</code> 关键字或 <code>pop()</code> 方法来删除指定的键-值对。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_dict = &#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;xiryg&quot;</span>, <span class="string">&quot;age&quot;</span>: <span class="number">18</span>&#125;</span><br><span class="line"><span class="keyword">del</span> my_dict[<span class="string">&quot;name&quot;</span>]  <span class="comment"># 删除姓名信息</span></span><br><span class="line">my_dict.pop(<span class="string">&quot;age&quot;</span>) <span class="comment"># 删除年龄信息并返回该值</span></span><br></pre></td></tr></table></figure>
-<h2 id="遍历字典"><a class="markdownIt-Anchor" href="#遍历字典"></a> 遍历字典</h2>
-<p>可以使用 <code>for</code> 循环来遍历字典的键或值，或者同时遍历键和值。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_dict = &#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;xiryg&quot;</span>, <span class="string">&quot;age&quot;</span>: <span class="number">18</span>&#125;</span><br><span class="line"><span class="keyword">for</span> key <span class="keyword">in</span> my_dict:</span><br><span class="line">    <span class="built_in">print</span>(key)  <span class="comment"># 输出所有键</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> value <span class="keyword">in</span> my_dict.values():</span><br><span class="line">    <span class="built_in">print</span>(value)  <span class="comment"># 输出所有值</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> key, value <span class="keyword">in</span> my_dict.items():</span><br><span class="line">    <span class="built_in">print</span>(key, value)  <span class="comment"># 输出所有键-值对</span></span><br></pre></td></tr></table></figure>
-<h2 id="字典推导式"><a class="markdownIt-Anchor" href="#字典推导式"></a> 字典推导式</h2>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_dict = &#123;x: x**<span class="number">2</span> <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>)&#125;</span><br><span class="line"><span class="comment"># 现在 my_dict 的值为 &#123;0: 0, 1: 1, 2: 4, 3: 9, 4: 16&#125;</span></span><br><span class="line"></span><br><span class="line">my_list = [<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>, <span class="string">&quot;kiwi&quot;</span>, <span class="string">&quot;grapefruit&quot;</span>]</span><br><span class="line">my_dict = &#123;item: <span class="built_in">len</span>(item) <span class="keyword">for</span> item <span class="keyword">in</span> my_list <span class="keyword">if</span> <span class="built_in">len</span>(item) &gt;= <span class="number">5</span>&#125;</span><br><span class="line"><span class="comment"># 现在 my_dict 的值为 &#123;&#x27;apple&#x27;: 5, &#x27;banana&#x27;: 6, &#x27;orange&#x27;: 6, &#x27;grapefruit&#x27;: 10&#125;</span></span><br></pre></td></tr></table></figure>
-<h1 id="集合set"><a class="markdownIt-Anchor" href="#集合set"></a> 集合（Set）</h1>
-<p>无序、不重复的数据结构，它可以用来存储多个元素。与列表和元组不同，集合不保持元素的顺序，并且不允许存在重复的元素。</p>
-<h2 id="创建集合"><a class="markdownIt-Anchor" href="#创建集合"></a> 创建集合</h2>
-<p>可以使用花括号 <code>&#123;&#125;</code> 或 <code>set()</code> 函数来创建一个空集合，或者使用大括号括起来的元素来初始化集合。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_set = <span class="built_in">set</span>()  <span class="comment"># 创建一个空集合</span></span><br><span class="line">my_set = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;  <span class="comment"># 初始化具有元素的集合</span></span><br></pre></td></tr></table></figure>
-<h2 id="添加元素"><a class="markdownIt-Anchor" href="#添加元素"></a> 添加元素</h2>
-<p>可以使用 <code>add()</code> 方法向集合中添加单个元素，如果要添加多个元素，可以使用 <code>update()</code> 方法。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_set = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">my_set.add(<span class="number">4</span>)  <span class="comment"># 添加单个元素</span></span><br><span class="line">my_set.update([<span class="number">5</span>, <span class="number">6</span>])  <span class="comment"># 添加多个元素</span></span><br></pre></td></tr></table></figure>
-<h2 id="删除元素"><a class="markdownIt-Anchor" href="#删除元素"></a> 删除元素</h2>
-<p>使用 <code>remove()</code> 方法可以删除集合中的指定元素，如果元素不存在，则会引发 <code>KeyError</code> 异常。另外，<code>discard()</code> 方法也可以删除元素，但如果元素不存在，它不会引发异常。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_set = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">my_set.remove(<span class="number">2</span>)  <span class="comment"># 删除元素 2</span></span><br><span class="line">my_set.remove(<span class="number">4</span>) <span class="comment"># 删除元素 4 引发异常</span></span><br><span class="line">my_set.discard(<span class="number">4</span>)  <span class="comment"># 删除元素 4（如果存在）</span></span><br></pre></td></tr></table></figure>
-<h2 id="集合运算"><a class="markdownIt-Anchor" href="#集合运算"></a> 集合运算</h2>
-<p>集合对象有许多内置的方法，可以执行常见的集合运算，如并集、交集、差集等。一些常用的方法有 <code>union()</code>、<code>intersection()</code>、<code>difference()</code>、<code>symmetric_difference()</code> 等。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">set1 = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">set2 = &#123;<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</span><br><span class="line">union_set = set1.union(set2)  <span class="comment"># 并集：&#123;1, 2, 3, 4, 5&#125;</span></span><br><span class="line">intersection_set = set1.intersection(set2)  <span class="comment"># 交集：&#123;3&#125;</span></span><br><span class="line">difference_set = set1.difference(set2)  <span class="comment"># 差集：&#123;1, 2&#125;</span></span><br><span class="line">sym_diff_set = set1.symmetric_difference(set2)  <span class="comment"># 对称差集：&#123;1, 2, 4, 5&#125;</span></span><br></pre></td></tr></table></figure>
-<h1 id="元组tuple"><a class="markdownIt-Anchor" href="#元组tuple"></a> 元组（Tuple）</h1>
-<p>一种有序、不可变的数据结构，可以用来存储多个元素。与列表和集合不同，元组一旦创建就不能再进行修改。</p>
-<h2 id="创建元组"><a class="markdownIt-Anchor" href="#创建元组"></a> 创建元组</h2>
-<p>可以使用小括号 <code>()</code> 来创建一个空元组，或者使用小括号包含的逗号分隔的元素来初始化元组。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_tuple = ()  <span class="comment"># 创建一个空元组</span></span><br><span class="line">my_tuple = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)  <span class="comment"># 初始化具有元素的元组</span></span><br><span class="line">my_tuple = (<span class="number">1</span>,)  <span class="comment"># 创建一个只包含一个元素的元组</span></span><br></pre></td></tr></table></figure>
-<h2 id="访问元素"><a class="markdownIt-Anchor" href="#访问元素"></a> 访问元素</h2>
-<p>可以通过下标索引访问元组中的单个元素，下标从0开始，也可以使用切片操作获取子元组。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_tuple = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">element = my_tuple[<span class="number">1</span>]  <span class="comment"># 访问第二个元素，值为2</span></span><br><span class="line">sub_tuple = my_tuple[<span class="number">1</span>:<span class="number">3</span>]  <span class="comment"># 获取子元组，值为(2, 3)</span></span><br></pre></td></tr></table></figure>
-<h2 id="元组运算"><a class="markdownIt-Anchor" href="#元组运算"></a> 元组运算</h2>
-<p>元组对象支持许多内置的方法，可以执行常见的元组运算，如连接、重复、比较等。一些常用的方法有 <code>+</code>、<code>*</code>、<code>len()</code>、<code>count()</code>、<code>index()</code> 等。</p>
-<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">tuple1 = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">tuple2 = (<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>)</span><br><span class="line">concatenated_tuple = tuple1 + tuple2  <span class="comment"># 连接元组，值为(1, 2, 3, 4, 5, 6)</span></span><br><span class="line">repeated_tuple = tuple1 * <span class="number">3</span>  <span class="comment"># 重复元组，值为(1, 2, 3, 1, 2, 3, 1, 2, 3)</span></span><br><span class="line">tuple_len = <span class="built_in">len</span>(tuple1)  <span class="comment"># 获取元组长度，值为3</span></span><br><span class="line">tuple_count = tuple1.count(<span class="number">2</span>)  <span class="comment"># 计算元素2在元组中出现的次数，值为1</span></span><br><span class="line">tuple_index = tuple1.index(<span class="number">2</span>)  <span class="comment"># 查找元素2在元组中第一次出现的下标，值为1</span></span><br></pre></td></tr></table></figure>
-<h1 id="结语"><a class="markdownIt-Anchor" href="#结语"></a> 结语</h1>
-<p>通过本文的介绍，希望你可以对Python中的列表、字典、集合、元组有更深入的了解！</p>
-<p><code>φ(゜▽゜*)♪</code></p>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
+        <tag>pandas, 数据分析</tag>
       </tags>
   </entry>
   <entry>
@@ -1505,882 +2282,105 @@ Name: fraction, dtype: bool
       </tags>
   </entry>
   <entry>
-    <title>pandas基础复习2</title>
-    <url>/posts/1207525a/</url>
-    <content><![CDATA[<h1 id="pandas数据处理"><a class="markdownIt-Anchor" href="#pandas数据处理"></a> Pandas数据处理</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">df = pd.read_excel(<span class="string">&#x27;https://raw.githubusercontent.com/xiryg/blog_picture/main/resource/pandas120.xlsx&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.head()</span><br></pre></td></tr></table></figure>
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-<pre><code>.dataframe tbody tr th &#123;
-    vertical-align: top;
-&#125;
-
-.dataframe thead th &#123;
-    text-align: right;
-&#125;
-</code></pre>
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>createTime</th>
-      <th>education</th>
-      <th>salary</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2020-03-16 11:30:18</td>
-      <td>本科</td>
-      <td>20k-35k</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2020-03-16 10:58:48</td>
-      <td>本科</td>
-      <td>20k-40k</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2020-03-16 10:46:39</td>
-      <td>不限</td>
-      <td>20k-35k</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>2020-03-16 10:45:44</td>
-      <td>本科</td>
-      <td>13k-20k</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>2020-03-16 10:20:41</td>
-      <td>本科</td>
-      <td>10k-20k</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.info()</span><br></pre></td></tr></table></figure>
-<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
-RangeIndex: 135 entries, 0 to 134
-Data columns (total 3 columns):
- #   Column      Non-Null Count  Dtype         
----  ------      --------------  -----         
- 0   createTime  135 non-null    datetime64[ns]
- 1   education   135 non-null    object        
- 2   salary      135 non-null    object        
-dtypes: datetime64[ns](1), object(2)
-memory usage: 3.3+ KB
-</code></pre>
-<h1 id="将salary列数据转换为最大值于最小值的平均值"><a class="markdownIt-Anchor" href="#将salary列数据转换为最大值于最小值的平均值"></a> 将salary列数据转换为最大值于最小值的平均值</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># data 的apply方法</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">func</span>(<span class="params">series</span>):</span><br><span class="line">    <span class="comment"># print(seires)</span></span><br><span class="line">    lst = series[<span class="string">&#x27;salary&#x27;</span>].split(<span class="string">&#x27;-&#x27;</span>)</span><br><span class="line">    smin = <span class="built_in">int</span>(lst[<span class="number">0</span>].strip(<span class="string">&#x27;k&#x27;</span>))</span><br><span class="line">    smax = <span class="built_in">int</span>(lst[<span class="number">1</span>].strip(<span class="string">&#x27;k&#x27;</span>))</span><br><span class="line">    avg_salary = <span class="built_in">int</span>((smin+smax)/<span class="number">2</span> * <span class="number">1000</span>)</span><br><span class="line">    <span class="keyword">return</span> avg_salary</span><br><span class="line">df[<span class="string">&#x27;new_salary&#x27;</span>] = df.apply(func,axis = <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.head()</span><br></pre></td></tr></table></figure>
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-<pre><code>.dataframe tbody tr th &#123;
-    vertical-align: top;
-&#125;
-
-.dataframe thead th &#123;
-    text-align: right;
-&#125;
-</code></pre>
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>createTime</th>
-      <th>education</th>
-      <th>salary</th>
-      <th>new_salary</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2020-03-16 11:30:18</td>
-      <td>本科</td>
-      <td>20k-35k</td>
-      <td>27500</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2020-03-16 10:58:48</td>
-      <td>本科</td>
-      <td>20k-40k</td>
-      <td>30000</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2020-03-16 10:46:39</td>
-      <td>不限</td>
-      <td>20k-35k</td>
-      <td>27500</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>2020-03-16 10:45:44</td>
-      <td>本科</td>
-      <td>13k-20k</td>
-      <td>16500</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>2020-03-16 10:20:41</td>
-      <td>本科</td>
-      <td>10k-20k</td>
-      <td>15000</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-<h1 id="将数据根据学历进行分组并计算平均薪资"><a class="markdownIt-Anchor" href="#将数据根据学历进行分组并计算平均薪资"></a> 将数据根据学历进行分组并计算平均薪资</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(df.groupby(<span class="string">&#x27;education&#x27;</span>).mean(numeric_only=<span class="literal">True</span>))</span><br></pre></td></tr></table></figure>
-<pre><code>             new_salary
-education              
-不限         19600.000000
-大专         10000.000000
-本科         19361.344538
-硕士         20642.857143
-</code></pre>
-<h1 id="查看数值型列的汇总统计"><a class="markdownIt-Anchor" href="#查看数值型列的汇总统计"></a> 查看数值型列的汇总统计</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.describe()</span><br></pre></td></tr></table></figure>
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-<pre><code>.dataframe tbody tr th &#123;
-    vertical-align: top;
-&#125;
-
-.dataframe thead th &#123;
-    text-align: right;
-&#125;
-</code></pre>
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>new_salary</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>count</th>
-      <td>135.000000</td>
-    </tr>
-    <tr>
-      <th>mean</th>
-      <td>19159.259259</td>
-    </tr>
-    <tr>
-      <th>std</th>
-      <td>8661.686922</td>
-    </tr>
-    <tr>
-      <th>min</th>
-      <td>3500.000000</td>
-    </tr>
-    <tr>
-      <th>25%</th>
-      <td>14000.000000</td>
-    </tr>
-    <tr>
-      <th>50%</th>
-      <td>17500.000000</td>
-    </tr>
-    <tr>
-      <th>75%</th>
-      <td>25000.000000</td>
-    </tr>
-    <tr>
-      <th>max</th>
-      <td>45000.000000</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-<h1 id="新增一列根据salary将数据分为三组"><a class="markdownIt-Anchor" href="#新增一列根据salary将数据分为三组"></a> 新增一列根据salary将数据分为三组</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># cut 方法</span></span><br><span class="line">bins = [<span class="number">0</span>,<span class="number">5000</span>,<span class="number">20000</span>,<span class="number">50000</span>]</span><br><span class="line">group_names = [<span class="string">&#x27;低&#x27;</span>,<span class="string">&#x27;中&#x27;</span>,<span class="string">&#x27;高&#x27;</span>]</span><br><span class="line">df[<span class="string">&#x27;categories&#x27;</span>] = pd.cut(df[<span class="string">&#x27;new_salary&#x27;</span>],bins,labels=group_names)</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df</span><br></pre></td></tr></table></figure>
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-<pre><code>.dataframe tbody tr th &#123;
-    vertical-align: top;
-&#125;
-
-.dataframe thead th &#123;
-    text-align: right;
-&#125;
-</code></pre>
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>createTime</th>
-      <th>education</th>
-      <th>salary</th>
-      <th>new_salary</th>
-      <th>categories</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2020-03-16 11:30:18</td>
-      <td>本科</td>
-      <td>20k-35k</td>
-      <td>27500</td>
-      <td>高</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2020-03-16 10:58:48</td>
-      <td>本科</td>
-      <td>20k-40k</td>
-      <td>30000</td>
-      <td>高</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2020-03-16 10:46:39</td>
-      <td>不限</td>
-      <td>20k-35k</td>
-      <td>27500</td>
-      <td>高</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>2020-03-16 10:45:44</td>
-      <td>本科</td>
-      <td>13k-20k</td>
-      <td>16500</td>
-      <td>中</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>2020-03-16 10:20:41</td>
-      <td>本科</td>
-      <td>10k-20k</td>
-      <td>15000</td>
-      <td>中</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>130</th>
-      <td>2020-03-16 11:36:07</td>
-      <td>本科</td>
-      <td>10k-18k</td>
-      <td>14000</td>
-      <td>中</td>
-    </tr>
-    <tr>
-      <th>131</th>
-      <td>2020-03-16 09:54:47</td>
-      <td>硕士</td>
-      <td>25k-50k</td>
-      <td>37500</td>
-      <td>高</td>
-    </tr>
-    <tr>
-      <th>132</th>
-      <td>2020-03-16 10:48:32</td>
-      <td>本科</td>
-      <td>20k-40k</td>
-      <td>30000</td>
-      <td>高</td>
-    </tr>
-    <tr>
-      <th>133</th>
-      <td>2020-03-16 10:46:31</td>
-      <td>本科</td>
-      <td>15k-23k</td>
-      <td>19000</td>
-      <td>中</td>
-    </tr>
-    <tr>
-      <th>134</th>
-      <td>2020-03-16 11:19:38</td>
-      <td>本科</td>
-      <td>20k-40k</td>
-      <td>30000</td>
-      <td>高</td>
-    </tr>
-  </tbody>
-</table>
-<p>135 rows × 5 columns</p>
-</div>
-<h1 id="按照salary列对数据进行降序排列"><a class="markdownIt-Anchor" href="#按照salary列对数据进行降序排列"></a> 按照salary列对数据进行降序排列</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.sort_values(<span class="string">&#x27;new_salary&#x27;</span>,ascending=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-<pre><code>.dataframe tbody tr th &#123;
-    vertical-align: top;
-&#125;
-
-.dataframe thead th &#123;
-    text-align: right;
-&#125;
-</code></pre>
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>createTime</th>
-      <th>education</th>
-      <th>salary</th>
-      <th>new_salary</th>
-      <th>categories</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>53</th>
-      <td>2020-03-16 11:30:17</td>
-      <td>本科</td>
-      <td>30k-60k</td>
-      <td>45000</td>
-      <td>高</td>
-    </tr>
-    <tr>
-      <th>37</th>
-      <td>2020-03-16 11:04:00</td>
-      <td>本科</td>
-      <td>30k-50k</td>
-      <td>40000</td>
-      <td>高</td>
-    </tr>
-    <tr>
-      <th>101</th>
-      <td>2020-03-16 11:01:39</td>
-      <td>本科</td>
-      <td>30k-45k</td>
-      <td>37500</td>
-      <td>高</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>2020-03-16 10:36:57</td>
-      <td>本科</td>
-      <td>25k-50k</td>
-      <td>37500</td>
-      <td>高</td>
-    </tr>
-    <tr>
-      <th>131</th>
-      <td>2020-03-16 09:54:47</td>
-      <td>硕士</td>
-      <td>25k-50k</td>
-      <td>37500</td>
-      <td>高</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>123</th>
-      <td>2020-03-16 11:20:44</td>
-      <td>本科</td>
-      <td>3k-6k</td>
-      <td>4500</td>
-      <td>低</td>
-    </tr>
-    <tr>
-      <th>126</th>
-      <td>2020-03-16 11:12:04</td>
-      <td>本科</td>
-      <td>3k-5k</td>
-      <td>4000</td>
-      <td>低</td>
-    </tr>
-    <tr>
-      <th>110</th>
-      <td>2020-03-16 11:12:04</td>
-      <td>本科</td>
-      <td>3k-5k</td>
-      <td>4000</td>
-      <td>低</td>
-    </tr>
-    <tr>
-      <th>96</th>
-      <td>2020-03-16 10:44:23</td>
-      <td>不限</td>
-      <td>3k-4k</td>
-      <td>3500</td>
-      <td>低</td>
-    </tr>
-    <tr>
-      <th>113</th>
-      <td>2020-03-16 10:48:43</td>
-      <td>本科</td>
-      <td>3k-4k</td>
-      <td>3500</td>
-      <td>低</td>
-    </tr>
-  </tbody>
-</table>
-<p>135 rows × 5 columns</p>
-</div>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df</span><br></pre></td></tr></table></figure>
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-<pre><code>.dataframe tbody tr th &#123;
-    vertical-align: top;
-&#125;
-
-.dataframe thead th &#123;
-    text-align: right;
-&#125;
-</code></pre>
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>createTime</th>
-      <th>education</th>
-      <th>salary</th>
-      <th>new_salary</th>
-      <th>categories</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2020-03-16 11:30:18</td>
-      <td>本科</td>
-      <td>20k-35k</td>
-      <td>27500</td>
-      <td>高</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2020-03-16 10:58:48</td>
-      <td>本科</td>
-      <td>20k-40k</td>
-      <td>30000</td>
-      <td>高</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2020-03-16 10:46:39</td>
-      <td>不限</td>
-      <td>20k-35k</td>
-      <td>27500</td>
-      <td>高</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>2020-03-16 10:45:44</td>
-      <td>本科</td>
-      <td>13k-20k</td>
-      <td>16500</td>
-      <td>中</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>2020-03-16 10:20:41</td>
-      <td>本科</td>
-      <td>10k-20k</td>
-      <td>15000</td>
-      <td>中</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>130</th>
-      <td>2020-03-16 11:36:07</td>
-      <td>本科</td>
-      <td>10k-18k</td>
-      <td>14000</td>
-      <td>中</td>
-    </tr>
-    <tr>
-      <th>131</th>
-      <td>2020-03-16 09:54:47</td>
-      <td>硕士</td>
-      <td>25k-50k</td>
-      <td>37500</td>
-      <td>高</td>
-    </tr>
-    <tr>
-      <th>132</th>
-      <td>2020-03-16 10:48:32</td>
-      <td>本科</td>
-      <td>20k-40k</td>
-      <td>30000</td>
-      <td>高</td>
-    </tr>
-    <tr>
-      <th>133</th>
-      <td>2020-03-16 10:46:31</td>
-      <td>本科</td>
-      <td>15k-23k</td>
-      <td>19000</td>
-      <td>中</td>
-    </tr>
-    <tr>
-      <th>134</th>
-      <td>2020-03-16 11:19:38</td>
-      <td>本科</td>
-      <td>20k-40k</td>
-      <td>30000</td>
-      <td>高</td>
-    </tr>
-  </tbody>
-</table>
-<p>135 rows × 5 columns</p>
-</div>
-<h1 id="取出第33行的数据"><a class="markdownIt-Anchor" href="#取出第33行的数据"></a> 取出第33行的数据</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.loc[<span class="number">32</span>]</span><br></pre></td></tr></table></figure>
-<pre><code>createTime    2020-03-16 10:07:25
-education                      硕士
-salary                    15k-30k
-new_salary                  22500
-categories                      高
-Name: 32, dtype: object
-</code></pre>
-<h1 id="删除列-createtime"><a class="markdownIt-Anchor" href="#删除列-createtime"></a> 删除列 createTime</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.drop(columns=[<span class="string">&#x27;createTime&#x27;</span>],inplace=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.head()</span><br></pre></td></tr></table></figure>
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-<pre><code>.dataframe tbody tr th &#123;
-    vertical-align: top;
-&#125;
-
-.dataframe thead th &#123;
-    text-align: right;
-&#125;
-</code></pre>
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>education</th>
-      <th>salary</th>
-      <th>new_salary</th>
-      <th>categories</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>本科</td>
-      <td>20k-35k</td>
-      <td>27500</td>
-      <td>高</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>本科</td>
-      <td>20k-40k</td>
-      <td>30000</td>
-      <td>高</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>不限</td>
-      <td>20k-35k</td>
-      <td>27500</td>
-      <td>高</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>本科</td>
-      <td>13k-20k</td>
-      <td>16500</td>
-      <td>中</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>本科</td>
-      <td>10k-20k</td>
-      <td>15000</td>
-      <td>中</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-<h1 id="将-education列与salary列合并为新的一列"><a class="markdownIt-Anchor" href="#将-education列与salary列合并为新的一列"></a> 将 education列与salary列合并为新的一列</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df[<span class="string">&quot;new_c&quot;</span>] = df[<span class="string">&quot;new_salary&quot;</span>].astype(<span class="built_in">str</span>) + df[<span class="string">&#x27;education&#x27;</span>]</span><br><span class="line">df</span><br></pre></td></tr></table></figure>
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-<pre><code>.dataframe tbody tr th &#123;
-    vertical-align: top;
-&#125;
-
-.dataframe thead th &#123;
-    text-align: right;
-&#125;
-</code></pre>
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>education</th>
-      <th>salary</th>
-      <th>new_salary</th>
-      <th>categories</th>
-      <th>new_c</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>本科</td>
-      <td>20k-35k</td>
-      <td>27500</td>
-      <td>高</td>
-      <td>27500本科</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>本科</td>
-      <td>20k-40k</td>
-      <td>30000</td>
-      <td>高</td>
-      <td>30000本科</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>不限</td>
-      <td>20k-35k</td>
-      <td>27500</td>
-      <td>高</td>
-      <td>27500不限</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>本科</td>
-      <td>13k-20k</td>
-      <td>16500</td>
-      <td>中</td>
-      <td>16500本科</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>本科</td>
-      <td>10k-20k</td>
-      <td>15000</td>
-      <td>中</td>
-      <td>15000本科</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>130</th>
-      <td>本科</td>
-      <td>10k-18k</td>
-      <td>14000</td>
-      <td>中</td>
-      <td>14000本科</td>
-    </tr>
-    <tr>
-      <th>131</th>
-      <td>硕士</td>
-      <td>25k-50k</td>
-      <td>37500</td>
-      <td>高</td>
-      <td>37500硕士</td>
-    </tr>
-    <tr>
-      <th>132</th>
-      <td>本科</td>
-      <td>20k-40k</td>
-      <td>30000</td>
-      <td>高</td>
-      <td>30000本科</td>
-    </tr>
-    <tr>
-      <th>133</th>
-      <td>本科</td>
-      <td>15k-23k</td>
-      <td>19000</td>
-      <td>中</td>
-      <td>19000本科</td>
-    </tr>
-    <tr>
-      <th>134</th>
-      <td>本科</td>
-      <td>20k-40k</td>
-      <td>30000</td>
-      <td>高</td>
-      <td>30000本科</td>
-    </tr>
-  </tbody>
-</table>
-<p>135 rows × 5 columns</p>
-</div>
-<h1 id="将第一行与最后一行进行拼接"><a class="markdownIt-Anchor" href="#将第一行与最后一行进行拼接"></a> 将第一行与最后一行进行拼接</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pd.concat([df[:<span class="number">1</span>],df[-<span class="number">1</span>:]])</span><br></pre></td></tr></table></figure>
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-<pre><code>.dataframe tbody tr th &#123;
-    vertical-align: top;
-&#125;
-
-.dataframe thead th &#123;
-    text-align: right;
-&#125;
-</code></pre>
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>education</th>
-      <th>salary</th>
-      <th>new_salary</th>
-      <th>categories</th>
-      <th>new_c</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>本科</td>
-      <td>20k-35k</td>
-      <td>27500</td>
-      <td>高</td>
-      <td>27500本科</td>
-    </tr>
-    <tr>
-      <th>134</th>
-      <td>本科</td>
-      <td>20k-40k</td>
-      <td>30000</td>
-      <td>高</td>
-      <td>30000本科</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-<h1 id="查看每列的数据类型"><a class="markdownIt-Anchor" href="#查看每列的数据类型"></a> 查看每列的数据类型</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.dtypes</span><br></pre></td></tr></table></figure>
-<pre><code>education       object
-salary          object
-new_salary       int64
-categories    category
-new_c           object
-dtype: object
-</code></pre>
-<h1 id="检查数据中是否有缺失值及其数量"><a class="markdownIt-Anchor" href="#检查数据中是否有缺失值及其数量"></a> 检查数据中是否有缺失值及其数量</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.isnull().<span class="built_in">any</span>()</span><br></pre></td></tr></table></figure>
-<pre><code>education     False
-salary        False
-new_salary    False
-categories    False
-new_c         False
-dtype: bool
-</code></pre>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.isnull().<span class="built_in">sum</span>()</span><br></pre></td></tr></table></figure>
-<pre><code>education     0
-salary        0
-new_salary    0
-categories    0
-new_c         0
-dtype: int64
-</code></pre>
-<h1 id="将-new_salary-列类型转换为浮点数"><a class="markdownIt-Anchor" href="#将-new_salary-列类型转换为浮点数"></a> 将 new_salary 列类型转换为浮点数</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df[<span class="string">&#x27;new_salary&#x27;</span>].astype(<span class="built_in">float</span>)</span><br></pre></td></tr></table></figure>
-<pre><code>0      27500.0
-1      30000.0
-2      27500.0
-3      16500.0
-4      15000.0
-        ...   
-130    14000.0
-131    37500.0
-132    30000.0
-133    19000.0
-134    30000.0
-Name: new_salary, Length: 135, dtype: float64
-</code></pre>
-<h1 id="计算salary列大于10000的数量"><a class="markdownIt-Anchor" href="#计算salary列大于10000的数量"></a> 计算salary列大于10000的数量</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">len</span>(df[df[<span class="string">&#x27;new_salary&#x27;</span>] &gt; <span class="number">10000</span>])</span><br></pre></td></tr></table></figure>
-<pre><code>119
-</code></pre>
-<h1 id="查看每种学历出现的次数"><a class="markdownIt-Anchor" href="#查看每种学历出现的次数"></a> 查看每种学历出现的次数</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df[<span class="string">&#x27;education&#x27;</span>].value_counts()</span><br></pre></td></tr></table></figure>
-<pre><code>本科    119
-硕士      7
-不限      5
-大专      4
-Name: education, dtype: int64
-</code></pre>
-<h1 id="查看共有几种学历"><a class="markdownIt-Anchor" href="#查看共有几种学历"></a> 查看共有几种学历</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df[<span class="string">&#x27;education&#x27;</span>].nunique()</span><br></pre></td></tr></table></figure>
-<pre><code>4
-</code></pre>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df[<span class="string">&#x27;education&#x27;</span>].unique()</span><br></pre></td></tr></table></figure>
-<pre><code>array(['本科', '不限', '硕士', '大专'], dtype=object)
-</code></pre>
+    <title>python四大数据类型</title>
+    <url>/posts/56639862/</url>
+    <content><![CDATA[<h1 id="列表list"><a class="markdownIt-Anchor" href="#列表list"></a> 列表（List）</h1>
+<p>列表是一个有序的元素集合。可以将它看作一个容器，里边可以放置各种数据类型的元素，也可以随时添加、修改和删除元素。</p>
+<h2 id="创建列表"><a class="markdownIt-Anchor" href="#创建列表"></a> 创建列表</h2>
+<p>创建一个列表非常简单，只需要将数据项放在<code>[]</code> 中，并以逗号 <code>,</code> 分隔开就好。</p>
+<ol>
+<li>
+<p>使用方括号 <code>[]</code> 创建一个空列表或包含元素的列表：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建一个空列表</span></span><br><span class="line">my_list = []</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个包含元素的列表</span></span><br><span class="line">my_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>使用 <code>list()</code> 函数将其他可迭代对象（如字符串、元组、集合等）转换为列表：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 将字符串转换为列表</span></span><br><span class="line">my_list = <span class="built_in">list</span>(<span class="string">&quot;Hello&quot;</span>)</span><br><span class="line"><span class="comment"># 结果：[&#x27;H&#x27;, &#x27;e&#x27;, &#x27;l&#x27;, &#x27;l&#x27;, &#x27;o&#x27;]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将元组转换为列表</span></span><br><span class="line">my_list = <span class="built_in">list</span>((<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>))</span><br><span class="line"><span class="comment"># 结果：[1, 2, 3, 4]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将集合转换为列表</span></span><br><span class="line">my_list = <span class="built_in">list</span>(&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;)</span><br><span class="line"><span class="comment"># 结果：[1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="访问列表元素"><a class="markdownIt-Anchor" href="#访问列表元素"></a> 访问列表元素</h2>
+<p>与字符串的索引一样，列表的索引从 <code>0</code> 开始，以此类推。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">words_list = [<span class="string">&#x27;liberal&#x27;</span>, <span class="string">&#x27;rational&#x27;</span>, <span class="string">&#x27;moral&#x27;</span>, <span class="string">&#x27;canal&#x27;</span>, <span class="string">&#x27;fatal&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问第一个元素</span></span><br><span class="line">first_element = words_list[<span class="number">0</span>]</span><br><span class="line"><span class="comment"># 结果: liberal</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问第三个元素</span></span><br><span class="line">third_element = words_list[<span class="number">2</span>]</span><br><span class="line"><span class="comment"># 结果: moral</span></span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.tucang.cc/api/image/show/53162c03e091a456e396acd1b56e8b73" alt="" /></p>
+<p>元素也可以反向索引，最后一个元素索引<code>-1</code> ，往前一位则为 <code>-2</code> ，以此类推。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">words_list = [<span class="string">&#x27;liberal&#x27;</span>, <span class="string">&#x27;rational&#x27;</span>, <span class="string">&#x27;moral&#x27;</span>, <span class="string">&#x27;canal&#x27;</span>, <span class="string">&#x27;fatal&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问最后一个元素</span></span><br><span class="line">last_element = words_list[-<span class="number">1</span>]</span><br><span class="line"><span class="comment"># 结果: fatal</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问倒数第三元素</span></span><br><span class="line">third_last_element = words_list[-<span class="number">3</span>]</span><br><span class="line"><span class="comment"># 结果: moral</span></span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.58duihuan.com/2600548844924928" alt="" /></p>
+<p><strong>注意：</strong> 如果使用的索引超出了列表的长度，将引发 <code>IndexError</code> 异常。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://telegraph-a3p.pages.dev/file/4aec5d6a15bad0dc6e5cc.png" alt="" /></p>
+<h2 id="修改列表元素"><a class="markdownIt-Anchor" href="#修改列表元素"></a> 修改列表元素</h2>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改第二个元素</span></span><br><span class="line">my_list[<span class="number">1</span>] = <span class="number">5</span></span><br><span class="line"><span class="comment"># 现在 my_list 的值为 [1, 5, 3, 4]</span></span><br></pre></td></tr></table></figure>
+<p>这种赋值也适用于切片</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 修改前三个元素</span></span><br><span class="line">my_list[:<span class="number">3</span>] = [<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>]</span><br><span class="line"><span class="comment"># 现在 my_list 的值为 [6, 7, 8, 4, 5]</span></span><br></pre></td></tr></table></figure>
+<h2 id="添加和删除元素"><a class="markdownIt-Anchor" href="#添加和删除元素"></a> 添加和删除元素</h2>
+<h3 id="1-append向列表末尾添加一个元素"><a class="markdownIt-Anchor" href="#1-append向列表末尾添加一个元素"></a> 1. <code>append()</code>：向列表末尾添加一个元素</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">my_list.append(<span class="number">4</span>)</span><br><span class="line"><span class="comment"># 现在 my_list 的值为 [1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-extend向列表末尾添加另一个列表的所有元素"><a class="markdownIt-Anchor" href="#2-extend向列表末尾添加另一个列表的所有元素"></a> 2. <code>extend()</code>：向列表末尾添加另一个列表的所有元素</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">my_list.extend([<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])</span><br><span class="line"><span class="comment"># 现在 my_list 的值为 [1, 2, 3, 4, 5, 6]</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-insert在指定位置插入一个元素"><a class="markdownIt-Anchor" href="#3-insert在指定位置插入一个元素"></a> 3. <code>insert()</code>：在指定位置插入一个元素</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">my_list.insert(<span class="number">1</span>, <span class="number">4</span>)</span><br><span class="line"><span class="comment"># 现在 my_list 的值为 [1, 4, 2, 3]</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-remove删除指定值的第一个元素"><a class="markdownIt-Anchor" href="#4-remove删除指定值的第一个元素"></a> 4. <code>remove()</code>：删除指定值的第一个元素</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">my_list.remove(<span class="number">3</span>)</span><br><span class="line"><span class="comment"># 现在 my_list 的值为 [1, 2, 4, 5]</span></span><br></pre></td></tr></table></figure>
+<h3 id="5-pop删除指定位置上的元素并返回它的值"><a class="markdownIt-Anchor" href="#5-pop删除指定位置上的元素并返回它的值"></a> 5. <code>pop()</code>：删除指定位置上的元素并返回它的值</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">popped_element = my_list.pop(<span class="number">2</span>) <span class="comment"># 删除索引为2的元素（即第三个元素）</span></span><br><span class="line"><span class="comment"># 现在 my_list 的值为 [1, 2, 4, 5]，popped_element 的值为 3</span></span><br></pre></td></tr></table></figure>
+<h2 id="列表推导式"><a class="markdownIt-Anchor" href="#列表推导式"></a> 列表推导式</h2>
+<p>循环来生成列表：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">values = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">squares = []</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> values:</span><br><span class="line">    squares.append(x ** <span class="number">2</span>)</span><br><span class="line">squares</span><br><span class="line"><span class="comment"># [1, 4, 9, 16]</span></span><br></pre></td></tr></table></figure>
+<p>列表推导式：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">values = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">squares = [i ** <span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> values]</span><br><span class="line">squares</span><br><span class="line"><span class="comment"># [1, 4, 9, 16]</span></span><br></pre></td></tr></table></figure>
+<p>增加条件，保留平方小于10的：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">values = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">squares = [i ** <span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> values <span class="keyword">if</span> i ** <span class="number">2</span> &lt;<span class="number">10</span>]</span><br><span class="line">squares</span><br><span class="line"><span class="comment"># [1, 4, 9]</span></span><br></pre></td></tr></table></figure>
+<h1 id="字典dictionary"><a class="markdownIt-Anchor" href="#字典dictionary"></a> 字典（Dictionary）</h1>
+<p>用于存储键-值对。它是可变的、无序的，并且可以容纳任意类型的对象作为值。字典的键(不可变类型) 必须唯一，而值可以重复。</p>
+<h2 id="创建字典"><a class="markdownIt-Anchor" href="#创建字典"></a> 创建字典</h2>
+<p>可以使用花括号 <code>&#123;&#125;</code> 或 <code>dict()</code> 函数来创建一个空字典，或者使用大括号括起来的键-值对来初始化字典。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_dict = &#123;&#125;  <span class="comment"># 创建一个空字典</span></span><br><span class="line">my_dict = <span class="built_in">dict</span>()  <span class="comment"># 也可以使用 dict() 函数创建一个空字典</span></span><br><span class="line"></span><br><span class="line">my_dict = &#123;<span class="string">&quot;key1&quot;</span>: <span class="string">&quot;value1&quot;</span>, <span class="string">&quot;key2&quot;</span>: <span class="string">&quot;value2&quot;</span>&#125;  <span class="comment"># 初始化具有键-值对的字典</span></span><br></pre></td></tr></table></figure>
+<h2 id="访问字典元素"><a class="markdownIt-Anchor" href="#访问字典元素"></a> 访问字典元素</h2>
+<p>可以通过键来获取对应的元素</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_dict = &#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;xiryg&quot;</span>, <span class="string">&quot;age&quot;</span>: <span class="number">18</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(my_dict[<span class="string">&quot;name&quot;</span>])  <span class="comment"># 输出 &quot;xiryg&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="添加或修改键-值对"><a class="markdownIt-Anchor" href="#添加或修改键-值对"></a> 添加或修改键-值对</h2>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_dict = &#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;xiryg&quot;</span>, <span class="string">&quot;age&quot;</span>: <span class="number">18</span>&#125;</span><br><span class="line">my_dict[<span class="string">&quot;gender&quot;</span>] = <span class="string">&quot;male&quot;</span>  <span class="comment"># 添加新的键-值对</span></span><br><span class="line">my_dict[<span class="string">&quot;age&quot;</span>] = <span class="number">19</span>  <span class="comment"># 修改已有的键-值对</span></span><br></pre></td></tr></table></figure>
+<h2 id="删除键-值对"><a class="markdownIt-Anchor" href="#删除键-值对"></a> 删除键-值对</h2>
+<p>可以使用 <code>del</code> 关键字或 <code>pop()</code> 方法来删除指定的键-值对。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_dict = &#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;xiryg&quot;</span>, <span class="string">&quot;age&quot;</span>: <span class="number">18</span>&#125;</span><br><span class="line"><span class="keyword">del</span> my_dict[<span class="string">&quot;name&quot;</span>]  <span class="comment"># 删除姓名信息</span></span><br><span class="line">my_dict.pop(<span class="string">&quot;age&quot;</span>) <span class="comment"># 删除年龄信息并返回该值</span></span><br></pre></td></tr></table></figure>
+<h2 id="遍历字典"><a class="markdownIt-Anchor" href="#遍历字典"></a> 遍历字典</h2>
+<p>可以使用 <code>for</code> 循环来遍历字典的键或值，或者同时遍历键和值。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_dict = &#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;xiryg&quot;</span>, <span class="string">&quot;age&quot;</span>: <span class="number">18</span>&#125;</span><br><span class="line"><span class="keyword">for</span> key <span class="keyword">in</span> my_dict:</span><br><span class="line">    <span class="built_in">print</span>(key)  <span class="comment"># 输出所有键</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> value <span class="keyword">in</span> my_dict.values():</span><br><span class="line">    <span class="built_in">print</span>(value)  <span class="comment"># 输出所有值</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> key, value <span class="keyword">in</span> my_dict.items():</span><br><span class="line">    <span class="built_in">print</span>(key, value)  <span class="comment"># 输出所有键-值对</span></span><br></pre></td></tr></table></figure>
+<h2 id="字典推导式"><a class="markdownIt-Anchor" href="#字典推导式"></a> 字典推导式</h2>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_dict = &#123;x: x**<span class="number">2</span> <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>)&#125;</span><br><span class="line"><span class="comment"># 现在 my_dict 的值为 &#123;0: 0, 1: 1, 2: 4, 3: 9, 4: 16&#125;</span></span><br><span class="line"></span><br><span class="line">my_list = [<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>, <span class="string">&quot;kiwi&quot;</span>, <span class="string">&quot;grapefruit&quot;</span>]</span><br><span class="line">my_dict = &#123;item: <span class="built_in">len</span>(item) <span class="keyword">for</span> item <span class="keyword">in</span> my_list <span class="keyword">if</span> <span class="built_in">len</span>(item) &gt;= <span class="number">5</span>&#125;</span><br><span class="line"><span class="comment"># 现在 my_dict 的值为 &#123;&#x27;apple&#x27;: 5, &#x27;banana&#x27;: 6, &#x27;orange&#x27;: 6, &#x27;grapefruit&#x27;: 10&#125;</span></span><br></pre></td></tr></table></figure>
+<h1 id="集合set"><a class="markdownIt-Anchor" href="#集合set"></a> 集合（Set）</h1>
+<p>无序、不重复的数据结构，它可以用来存储多个元素。与列表和元组不同，集合不保持元素的顺序，并且不允许存在重复的元素。</p>
+<h2 id="创建集合"><a class="markdownIt-Anchor" href="#创建集合"></a> 创建集合</h2>
+<p>可以使用花括号 <code>&#123;&#125;</code> 或 <code>set()</code> 函数来创建一个空集合，或者使用大括号括起来的元素来初始化集合。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_set = <span class="built_in">set</span>()  <span class="comment"># 创建一个空集合</span></span><br><span class="line">my_set = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;  <span class="comment"># 初始化具有元素的集合</span></span><br></pre></td></tr></table></figure>
+<h2 id="添加元素"><a class="markdownIt-Anchor" href="#添加元素"></a> 添加元素</h2>
+<p>可以使用 <code>add()</code> 方法向集合中添加单个元素，如果要添加多个元素，可以使用 <code>update()</code> 方法。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_set = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">my_set.add(<span class="number">4</span>)  <span class="comment"># 添加单个元素</span></span><br><span class="line">my_set.update([<span class="number">5</span>, <span class="number">6</span>])  <span class="comment"># 添加多个元素</span></span><br></pre></td></tr></table></figure>
+<h2 id="删除元素"><a class="markdownIt-Anchor" href="#删除元素"></a> 删除元素</h2>
+<p>使用 <code>remove()</code> 方法可以删除集合中的指定元素，如果元素不存在，则会引发 <code>KeyError</code> 异常。另外，<code>discard()</code> 方法也可以删除元素，但如果元素不存在，它不会引发异常。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_set = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">my_set.remove(<span class="number">2</span>)  <span class="comment"># 删除元素 2</span></span><br><span class="line">my_set.remove(<span class="number">4</span>) <span class="comment"># 删除元素 4 引发异常</span></span><br><span class="line">my_set.discard(<span class="number">4</span>)  <span class="comment"># 删除元素 4（如果存在）</span></span><br></pre></td></tr></table></figure>
+<h2 id="集合运算"><a class="markdownIt-Anchor" href="#集合运算"></a> 集合运算</h2>
+<p>集合对象有许多内置的方法，可以执行常见的集合运算，如并集、交集、差集等。一些常用的方法有 <code>union()</code>、<code>intersection()</code>、<code>difference()</code>、<code>symmetric_difference()</code> 等。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">set1 = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">set2 = &#123;<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</span><br><span class="line">union_set = set1.union(set2)  <span class="comment"># 并集：&#123;1, 2, 3, 4, 5&#125;</span></span><br><span class="line">intersection_set = set1.intersection(set2)  <span class="comment"># 交集：&#123;3&#125;</span></span><br><span class="line">difference_set = set1.difference(set2)  <span class="comment"># 差集：&#123;1, 2&#125;</span></span><br><span class="line">sym_diff_set = set1.symmetric_difference(set2)  <span class="comment"># 对称差集：&#123;1, 2, 4, 5&#125;</span></span><br></pre></td></tr></table></figure>
+<h1 id="元组tuple"><a class="markdownIt-Anchor" href="#元组tuple"></a> 元组（Tuple）</h1>
+<p>一种有序、不可变的数据结构，可以用来存储多个元素。与列表和集合不同，元组一旦创建就不能再进行修改。</p>
+<h2 id="创建元组"><a class="markdownIt-Anchor" href="#创建元组"></a> 创建元组</h2>
+<p>可以使用小括号 <code>()</code> 来创建一个空元组，或者使用小括号包含的逗号分隔的元素来初始化元组。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_tuple = ()  <span class="comment"># 创建一个空元组</span></span><br><span class="line">my_tuple = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)  <span class="comment"># 初始化具有元素的元组</span></span><br><span class="line">my_tuple = (<span class="number">1</span>,)  <span class="comment"># 创建一个只包含一个元素的元组</span></span><br></pre></td></tr></table></figure>
+<h2 id="访问元素"><a class="markdownIt-Anchor" href="#访问元素"></a> 访问元素</h2>
+<p>可以通过下标索引访问元组中的单个元素，下标从0开始，也可以使用切片操作获取子元组。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_tuple = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">element = my_tuple[<span class="number">1</span>]  <span class="comment"># 访问第二个元素，值为2</span></span><br><span class="line">sub_tuple = my_tuple[<span class="number">1</span>:<span class="number">3</span>]  <span class="comment"># 获取子元组，值为(2, 3)</span></span><br></pre></td></tr></table></figure>
+<h2 id="元组运算"><a class="markdownIt-Anchor" href="#元组运算"></a> 元组运算</h2>
+<p>元组对象支持许多内置的方法，可以执行常见的元组运算，如连接、重复、比较等。一些常用的方法有 <code>+</code>、<code>*</code>、<code>len()</code>、<code>count()</code>、<code>index()</code> 等。</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">tuple1 = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">tuple2 = (<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>)</span><br><span class="line">concatenated_tuple = tuple1 + tuple2  <span class="comment"># 连接元组，值为(1, 2, 3, 4, 5, 6)</span></span><br><span class="line">repeated_tuple = tuple1 * <span class="number">3</span>  <span class="comment"># 重复元组，值为(1, 2, 3, 1, 2, 3, 1, 2, 3)</span></span><br><span class="line">tuple_len = <span class="built_in">len</span>(tuple1)  <span class="comment"># 获取元组长度，值为3</span></span><br><span class="line">tuple_count = tuple1.count(<span class="number">2</span>)  <span class="comment"># 计算元素2在元组中出现的次数，值为1</span></span><br><span class="line">tuple_index = tuple1.index(<span class="number">2</span>)  <span class="comment"># 查找元素2在元组中第一次出现的下标，值为1</span></span><br></pre></td></tr></table></figure>
+<h1 id="结语"><a class="markdownIt-Anchor" href="#结语"></a> 结语</h1>
+<p>通过本文的介绍，希望你可以对Python中的列表、字典、集合、元组有更深入的了解！</p>
+<p><code>φ(゜▽゜*)♪</code></p>
 ]]></content>
       <categories>
-        <category>数据分析</category>
+        <category>python</category>
       </categories>
       <tags>
-        <tag>pandas, 数据分析</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -3970,46 +3970,6 @@ dtype: int64
       </tags>
   </entry>
   <entry>
-    <title>素数判别</title>
-    <url>/posts/178aa3d4/</url>
-    <content><![CDATA[<h1 id="素数判断法"><a class="markdownIt-Anchor" href="#素数判断法"></a> 素数判断法</h1>
-<h2 id="质数判断法"><a class="markdownIt-Anchor" href="#质数判断法"></a> 质数判断法</h2>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">is_prime</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">if</span> x &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,<span class="built_in">int</span>(math.sqrt(x)) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> x % i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">is_prime(<span class="number">17</span>)  <span class="comment"># True</span></span><br><span class="line">is_prime(<span class="number">23</span>)  <span class="comment"># True</span></span><br><span class="line">is_prime(<span class="number">56</span>)  <span class="comment"># False</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: black;"><strong>说明</strong></span> : 在此方法中我们从 <code>2</code> 开始遍历到 <code>x</code> 的平方根 (使用math.sqrt()获取 <code>x</code>  的平方根的整数部分 + 1),判断是否存在能整除 <code>x</code> 的数, 如果存在 <code>x</code> 不是素数;反之,则为素数.</p>
-</blockquote>
-<p>时间复杂度为：</p>
-<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>s</mi><mi>q</mi><mi>r</mi><mi>t</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(sqrt(x))
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">t</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span></p>
-<p>**相关执行过程如下 : **</p>
-<iframe width="800" height="500" frameborder="0" src="https://pythontutor.com/iframe-embed.html#code=import%20math%0A%0Adef%20is_prime%28x%29%3A%0A%20%20%20%20if%20x%20%3C%3D%201%3A%0A%20%20%20%20%20%20%20%20return%20False%0A%20%20%20%20%0A%20%20%20%20for%20i%20in%20range%282,int%28math.sqrt%28x%29%29%20%2B%201%29%3A%0A%20%20%20%20%20%20%20%20if%20x%20%25%20i%20%3D%3D%200%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20return%20False%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20return%20True%0Ais_prime%2817%29%20%20%23%20True%0Ais_prime%2823%29%20%20%23%20True%0Ais_prime%2856%29%20%20%23%20False&codeDivHeight=400&codeDivWidth=350&cumulative=true&curInstr=14&heapPrimitives=true&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false"> </iframe>
-<hr />
-<h2 id="埃氏筛-埃拉托斯特尼筛法"><a class="markdownIt-Anchor" href="#埃氏筛-埃拉托斯特尼筛法"></a> 埃氏筛 (埃拉托斯特尼筛法)</h2>
-<p>相关链接: <a href="https://zh.wikipedia.org/wiki/%E5%9F%83%E6%8B%89%E6%89%98%E6%96%AF%E7%89%B9%E5%B0%BC%E7%AD%9B%E6%B3%95#Python_3.6-3.10">埃拉托斯特尼筛法  (wikipedia.org)</a></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sieve_of_eratosthenes</span>(<span class="params">n</span>):</span><br><span class="line">    is_prime = [<span class="literal">True</span>] * (n + <span class="number">1</span>)</span><br><span class="line">    is_prime[<span class="number">0</span>] = is_prime[<span class="number">1</span>] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="built_in">int</span>(n ** <span class="number">0.5</span>) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> is_prime[i]:</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i * i, n + <span class="number">1</span>, i):</span><br><span class="line">                is_prime[j] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    primes = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, n + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> is_prime[i]:</span><br><span class="line">            primes.append(i)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> primes</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sieve_of_eratosthenes(<span class="number">20</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># [2, 3, 5, 7, 11, 13, 17, 19]</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: black;"><strong>说明</strong></span> : 起初 , 创建一个布尔数组 <code>is_prime</code> , 全部初始化为 <code>True</code> ,将索引 <code>0</code> 和 <code>1</code> 赋值为 <code>False</code> , 从 <code>2</code>  开始遍历到 <code>n</code> 的平方根(平方根取整+1) , 如果当前数字 <code>i</code> 是素数（即 <code>is_prime[i]</code> 为 <code>True</code>），则将其倍数 <code>i*i</code>、<code>i*(i+1)</code>、<code>i*(i+2)</code>… 标记为非素数（将对应的 <code>is_prime[j]</code> 置为 <code>False</code>）。最后，我们遍历从 2 到 n 的所有数字，将 <code>is_prime</code> 中值为 <code>True</code> 的索引添加到素数列表 <code>primes</code> 中。</p>
-</blockquote>
-<p>**相关执行过程如下 : **</p>
-<iframe width="800" height="500" frameborder="0" src="https://pythontutor.com/iframe-embed.html#code=def%20sieve_of_eratosthenes%28n%29%3A%0A%20%20%20%20is_prime%20%3D%20%5BTrue%5D%20*%20%28n%20%2B%201%29%0A%20%20%20%20is_prime%5B0%5D%20%3D%20is_prime%5B1%5D%20%3D%20False%0A%0A%20%20%20%20for%20i%20in%20range%282,%20int%28n%20**%200.5%29%20%2B%201%29%3A%0A%20%20%20%20%20%20%20%20if%20is_prime%5Bi%5D%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20for%20j%20in%20range%28i%20*%20i,%20n%20%2B%201,%20i%29%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20is_prime%5Bj%5D%20%3D%20False%0A%0A%20%20%20%20primes%20%3D%20%5B%5D%0A%20%20%20%20for%20i%20in%20range%282,%20n%20%2B%201%29%3A%0A%20%20%20%20%20%20%20%20if%20is_prime%5Bi%5D%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20primes.append%28i%29%0A%0A%20%20%20%20return%20primes%0A%0Aprint%28sieve_of_eratosthenes%2820%29%29&codeDivHeight=400&codeDivWidth=350&cumulative=true&curInstr=90&heapPrimitives=true&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false"> </iframe>
-<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n log log n)
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></span></p>
-<hr />
-<h1 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h1>
-<p>以上是关于质数判断法和埃拉托斯特尼筛法的 Python 示例代码和相关说明.</p>
-<p><code>质数判断法</code> 更适用于判断单个素数</p>
-<p><code>埃拉托斯特尼筛法</code> 比较适合取得一定范围内的素数序列</p>
-<p>根据具体需求选择相应算法</p>
-<hr />
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>素数</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>爬虫案例-豆瓣Top250</title>
     <url>/posts/f8e9693d/</url>
     <content><![CDATA[<h1 id="数据获取"><a class="markdownIt-Anchor" href="#数据获取"></a> 数据获取</h1>
@@ -4387,6 +4347,46 @@ memory usage: 17.7+ KB
       </tags>
   </entry>
   <entry>
+    <title>素数判别</title>
+    <url>/posts/178aa3d4/</url>
+    <content><![CDATA[<h1 id="素数判断法"><a class="markdownIt-Anchor" href="#素数判断法"></a> 素数判断法</h1>
+<h2 id="质数判断法"><a class="markdownIt-Anchor" href="#质数判断法"></a> 质数判断法</h2>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">is_prime</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">if</span> x &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,<span class="built_in">int</span>(math.sqrt(x)) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> x % i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">is_prime(<span class="number">17</span>)  <span class="comment"># True</span></span><br><span class="line">is_prime(<span class="number">23</span>)  <span class="comment"># True</span></span><br><span class="line">is_prime(<span class="number">56</span>)  <span class="comment"># False</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: black;"><strong>说明</strong></span> : 在此方法中我们从 <code>2</code> 开始遍历到 <code>x</code> 的平方根 (使用math.sqrt()获取 <code>x</code>  的平方根的整数部分 + 1),判断是否存在能整除 <code>x</code> 的数, 如果存在 <code>x</code> 不是素数;反之,则为素数.</p>
+</blockquote>
+<p>时间复杂度为：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>s</mi><mi>q</mi><mi>r</mi><mi>t</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(sqrt(x))
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">t</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span></p>
+<p>**相关执行过程如下 : **</p>
+<iframe width="800" height="500" frameborder="0" src="https://pythontutor.com/iframe-embed.html#code=import%20math%0A%0Adef%20is_prime%28x%29%3A%0A%20%20%20%20if%20x%20%3C%3D%201%3A%0A%20%20%20%20%20%20%20%20return%20False%0A%20%20%20%20%0A%20%20%20%20for%20i%20in%20range%282,int%28math.sqrt%28x%29%29%20%2B%201%29%3A%0A%20%20%20%20%20%20%20%20if%20x%20%25%20i%20%3D%3D%200%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20return%20False%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20return%20True%0Ais_prime%2817%29%20%20%23%20True%0Ais_prime%2823%29%20%20%23%20True%0Ais_prime%2856%29%20%20%23%20False&codeDivHeight=400&codeDivWidth=350&cumulative=true&curInstr=14&heapPrimitives=true&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false"> </iframe>
+<hr />
+<h2 id="埃氏筛-埃拉托斯特尼筛法"><a class="markdownIt-Anchor" href="#埃氏筛-埃拉托斯特尼筛法"></a> 埃氏筛 (埃拉托斯特尼筛法)</h2>
+<p>相关链接: <a href="https://zh.wikipedia.org/wiki/%E5%9F%83%E6%8B%89%E6%89%98%E6%96%AF%E7%89%B9%E5%B0%BC%E7%AD%9B%E6%B3%95#Python_3.6-3.10">埃拉托斯特尼筛法  (wikipedia.org)</a></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sieve_of_eratosthenes</span>(<span class="params">n</span>):</span><br><span class="line">    is_prime = [<span class="literal">True</span>] * (n + <span class="number">1</span>)</span><br><span class="line">    is_prime[<span class="number">0</span>] = is_prime[<span class="number">1</span>] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="built_in">int</span>(n ** <span class="number">0.5</span>) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> is_prime[i]:</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i * i, n + <span class="number">1</span>, i):</span><br><span class="line">                is_prime[j] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    primes = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, n + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> is_prime[i]:</span><br><span class="line">            primes.append(i)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> primes</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sieve_of_eratosthenes(<span class="number">20</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># [2, 3, 5, 7, 11, 13, 17, 19]</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><span style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding: 3px; background-color: black;"><strong>说明</strong></span> : 起初 , 创建一个布尔数组 <code>is_prime</code> , 全部初始化为 <code>True</code> ,将索引 <code>0</code> 和 <code>1</code> 赋值为 <code>False</code> , 从 <code>2</code>  开始遍历到 <code>n</code> 的平方根(平方根取整+1) , 如果当前数字 <code>i</code> 是素数（即 <code>is_prime[i]</code> 为 <code>True</code>），则将其倍数 <code>i*i</code>、<code>i*(i+1)</code>、<code>i*(i+2)</code>… 标记为非素数（将对应的 <code>is_prime[j]</code> 置为 <code>False</code>）。最后，我们遍历从 2 到 n 的所有数字，将 <code>is_prime</code> 中值为 <code>True</code> 的索引添加到素数列表 <code>primes</code> 中。</p>
+</blockquote>
+<p>**相关执行过程如下 : **</p>
+<iframe width="800" height="500" frameborder="0" src="https://pythontutor.com/iframe-embed.html#code=def%20sieve_of_eratosthenes%28n%29%3A%0A%20%20%20%20is_prime%20%3D%20%5BTrue%5D%20*%20%28n%20%2B%201%29%0A%20%20%20%20is_prime%5B0%5D%20%3D%20is_prime%5B1%5D%20%3D%20False%0A%0A%20%20%20%20for%20i%20in%20range%282,%20int%28n%20**%200.5%29%20%2B%201%29%3A%0A%20%20%20%20%20%20%20%20if%20is_prime%5Bi%5D%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20for%20j%20in%20range%28i%20*%20i,%20n%20%2B%201,%20i%29%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20is_prime%5Bj%5D%20%3D%20False%0A%0A%20%20%20%20primes%20%3D%20%5B%5D%0A%20%20%20%20for%20i%20in%20range%282,%20n%20%2B%201%29%3A%0A%20%20%20%20%20%20%20%20if%20is_prime%5Bi%5D%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20primes.append%28i%29%0A%0A%20%20%20%20return%20primes%0A%0Aprint%28sieve_of_eratosthenes%2820%29%29&codeDivHeight=400&codeDivWidth=350&cumulative=true&curInstr=90&heapPrimitives=true&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false"> </iframe>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n log log n)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></span></p>
+<hr />
+<h1 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h1>
+<p>以上是关于质数判断法和埃拉托斯特尼筛法的 Python 示例代码和相关说明.</p>
+<p><code>质数判断法</code> 更适用于判断单个素数</p>
+<p><code>埃拉托斯特尼筛法</code> 比较适合取得一定范围内的素数序列</p>
+<p>根据具体需求选择相应算法</p>
+<hr />
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>素数</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>缺失值处理</title>
     <url>/posts/93bcec7e/</url>
     <content><![CDATA[<h3 id="缺失值的处理"><a class="markdownIt-Anchor" href="#缺失值的处理"></a> 缺失值的处理</h3>
@@ -4488,129 +4488,6 @@ memory usage: 17.7+ KB
 <p>可以使用to_datetime()函数把一个对象转化成datetime类型</p>
 <p>该函数的作用是：将字符串输入转化为日期时间。</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#  to_datetime    set_index   to_period  resample </span></span><br><span class="line"></span><br><span class="line">data=pd.read_csv(<span class="string">&#x27;data/1.data清洗/hz_weather.csv&#x27;</span>)</span><br><span class="line">data.head()</span><br><span class="line"></span><br><span class="line">data.info()  <span class="comment"># 可以看到日期是  字符串类型</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1.修改日期格式</span></span><br><span class="line">data[<span class="string">&#x27;日期&#x27;</span>] = pd.to_datetime(data [<span class="string">&#x27;日期&#x27;</span>])</span><br><span class="line"></span><br><span class="line">data.info()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2、将日期设置为索引</span></span><br><span class="line">data.set_index(<span class="string">&#x27;日期&#x27;</span>,inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">data.index</span><br><span class="line"></span><br><span class="line">data.index&lt;<span class="string">&#x27;2017-3-1&#x27;</span></span><br><span class="line"><span class="comment">#  或者 </span></span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line">data.index&lt;datetime(<span class="number">2017</span>,<span class="number">3</span>,<span class="number">20</span>) </span><br><span class="line"></span><br><span class="line"><span class="comment"># 提取1月份的数据</span></span><br><span class="line"></span><br><span class="line">data[data.index.month ==<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 转换成月份</span></span><br><span class="line">data.to_period(<span class="string">&#x27;M&#x27;</span>)  <span class="comment">#  Y  D  </span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>数据分析</category>
-      </categories>
-      <tags>
-        <tag>pandas, 数据分析</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>透视表的处理</title>
-    <url>/posts/76cf2ed8/</url>
-    <content><![CDATA[<h2 id="透视表的处理"><a class="markdownIt-Anchor" href="#透视表的处理"></a> 透视表的处理</h2>
-<h3 id="透视表"><a class="markdownIt-Anchor" href="#透视表"></a> 透视表</h3>
-<ul>
-<li>
-<p>透视表是一种可以对数据动态排布并且分类汇总的表格格式。或许大多数人都在Excel使用过数据透视表，也体会到它的强大功能，而在pandas中它被称作pivot_table。</p>
-</li>
-<li>
-<p>透视表的优点：</p>
-<ul>
-<li>
-<p>灵活性高，可以随意定制你的分析计算要求,比如聚合函数</p>
-</li>
-<li>
-<p>脉络清晰易于理解数据</p>
-</li>
-<li>
-<p>操作性强，报表神器</p>
-</li>
-<li>
-<p>更快（一旦设置之后）</p>
-</li>
-<li>
-<p>自行说明（通过查看代码，你将知道它做了什么）</p>
-</li>
-</ul>
-</li>
-</ul>
-<span id="more"></span>
-<h4 id="pivot_table函数"><a class="markdownIt-Anchor" href="#pivot_table函数"></a> pivot_table函数</h4>
-<ul>
-<li>index参数：分类汇总的分类条件
-<ul>
-<li>每个pivot_table必须拥有一个index</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">df = pd.read_csv(<span class="string">&#x27;./data/透视表-篮球赛.csv&#x27;</span>)   <span class="comment">#  哈登在对阵各队的情况数据表</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># index 参数 </span></span><br><span class="line"><span class="comment"># 想看看哈登不同主客场下的数据 会把不是数字的列剔除</span></span><br><span class="line">df.pivot_table(index=[<span class="string">&#x27;主客场&#x27;</span>])</span><br><span class="line"><span class="comment"># 想看看哈登对阵同一对手在不同主客场下的数据，分类条件为对手和主客场</span></span><br><span class="line">df.pivot_table(index=[<span class="string">&#x27;主客场&#x27;</span>,<span class="string">&#x27;对手&#x27;</span>])</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">Index就是层次字段，要通过透视表获取什么信息就按照相应的顺序设置字段，</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># values参数：需要对计算的数据进行筛选(你想看到的值)</span></span><br><span class="line">df.pivot_table(index=[<span class="string">&#x27;主客场&#x27;</span>],values=[<span class="string">&#x27;得分&#x27;</span>,<span class="string">&#x27;篮板&#x27;</span>,<span class="string">&#x27;助攻&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment">#获取每个队主客场的总得分（在总得分的基础上又进行了对手的分类）</span></span><br><span class="line">df.pivot_table(index=<span class="string">&#x27;主客场&#x27;</span>,values=<span class="string">&#x27;得分&#x27;</span>,columns=<span class="string">&#x27;对手&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># aggfunc参数</span></span><br><span class="line"><span class="comment"># 还想获得哈登在主客场和不同胜负情况下的总得分、总篮板、总助攻时：</span></span><br><span class="line">df.pivot_table(index=[<span class="string">&#x27;主客场&#x27;</span>,<span class="string">&#x27;胜负&#x27;</span>],values=[<span class="string">&#x27;得分&#x27;</span>,<span class="string">&#x27;篮板&#x27;</span>,<span class="string">&#x27;助攻&#x27;</span>],aggfunc=<span class="string">&#x27;sum&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Columns类似Index可以设置列层次字段，它不是一个必要参数，作为一种分割数据的可选方式。</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># columns参数 </span></span><br><span class="line">df.pivot_table(index=<span class="string">&#x27;主客场&#x27;</span>,columns=<span class="string">&quot;胜负&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># fill_value参数</span></span><br><span class="line"><span class="comment">#获取每个队主客场的总得分（在总得分的基础上又进行了对手的分类）</span></span><br><span class="line">df.pivot_table(index=<span class="string">&#x27;主客场&#x27;</span>,values=<span class="string">&#x27;得分&#x27;</span>,columns=<span class="string">&#x27;对手&#x27;</span>,aggfunc=<span class="string">&#x27;sum&#x27;</span>,fill_value= <span class="number">0</span> )</span><br></pre></td></tr></table></figure>
-<p>文档[透视表-篮球赛.csv][w]</p>
-<h3 id="pandas数据分组"><a class="markdownIt-Anchor" href="#pandas数据分组"></a> pandas数据分组</h3>
-<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://raw.githubusercontent.com/xiryg/blog_picture/main/picture/1635038867340.png" alt="1635038867340" /></p>
-<h4 id="groupby函数"><a class="markdownIt-Anchor" href="#groupby函数"></a> groupby()函数</h4>
-<p>该方法提供的是分组聚合步骤中的拆分功能，能根据索引或字段对数据进行分组。其常 用参数与使用格式如下:</p>
-<h4 id="小示例"><a class="markdownIt-Anchor" href="#小示例"></a> 小示例</h4>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.read_excel(<span class="string">&#x27;./data_former/forbes_2018.xlsx&#x27;</span>)</span><br><span class="line"></span><br><span class="line">df.head()</span><br><span class="line"> </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="dataframe的分组"><a class="markdownIt-Anchor" href="#dataframe的分组"></a> Dataframe的分组</h4>
-<p><strong>group.size() # 每组的个数</strong></p>
-<p><strong>group.groups # 查看分组的情况</strong></p>
-<p><strong>group.get_group(‘F’)根据分组后的名字选择分组数据</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">group = df.groupby(<span class="string">&#x27;gender&#x27;</span>)  <span class="comment"># 对整个数据进行分组,里面放列索引名或者一个列的series类型都可以 </span></span><br><span class="line">&gt;&gt;&gt;<span class="built_in">print</span>(group)</span><br><span class="line">&lt;pandas.core.groupby.generic.DataFrameGroupBy <span class="built_in">object</span> at <span class="number">0x0B7BC710</span>&gt;  <span class="comment">#是一个对象</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">list</span>(group) <span class="comment"># 查看分组了以后具体长什么样子</span></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;group.size() <span class="comment"># 每组的个数</span></span><br><span class="line"></span><br><span class="line">gender</span><br><span class="line">F     <span class="number">221</span>  <span class="comment"># 女性企业家 221 </span></span><br><span class="line">M    <span class="number">1810</span>  <span class="comment"># 男性企业家 1810 </span></span><br><span class="line">dtype: int64</span><br><span class="line">    </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>group.groups <span class="comment"># 查看分组的情况 索引的情况</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>group.get_group(<span class="string">&#x27;F&#x27;</span>).head() <span class="comment">#查看是男性企业家的数据, 根据分组后的名字选择分组数据</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#  或者也可以进行索引重置  reset_index()</span></span><br><span class="line">df = group.get_group(<span class="string">&#x27;F&#x27;</span>).reset_index(drop = <span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
-<h4 id="对series进行分组"><a class="markdownIt-Anchor" href="#对series进行分组"></a> 对series进行分组</h4>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">group  = df[<span class="string">&#x27;age&#x27;</span>].groupby(df[<span class="string">&#x27;gender&#x27;</span>])  <span class="comment"># 特别注意的就是前面是series类型 分组的也是series类型.</span></span><br><span class="line">&gt;&gt;&gt;group  <span class="comment">#  理解 :  每个年龄也是有类别的 ,比如男和女 </span></span><br><span class="line"></span><br><span class="line">&lt;pandas.core.groupby.generic.SeriesGroupBy <span class="built_in">object</span> at <span class="number">0x068D4F90</span>&gt;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;group.size()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>group.groups</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>group.get_group(<span class="string">&#x27;F&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="统计函数"><a class="markdownIt-Anchor" href="#统计函数"></a> 统计函数</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">函数</th>
-<th style="text-align:center">说明</th>
-<th style="text-align:center">函数</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">count</td>
-<td style="text-align:center">计算分组的数目,包括缺失值</td>
-<td style="text-align:center">cumcount</td>
-<td style="text-align:center">对每个分组的组员进行标记</td>
-</tr>
-<tr>
-<td style="text-align:center">head</td>
-<td style="text-align:center">返回买组的前n个值</td>
-<td style="text-align:center">size</td>
-<td style="text-align:center">返回每组的大小</td>
-</tr>
-<tr>
-<td style="text-align:center">max</td>
-<td style="text-align:center">返回每组的最大值</td>
-<td style="text-align:center">min</td>
-<td style="text-align:center">返回每组的最小值</td>
-</tr>
-<tr>
-<td style="text-align:center">mean</td>
-<td style="text-align:center">返回每组的均值</td>
-<td style="text-align:center">std</td>
-<td style="text-align:center">返回每组的标准差</td>
-</tr>
-<tr>
-<td style="text-align:center">median</td>
-<td style="text-align:center">返回每组的中位数</td>
-<td style="text-align:center">sum</td>
-<td style="text-align:center">返回每组的的和</td>
-</tr>
-</tbody>
-</table>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">group = df.groupby(<span class="string">&#x27;gender&#x27;</span>)</span><br><span class="line"><span class="built_in">list</span>(group)  <span class="comment">#  查看详细数据 </span></span><br><span class="line">group.groups <span class="comment">#  查看数据(字典形式) 数据是相对应的索引 </span></span><br><span class="line"></span><br><span class="line">f_group = group.get_group(<span class="string">&#x27;F&#x27;</span>) <span class="comment"># 查看F的所有数据(Dataframe形式!!!!!!!)</span></span><br><span class="line">f_group[<span class="string">&#x27;age&#x27;</span>].mean() <span class="comment"># 获取年龄的平均值</span></span><br><span class="line">f_group[<span class="string">&#x27;age&#x27;</span>].<span class="built_in">max</span>()  <span class="comment"># 获取年龄的最大值</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="分组遍历"><a class="markdownIt-Anchor" href="#分组遍历"></a> 分组遍历</h3>
-<p>获取的是 <strong>分组后的名字以及改组后的数据</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">group = df.groupby(<span class="string">&#x27;gender&#x27;</span>)</span><br><span class="line"><span class="built_in">list</span>(group)  <span class="comment">#  查看详细数据 </span></span><br><span class="line">group.groups <span class="comment">#  查看数据(字典的形式)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 分组后的名字是: F  M </span></span><br><span class="line"><span class="comment"># 改组后的数据是: 每个index对应的值</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> name ,data <span class="keyword">in</span> group:  <span class="comment">#遍历对象</span></span><br><span class="line">    <span class="built_in">print</span>(name)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> name ,data <span class="keyword">in</span> group:</span><br><span class="line">    <span class="built_in">print</span>(data)  <span class="comment">#  详细的数据  </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> name ,data <span class="keyword">in</span> group:</span><br><span class="line">    <span class="built_in">print</span>(name, data) </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="keyword">for</span> name ,data <span class="keyword">in</span> group:</span><br><span class="line">    f_mean  = data[<span class="string">&#x27;age&#x27;</span>].mean()  <span class="comment"># 可以求出来年龄的平均值</span></span><br><span class="line">    f_max =  data[<span class="string">&#x27;age&#x27;</span>].<span class="built_in">max</span>() <span class="comment"># 年龄的最大值</span></span><br><span class="line">    <span class="built_in">print</span>(name, f_mean,f_max)    </span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="多列分组"><a class="markdownIt-Anchor" href="#多列分组"></a> 多列分组</h3>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">group = df.groupby([<span class="string">&#x27;country&#x27;</span>,<span class="string">&#x27;gender&#x27;</span>])  <span class="comment"># 根据country完以后再对gender分组 </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">list</span>(group)</span><br><span class="line">group.size()</span><br><span class="line">&gt;&gt;&gt;group.get_group((<span class="string">&#x27;Algeria&#x27;</span>,<span class="string">&#x27;M&#x27;</span>))   <span class="comment"># 可以把具体的数据筛选出来 .df形式</span></span><br></pre></td></tr></table></figure>
-<h3 id="agg函数"><a class="markdownIt-Anchor" href="#agg函数"></a> agg函数</h3>
-<p>聚合操作是<code>groupby</code>后非常常见的操作，会写<code>SQL</code>的朋友对此应该是非常熟悉了。聚合操作可以用来求和、均值、最大值、最小值等，下面的表格列出了Pandas中常见的聚合操作。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy  <span class="keyword">as</span> np</span><br><span class="line">company=[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;C&quot;</span>]</span><br><span class="line"></span><br><span class="line">data=pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&quot;company&quot;</span>:[company[x] <span class="keyword">for</span> x <span class="keyword">in</span> np.random.randint(<span class="number">0</span>,<span class="built_in">len</span>(company),<span class="number">10</span>)],</span><br><span class="line">    <span class="string">&quot;salary&quot;</span>:np.random.randint(<span class="number">5</span>,<span class="number">50</span>,<span class="number">10</span>),</span><br><span class="line">    <span class="string">&quot;age&quot;</span>:np.random.randint(<span class="number">15</span>,<span class="number">50</span>,<span class="number">10</span>)</span><br><span class="line">&#125;</span><br><span class="line">)</span><br><span class="line">data</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果我想求不同公司员工的平均年龄和平均薪水，可以按照下方的代码进行：</span></span><br><span class="line">data.groupby(<span class="string">&quot;company&quot;</span>).agg(<span class="string">&#x27;mean&#x27;</span>)  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果想对针对不同的列求不同的值，比如要计算不同公司员工的平均年龄以及薪水的中位数，可以利用字典进行聚合操作的指定：</span></span><br><span class="line"></span><br><span class="line">data.groupby(<span class="string">&#x27;company&#x27;</span>).agg(&#123;<span class="string">&#x27;salary&#x27;</span>:<span class="string">&#x27;median&#x27;</span>,<span class="string">&#x27;age&#x27;</span>:<span class="string">&#x27;mean&#x27;</span>&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://raw.githubusercontent.com/xiryg/blog_picture/main/picture/1635065078175.png" alt="1635065078175" /></p>
-<h3 id="transform函数"><a class="markdownIt-Anchor" href="#transform函数"></a> transform函数</h3>
-<p><code>transform</code>是一种什么数据操作？和<code>agg</code>有什么区别呢？为了更好地理解<code>transform</code>和<code>agg</code>的不同，下面从实际的应用场景出发进行对比。</p>
-<p>在上面的<code>agg</code>中，我们学会了如何求不同公司员工的平均薪水，如果现在需要在原数据集中新增一列<code>avg_salary</code>，代表<strong>员工所在的公司的平均薪水（相同公司的员工具有一样的平均薪水）</strong>，该怎么实现呢？如果按照正常的步骤来计算，需要先求得不同公司的平均薪水，然后按照员工和公司的对应关系填充到对应的位置，不用<code>transform</code>的话，实现代码如下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy  <span class="keyword">as</span> np</span><br><span class="line">company=[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;C&quot;</span>]</span><br><span class="line"></span><br><span class="line">data=pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&quot;company&quot;</span>:[company[x] <span class="keyword">for</span> x <span class="keyword">in</span> np.random.randint(<span class="number">0</span>,<span class="built_in">len</span>(company),<span class="number">10</span>)],</span><br><span class="line">    <span class="string">&quot;salary&quot;</span>:np.random.randint(<span class="number">5</span>,<span class="number">50</span>,<span class="number">10</span>),</span><br><span class="line">    <span class="string">&quot;age&quot;</span>:np.random.randint(<span class="number">15</span>,<span class="number">50</span>,<span class="number">10</span>)</span><br><span class="line">&#125;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第一种方法: </span></span><br><span class="line">avg_salary_dict = data.groupby(<span class="string">&#x27;company&#x27;</span>)[<span class="string">&#x27;salary&#x27;</span>].mean().to_dict()</span><br><span class="line"><span class="built_in">print</span>(avg_salary_dict)</span><br><span class="line">data[<span class="string">&#x27;avg_salary&#x27;</span>] = data[<span class="string">&#x27;company&#x27;</span>].<span class="built_in">map</span>(avg_salary_dict)</span><br><span class="line"><span class="comment"># 第二种方法</span></span><br><span class="line">data[<span class="string">&#x27;avg_salary&#x27;</span>] = data.groupby(<span class="string">&#x27;company&#x27;</span>)[<span class="string">&#x27;salary&#x27;</span>].transform(<span class="string">&#x27;mean&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://raw.githubusercontent.com/xiryg/blog_picture/main/picture/1635065053929.png" alt="img" /></p>
-<h3 id="过滤器filter"><a class="markdownIt-Anchor" href="#过滤器filter"></a> 过滤器filter</h3>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy  <span class="keyword">as</span> np</span><br><span class="line">company=[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;C&quot;</span>]</span><br><span class="line"></span><br><span class="line">data=pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&quot;company&quot;</span>:[company[x] <span class="keyword">for</span> x <span class="keyword">in</span> np.random.randint(<span class="number">0</span>,<span class="built_in">len</span>(company),<span class="number">10</span>)],</span><br><span class="line">    <span class="string">&quot;salary&quot;</span>:np.random.randint(<span class="number">5</span>,<span class="number">50</span>,<span class="number">10</span>),</span><br><span class="line">    <span class="string">&quot;age&quot;</span>:np.random.randint(<span class="number">15</span>,<span class="number">50</span>,<span class="number">10</span>)</span><br><span class="line">&#125;</span><br><span class="line">)</span><br><span class="line">------------------</span><br><span class="line">data.groupby(<span class="string">&#x27;company&#x27;</span>)[<span class="string">&#x27;age&#x27;</span>].mean()</span><br><span class="line">---------------------</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fun</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="built_in">print</span>(x)</span><br><span class="line">    <span class="built_in">print</span>(x[<span class="string">&#x27;salary&#x27;</span>].mean())</span><br><span class="line">    <span class="keyword">return</span> x[<span class="string">&#x27;salary&#x27;</span>].mean()&gt; <span class="number">27</span></span><br><span class="line"></span><br><span class="line">data.groupby(<span class="string">&#x27;company&#x27;</span>).<span class="built_in">filter</span>(fun)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 和apply进行对比 </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fun</span>(<span class="params">x</span>):</span><br><span class="line"><span class="comment">#     print(x)</span></span><br><span class="line"><span class="comment">#     print(x[&#x27;salary&#x27;].mean())</span></span><br><span class="line">    <span class="keyword">return</span> x[<span class="string">&#x27;salary&#x27;</span>].mean()&gt; <span class="number">27</span></span><br><span class="line"></span><br><span class="line">data.groupby(<span class="string">&#x27;company&#x27;</span>).apply(fun)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>[w]: <a href="https://github.com/xiryg/blog_picture/blob/main/resource/%E9%80%8F%E8%A7%86%E8%A1%A8-%E7%AF%AE%E7%90%83%E8%B5%9B.csv">blog_picture/resource/透视表-篮球赛.csv at main · xiryg/blog_picture (github.com)</a></p>
 ]]></content>
       <categories>
         <category>数据分析</category>
@@ -6991,6 +6868,129 @@ Best trial:
       </categories>
       <tags>
         <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>透视表的处理</title>
+    <url>/posts/76cf2ed8/</url>
+    <content><![CDATA[<h2 id="透视表的处理"><a class="markdownIt-Anchor" href="#透视表的处理"></a> 透视表的处理</h2>
+<h3 id="透视表"><a class="markdownIt-Anchor" href="#透视表"></a> 透视表</h3>
+<ul>
+<li>
+<p>透视表是一种可以对数据动态排布并且分类汇总的表格格式。或许大多数人都在Excel使用过数据透视表，也体会到它的强大功能，而在pandas中它被称作pivot_table。</p>
+</li>
+<li>
+<p>透视表的优点：</p>
+<ul>
+<li>
+<p>灵活性高，可以随意定制你的分析计算要求,比如聚合函数</p>
+</li>
+<li>
+<p>脉络清晰易于理解数据</p>
+</li>
+<li>
+<p>操作性强，报表神器</p>
+</li>
+<li>
+<p>更快（一旦设置之后）</p>
+</li>
+<li>
+<p>自行说明（通过查看代码，你将知道它做了什么）</p>
+</li>
+</ul>
+</li>
+</ul>
+<span id="more"></span>
+<h4 id="pivot_table函数"><a class="markdownIt-Anchor" href="#pivot_table函数"></a> pivot_table函数</h4>
+<ul>
+<li>index参数：分类汇总的分类条件
+<ul>
+<li>每个pivot_table必须拥有一个index</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">df = pd.read_csv(<span class="string">&#x27;./data/透视表-篮球赛.csv&#x27;</span>)   <span class="comment">#  哈登在对阵各队的情况数据表</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># index 参数 </span></span><br><span class="line"><span class="comment"># 想看看哈登不同主客场下的数据 会把不是数字的列剔除</span></span><br><span class="line">df.pivot_table(index=[<span class="string">&#x27;主客场&#x27;</span>])</span><br><span class="line"><span class="comment"># 想看看哈登对阵同一对手在不同主客场下的数据，分类条件为对手和主客场</span></span><br><span class="line">df.pivot_table(index=[<span class="string">&#x27;主客场&#x27;</span>,<span class="string">&#x27;对手&#x27;</span>])</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">Index就是层次字段，要通过透视表获取什么信息就按照相应的顺序设置字段，</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># values参数：需要对计算的数据进行筛选(你想看到的值)</span></span><br><span class="line">df.pivot_table(index=[<span class="string">&#x27;主客场&#x27;</span>],values=[<span class="string">&#x27;得分&#x27;</span>,<span class="string">&#x27;篮板&#x27;</span>,<span class="string">&#x27;助攻&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment">#获取每个队主客场的总得分（在总得分的基础上又进行了对手的分类）</span></span><br><span class="line">df.pivot_table(index=<span class="string">&#x27;主客场&#x27;</span>,values=<span class="string">&#x27;得分&#x27;</span>,columns=<span class="string">&#x27;对手&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># aggfunc参数</span></span><br><span class="line"><span class="comment"># 还想获得哈登在主客场和不同胜负情况下的总得分、总篮板、总助攻时：</span></span><br><span class="line">df.pivot_table(index=[<span class="string">&#x27;主客场&#x27;</span>,<span class="string">&#x27;胜负&#x27;</span>],values=[<span class="string">&#x27;得分&#x27;</span>,<span class="string">&#x27;篮板&#x27;</span>,<span class="string">&#x27;助攻&#x27;</span>],aggfunc=<span class="string">&#x27;sum&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Columns类似Index可以设置列层次字段，它不是一个必要参数，作为一种分割数据的可选方式。</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># columns参数 </span></span><br><span class="line">df.pivot_table(index=<span class="string">&#x27;主客场&#x27;</span>,columns=<span class="string">&quot;胜负&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># fill_value参数</span></span><br><span class="line"><span class="comment">#获取每个队主客场的总得分（在总得分的基础上又进行了对手的分类）</span></span><br><span class="line">df.pivot_table(index=<span class="string">&#x27;主客场&#x27;</span>,values=<span class="string">&#x27;得分&#x27;</span>,columns=<span class="string">&#x27;对手&#x27;</span>,aggfunc=<span class="string">&#x27;sum&#x27;</span>,fill_value= <span class="number">0</span> )</span><br></pre></td></tr></table></figure>
+<p>文档[透视表-篮球赛.csv][w]</p>
+<h3 id="pandas数据分组"><a class="markdownIt-Anchor" href="#pandas数据分组"></a> pandas数据分组</h3>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://raw.githubusercontent.com/xiryg/blog_picture/main/picture/1635038867340.png" alt="1635038867340" /></p>
+<h4 id="groupby函数"><a class="markdownIt-Anchor" href="#groupby函数"></a> groupby()函数</h4>
+<p>该方法提供的是分组聚合步骤中的拆分功能，能根据索引或字段对数据进行分组。其常 用参数与使用格式如下:</p>
+<h4 id="小示例"><a class="markdownIt-Anchor" href="#小示例"></a> 小示例</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.read_excel(<span class="string">&#x27;./data_former/forbes_2018.xlsx&#x27;</span>)</span><br><span class="line"></span><br><span class="line">df.head()</span><br><span class="line"> </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="dataframe的分组"><a class="markdownIt-Anchor" href="#dataframe的分组"></a> Dataframe的分组</h4>
+<p><strong>group.size() # 每组的个数</strong></p>
+<p><strong>group.groups # 查看分组的情况</strong></p>
+<p><strong>group.get_group(‘F’)根据分组后的名字选择分组数据</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">group = df.groupby(<span class="string">&#x27;gender&#x27;</span>)  <span class="comment"># 对整个数据进行分组,里面放列索引名或者一个列的series类型都可以 </span></span><br><span class="line">&gt;&gt;&gt;<span class="built_in">print</span>(group)</span><br><span class="line">&lt;pandas.core.groupby.generic.DataFrameGroupBy <span class="built_in">object</span> at <span class="number">0x0B7BC710</span>&gt;  <span class="comment">#是一个对象</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">list</span>(group) <span class="comment"># 查看分组了以后具体长什么样子</span></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;group.size() <span class="comment"># 每组的个数</span></span><br><span class="line"></span><br><span class="line">gender</span><br><span class="line">F     <span class="number">221</span>  <span class="comment"># 女性企业家 221 </span></span><br><span class="line">M    <span class="number">1810</span>  <span class="comment"># 男性企业家 1810 </span></span><br><span class="line">dtype: int64</span><br><span class="line">    </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>group.groups <span class="comment"># 查看分组的情况 索引的情况</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>group.get_group(<span class="string">&#x27;F&#x27;</span>).head() <span class="comment">#查看是男性企业家的数据, 根据分组后的名字选择分组数据</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#  或者也可以进行索引重置  reset_index()</span></span><br><span class="line">df = group.get_group(<span class="string">&#x27;F&#x27;</span>).reset_index(drop = <span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="对series进行分组"><a class="markdownIt-Anchor" href="#对series进行分组"></a> 对series进行分组</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">group  = df[<span class="string">&#x27;age&#x27;</span>].groupby(df[<span class="string">&#x27;gender&#x27;</span>])  <span class="comment"># 特别注意的就是前面是series类型 分组的也是series类型.</span></span><br><span class="line">&gt;&gt;&gt;group  <span class="comment">#  理解 :  每个年龄也是有类别的 ,比如男和女 </span></span><br><span class="line"></span><br><span class="line">&lt;pandas.core.groupby.generic.SeriesGroupBy <span class="built_in">object</span> at <span class="number">0x068D4F90</span>&gt;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;group.size()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>group.groups</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>group.get_group(<span class="string">&#x27;F&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="统计函数"><a class="markdownIt-Anchor" href="#统计函数"></a> 统计函数</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">函数</th>
+<th style="text-align:center">说明</th>
+<th style="text-align:center">函数</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">count</td>
+<td style="text-align:center">计算分组的数目,包括缺失值</td>
+<td style="text-align:center">cumcount</td>
+<td style="text-align:center">对每个分组的组员进行标记</td>
+</tr>
+<tr>
+<td style="text-align:center">head</td>
+<td style="text-align:center">返回买组的前n个值</td>
+<td style="text-align:center">size</td>
+<td style="text-align:center">返回每组的大小</td>
+</tr>
+<tr>
+<td style="text-align:center">max</td>
+<td style="text-align:center">返回每组的最大值</td>
+<td style="text-align:center">min</td>
+<td style="text-align:center">返回每组的最小值</td>
+</tr>
+<tr>
+<td style="text-align:center">mean</td>
+<td style="text-align:center">返回每组的均值</td>
+<td style="text-align:center">std</td>
+<td style="text-align:center">返回每组的标准差</td>
+</tr>
+<tr>
+<td style="text-align:center">median</td>
+<td style="text-align:center">返回每组的中位数</td>
+<td style="text-align:center">sum</td>
+<td style="text-align:center">返回每组的的和</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">group = df.groupby(<span class="string">&#x27;gender&#x27;</span>)</span><br><span class="line"><span class="built_in">list</span>(group)  <span class="comment">#  查看详细数据 </span></span><br><span class="line">group.groups <span class="comment">#  查看数据(字典形式) 数据是相对应的索引 </span></span><br><span class="line"></span><br><span class="line">f_group = group.get_group(<span class="string">&#x27;F&#x27;</span>) <span class="comment"># 查看F的所有数据(Dataframe形式!!!!!!!)</span></span><br><span class="line">f_group[<span class="string">&#x27;age&#x27;</span>].mean() <span class="comment"># 获取年龄的平均值</span></span><br><span class="line">f_group[<span class="string">&#x27;age&#x27;</span>].<span class="built_in">max</span>()  <span class="comment"># 获取年龄的最大值</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="分组遍历"><a class="markdownIt-Anchor" href="#分组遍历"></a> 分组遍历</h3>
+<p>获取的是 <strong>分组后的名字以及改组后的数据</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">group = df.groupby(<span class="string">&#x27;gender&#x27;</span>)</span><br><span class="line"><span class="built_in">list</span>(group)  <span class="comment">#  查看详细数据 </span></span><br><span class="line">group.groups <span class="comment">#  查看数据(字典的形式)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 分组后的名字是: F  M </span></span><br><span class="line"><span class="comment"># 改组后的数据是: 每个index对应的值</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> name ,data <span class="keyword">in</span> group:  <span class="comment">#遍历对象</span></span><br><span class="line">    <span class="built_in">print</span>(name)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> name ,data <span class="keyword">in</span> group:</span><br><span class="line">    <span class="built_in">print</span>(data)  <span class="comment">#  详细的数据  </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> name ,data <span class="keyword">in</span> group:</span><br><span class="line">    <span class="built_in">print</span>(name, data) </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="keyword">for</span> name ,data <span class="keyword">in</span> group:</span><br><span class="line">    f_mean  = data[<span class="string">&#x27;age&#x27;</span>].mean()  <span class="comment"># 可以求出来年龄的平均值</span></span><br><span class="line">    f_max =  data[<span class="string">&#x27;age&#x27;</span>].<span class="built_in">max</span>() <span class="comment"># 年龄的最大值</span></span><br><span class="line">    <span class="built_in">print</span>(name, f_mean,f_max)    </span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="多列分组"><a class="markdownIt-Anchor" href="#多列分组"></a> 多列分组</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">group = df.groupby([<span class="string">&#x27;country&#x27;</span>,<span class="string">&#x27;gender&#x27;</span>])  <span class="comment"># 根据country完以后再对gender分组 </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">list</span>(group)</span><br><span class="line">group.size()</span><br><span class="line">&gt;&gt;&gt;group.get_group((<span class="string">&#x27;Algeria&#x27;</span>,<span class="string">&#x27;M&#x27;</span>))   <span class="comment"># 可以把具体的数据筛选出来 .df形式</span></span><br></pre></td></tr></table></figure>
+<h3 id="agg函数"><a class="markdownIt-Anchor" href="#agg函数"></a> agg函数</h3>
+<p>聚合操作是<code>groupby</code>后非常常见的操作，会写<code>SQL</code>的朋友对此应该是非常熟悉了。聚合操作可以用来求和、均值、最大值、最小值等，下面的表格列出了Pandas中常见的聚合操作。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy  <span class="keyword">as</span> np</span><br><span class="line">company=[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;C&quot;</span>]</span><br><span class="line"></span><br><span class="line">data=pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&quot;company&quot;</span>:[company[x] <span class="keyword">for</span> x <span class="keyword">in</span> np.random.randint(<span class="number">0</span>,<span class="built_in">len</span>(company),<span class="number">10</span>)],</span><br><span class="line">    <span class="string">&quot;salary&quot;</span>:np.random.randint(<span class="number">5</span>,<span class="number">50</span>,<span class="number">10</span>),</span><br><span class="line">    <span class="string">&quot;age&quot;</span>:np.random.randint(<span class="number">15</span>,<span class="number">50</span>,<span class="number">10</span>)</span><br><span class="line">&#125;</span><br><span class="line">)</span><br><span class="line">data</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果我想求不同公司员工的平均年龄和平均薪水，可以按照下方的代码进行：</span></span><br><span class="line">data.groupby(<span class="string">&quot;company&quot;</span>).agg(<span class="string">&#x27;mean&#x27;</span>)  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果想对针对不同的列求不同的值，比如要计算不同公司员工的平均年龄以及薪水的中位数，可以利用字典进行聚合操作的指定：</span></span><br><span class="line"></span><br><span class="line">data.groupby(<span class="string">&#x27;company&#x27;</span>).agg(&#123;<span class="string">&#x27;salary&#x27;</span>:<span class="string">&#x27;median&#x27;</span>,<span class="string">&#x27;age&#x27;</span>:<span class="string">&#x27;mean&#x27;</span>&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://raw.githubusercontent.com/xiryg/blog_picture/main/picture/1635065078175.png" alt="1635065078175" /></p>
+<h3 id="transform函数"><a class="markdownIt-Anchor" href="#transform函数"></a> transform函数</h3>
+<p><code>transform</code>是一种什么数据操作？和<code>agg</code>有什么区别呢？为了更好地理解<code>transform</code>和<code>agg</code>的不同，下面从实际的应用场景出发进行对比。</p>
+<p>在上面的<code>agg</code>中，我们学会了如何求不同公司员工的平均薪水，如果现在需要在原数据集中新增一列<code>avg_salary</code>，代表<strong>员工所在的公司的平均薪水（相同公司的员工具有一样的平均薪水）</strong>，该怎么实现呢？如果按照正常的步骤来计算，需要先求得不同公司的平均薪水，然后按照员工和公司的对应关系填充到对应的位置，不用<code>transform</code>的话，实现代码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy  <span class="keyword">as</span> np</span><br><span class="line">company=[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;C&quot;</span>]</span><br><span class="line"></span><br><span class="line">data=pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&quot;company&quot;</span>:[company[x] <span class="keyword">for</span> x <span class="keyword">in</span> np.random.randint(<span class="number">0</span>,<span class="built_in">len</span>(company),<span class="number">10</span>)],</span><br><span class="line">    <span class="string">&quot;salary&quot;</span>:np.random.randint(<span class="number">5</span>,<span class="number">50</span>,<span class="number">10</span>),</span><br><span class="line">    <span class="string">&quot;age&quot;</span>:np.random.randint(<span class="number">15</span>,<span class="number">50</span>,<span class="number">10</span>)</span><br><span class="line">&#125;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第一种方法: </span></span><br><span class="line">avg_salary_dict = data.groupby(<span class="string">&#x27;company&#x27;</span>)[<span class="string">&#x27;salary&#x27;</span>].mean().to_dict()</span><br><span class="line"><span class="built_in">print</span>(avg_salary_dict)</span><br><span class="line">data[<span class="string">&#x27;avg_salary&#x27;</span>] = data[<span class="string">&#x27;company&#x27;</span>].<span class="built_in">map</span>(avg_salary_dict)</span><br><span class="line"><span class="comment"># 第二种方法</span></span><br><span class="line">data[<span class="string">&#x27;avg_salary&#x27;</span>] = data.groupby(<span class="string">&#x27;company&#x27;</span>)[<span class="string">&#x27;salary&#x27;</span>].transform(<span class="string">&#x27;mean&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://raw.githubusercontent.com/xiryg/blog_picture/main/picture/1635065053929.png" alt="img" /></p>
+<h3 id="过滤器filter"><a class="markdownIt-Anchor" href="#过滤器filter"></a> 过滤器filter</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy  <span class="keyword">as</span> np</span><br><span class="line">company=[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;C&quot;</span>]</span><br><span class="line"></span><br><span class="line">data=pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&quot;company&quot;</span>:[company[x] <span class="keyword">for</span> x <span class="keyword">in</span> np.random.randint(<span class="number">0</span>,<span class="built_in">len</span>(company),<span class="number">10</span>)],</span><br><span class="line">    <span class="string">&quot;salary&quot;</span>:np.random.randint(<span class="number">5</span>,<span class="number">50</span>,<span class="number">10</span>),</span><br><span class="line">    <span class="string">&quot;age&quot;</span>:np.random.randint(<span class="number">15</span>,<span class="number">50</span>,<span class="number">10</span>)</span><br><span class="line">&#125;</span><br><span class="line">)</span><br><span class="line">------------------</span><br><span class="line">data.groupby(<span class="string">&#x27;company&#x27;</span>)[<span class="string">&#x27;age&#x27;</span>].mean()</span><br><span class="line">---------------------</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fun</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="built_in">print</span>(x)</span><br><span class="line">    <span class="built_in">print</span>(x[<span class="string">&#x27;salary&#x27;</span>].mean())</span><br><span class="line">    <span class="keyword">return</span> x[<span class="string">&#x27;salary&#x27;</span>].mean()&gt; <span class="number">27</span></span><br><span class="line"></span><br><span class="line">data.groupby(<span class="string">&#x27;company&#x27;</span>).<span class="built_in">filter</span>(fun)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 和apply进行对比 </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fun</span>(<span class="params">x</span>):</span><br><span class="line"><span class="comment">#     print(x)</span></span><br><span class="line"><span class="comment">#     print(x[&#x27;salary&#x27;].mean())</span></span><br><span class="line">    <span class="keyword">return</span> x[<span class="string">&#x27;salary&#x27;</span>].mean()&gt; <span class="number">27</span></span><br><span class="line"></span><br><span class="line">data.groupby(<span class="string">&#x27;company&#x27;</span>).apply(fun)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>[w]: <a href="https://github.com/xiryg/blog_picture/blob/main/resource/%E9%80%8F%E8%A7%86%E8%A1%A8-%E7%AF%AE%E7%90%83%E8%B5%9B.csv">blog_picture/resource/透视表-篮球赛.csv at main · xiryg/blog_picture (github.com)</a></p>
+]]></content>
+      <categories>
+        <category>数据分析</category>
+      </categories>
+      <tags>
+        <tag>pandas, 数据分析</tag>
       </tags>
   </entry>
 </search>
