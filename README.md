@@ -1,2 +1,2 @@
 # xiryg.github.io
-My first blog.
+xiryg's blog.
