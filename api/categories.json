@@ -1,1 +1,1 @@
-[{"name":"学习笔记","path":"api/categories/学习笔记.json","slug":"学习笔记","count":7},{"name":"机器学习","path":"api/categories/学习笔记/机器学习.json","slug":"学习笔记/机器学习","count":7}]
+[{"name":"机器学习","path":"api/categories/机器学习.json","slug":"机器学习","count":7},{"name":"学习笔记","path":"api/categories/机器学习/学习笔记.json","slug":"机器学习/学习笔记","count":7}]
